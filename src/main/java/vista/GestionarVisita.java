@@ -2,7 +2,7 @@ package vista;
 
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
-import modelo.Controladora;
+import controladora.Controladora;
 import modelo.OperacionException;
 import modelo.Voluntario;
 

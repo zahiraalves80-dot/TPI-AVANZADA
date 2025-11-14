@@ -1,7 +1,7 @@
 
 package vista;
 
-import modelo.Controladora; // Necesario
+import controladora.Controladora; // Necesario
 import javax.swing.JOptionPane; // Necesario para mensajes
 
 public class Registrarse extends javax.swing.JFrame {
@@ -262,7 +262,7 @@ public class Registrarse extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(this, "✅ Usuario (" + rolDisplay + ") registrado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         
-        IniciarSesion pantallaInicio = new IniciarSesion();
+        IniciarSesion pantallaInicio = new IniciarSesion(control);
     
     // 2. Hace visible la nueva ventana
     pantallaInicio.setVisible(true);

@@ -1,5 +1,6 @@
 package main;
 
+import controladora.Controladora;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import vista.IniciarSesion;
@@ -19,8 +20,9 @@ public class TPI {
             System.out.println("❌ Error al intentar crear las tablas: " + e.getMessage());
         }
 
+            Controladora control = new Controladora();
         // 🔹 Luego abrís tu ventana normalmente
-        IniciarSesion ini = new IniciarSesion();
+        IniciarSesion ini = new IniciarSesion(control);
         ini.setVisible(true);
         ini.setLocationRelativeTo(null);
     }

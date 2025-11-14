@@ -3,7 +3,7 @@ package vista;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.Controladora;
+import controladora.Controladora;
 import modelo.Gato; 
 import modelo.OperacionException; // ? Importa la excepción de negocio
 import modelo.Usuario;

@@ -1,14 +1,15 @@
 package vista;
 
-import modelo.Controladora;
+import controladora.Controladora;
 
 
 public class RegistrarGato extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarGato.class.getName());
-
-    Controladora Control = new  Controladora();
-    public RegistrarGato() {
+    private final Controladora control;
+    
+    public RegistrarGato(Controladora control) {
+        this.control = control;
         initComponents();
     }
 

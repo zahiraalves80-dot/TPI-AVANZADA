@@ -16,7 +16,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import modelo.Controladora;
+import controladora.Controladora;
 import modelo.FamiliaAdoptante;
 import modelo.OperacionException;
 import modelo.Usuario;

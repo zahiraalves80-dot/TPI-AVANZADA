@@ -1,15 +1,15 @@
 
 package vista;
 import javax.swing.JOptionPane;
-import modelo.Controladora;
+import controladora.Controladora;
 import modelo.Usuario;
 import modelo.LoginException;
 
 public class IniciarSesion extends javax.swing.JFrame {
 
     private final Controladora control;
-    public IniciarSesion() {
-        this.control = new Controladora();
+    public IniciarSesion(Controladora control) {
+        this.control = control;
         initComponents();
         
     }
@@ -192,7 +192,7 @@ public class IniciarSesion extends javax.swing.JFrame {
             
             switch (usuarioValidado.getRol()) {
                 case "ADMINISTRADOR":
-                    VistaAdministrador panelAdmin = new VistaAdministrador(); //
+                    VistaAdministrador panelAdmin = new VistaAdministrador(control); //
                     panelAdmin.setVisible(true);
                     panelAdmin.setLocationRelativeTo(null);
                     break;
@@ -213,7 +213,7 @@ public class IniciarSesion extends javax.swing.JFrame {
                     break;
                 default:
                     // Si el rol es desconocido, regresa al login
-                    IniciarSesion login = new IniciarSesion();
+                    IniciarSesion login = new IniciarSesion(control);
                     login.setVisible(true);
                     login.setLocationRelativeTo(null);
                     break;

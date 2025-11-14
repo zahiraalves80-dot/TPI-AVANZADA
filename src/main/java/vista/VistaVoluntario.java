@@ -4,7 +4,7 @@
  */
 package vista;
 
-import modelo.Controladora;
+import controladora.Controladora;
 import modelo.Usuario;
 import modelo.Voluntario;
 
@@ -167,7 +167,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionarVisitasActionPerformed
 
     private void btnRegistrarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarGatoActionPerformed
-            RegistrarGato gat = new RegistrarGato();
+            RegistrarGato gat = new RegistrarGato(control);
             gat.setVisible(true);
             gat.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnRegistrarGatoActionPerformed

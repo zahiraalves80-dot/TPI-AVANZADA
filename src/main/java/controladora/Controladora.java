@@ -1,4 +1,4 @@
-package modelo;
+package controladora;
 
 import java.time.LocalDate;
 import persistencia.ControladoraPersistencia;
@@ -7,6 +7,13 @@ import modelo.FamiliaAdoptante;
 import modelo.Postulacion; // (Asegúrate de tener esta clase)
 import modelo.OperacionException;
 import java.util.List;
+import modelo.Administrador;
+import modelo.LoginException;
+import modelo.RegistroException;
+import modelo.Usuario;
+import modelo.Veterinario;
+import modelo.Visita;
+import modelo.Voluntario;
 
 
 public class Controladora {
