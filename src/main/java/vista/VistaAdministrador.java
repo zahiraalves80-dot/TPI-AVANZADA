@@ -32,32 +32,32 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnGestionarUsuarios = new javax.swing.JButton();
+        btnGestionarZonas = new javax.swing.JButton();
+        btnGestionarReportes = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Gestionar Usuarios");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnGestionarUsuarios.setText("Gestionar Usuarios");
+        btnGestionarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnGestionarUsuariosActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Gestionar Zonas");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnGestionarZonas.setText("Gestionar Zonas");
+        btnGestionarZonas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnGestionarZonasActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Gestionar Reportes");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnGestionarReportes.setText("Gestionar Reportes");
+        btnGestionarReportes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnGestionarReportesActionPerformed(evt);
             }
         });
 
@@ -68,20 +68,20 @@ public class VistaAdministrador extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnGestionarReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGestionarZonas, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGestionarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jButton1)
+                .addComponent(btnGestionarUsuarios)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnGestionarZonas)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(btnGestionarReportes)
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
@@ -128,26 +128,26 @@ public class VistaAdministrador extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 44, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnGestionarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarUsuariosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnGestionarUsuariosActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnGestionarZonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarZonasActionPerformed
      try {
             // 1. Crear una instancia de la nueva ventana
-            GestionarZonas panelZonas = new GestionarZonas(); //
+            //GestionarZonas panelZonas = new GestionarZonas(); //
             
             // 2. Hacer visible la nueva ventana
-            panelZonas.setVisible(true);
+            //panelZonas.setVisible(true);
             
             // 3. Centrar la nueva ventana
-            panelZonas.setLocationRelativeTo(null);
+            //panelZonas.setLocationRelativeTo(null);
             
             // (Opcional: Si quieres cerrar el panel de Admin, usa this.dispose())
             
@@ -158,16 +158,16 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 "Error de Navegación", 
                 JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnGestionarZonasActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnGestionarReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarReportesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnGestionarReportesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnGestionarReportes;
+    private javax.swing.JButton btnGestionarUsuarios;
+    private javax.swing.JButton btnGestionarZonas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
