@@ -33,9 +33,6 @@ public class ControladoraPersistencia {
     VoluntarioJpaController voluntarioJpa = new VoluntarioJpaController();
     ZonaJpaController zonaJpa = new ZonaJpaController();
     AptitudJpaController aptitudjpa = new AptitudJpaController();
-    HogarDefinitivoJpaController hogardef = new HogarDefinitivoJpaController();
-    HogarJpaController hogar = new HogarJpaController();
-    HogarTransitoJpaController hogartrans = new HogarTransitoJpaController();
     
    public void crearFamiliaAdoptante(FamiliaAdoptante familia) throws Exception {
         familiaAdoptanteJpa.create(familia); //

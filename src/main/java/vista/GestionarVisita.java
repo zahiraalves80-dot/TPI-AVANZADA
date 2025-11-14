@@ -28,43 +28,42 @@ public class GestionarVisita extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        bttnEliminarVisita = new javax.swing.JButton();
+        bttnRegistrarVisita = new javax.swing.JButton();
+        bttnModificarVisita = new javax.swing.JButton();
+        bttnHistorialVisitas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(377, 414));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Gestion de visitas:");
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setText("Eliminar visita");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bttnEliminarVisita.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        bttnEliminarVisita.setText("Eliminar Visita");
+        bttnEliminarVisita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bttnEliminarVisitaActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setText("Registar Vistas");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        bttnRegistrarVisita.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        bttnRegistrarVisita.setText("Registrar Visita");
+        bttnRegistrarVisita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                bttnRegistrarVisitaActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton4.setText("Modificar Visita");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        bttnModificarVisita.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        bttnModificarVisita.setText("Modificar Visita");
+        bttnModificarVisita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                bttnModificarVisitaActionPerformed(evt);
             }
         });
 
-        jButton5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton5.setText("Historial de visitas");
+        bttnHistorialVisitas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        bttnHistorialVisitas.setText("Historial de Visitas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -73,10 +72,10 @@ public class GestionarVisita extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5))
+                    .addComponent(bttnRegistrarVisita, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bttnEliminarVisita, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bttnModificarVisita, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bttnHistorialVisitas))
                 .addGap(108, 108, 108))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(83, 83, 83)
@@ -89,13 +88,13 @@ public class GestionarVisita extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addComponent(jLabel1)
                 .addGap(35, 35, 35)
-                .addComponent(jButton2)
+                .addComponent(bttnRegistrarVisita)
                 .addGap(26, 26, 26)
-                .addComponent(jButton1)
+                .addComponent(bttnEliminarVisita)
                 .addGap(29, 29, 29)
-                .addComponent(jButton4)
+                .addComponent(bttnModificarVisita)
                 .addGap(26, 26, 26)
-                .addComponent(jButton5)
+                .addComponent(bttnHistorialVisitas)
                 .addContainerGap(112, Short.MAX_VALUE))
         );
 
@@ -116,58 +115,23 @@ public class GestionarVisita extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bttnEliminarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnEliminarVisitaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bttnEliminarVisitaActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void bttnModificarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnModificarVisitaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_bttnModificarVisitaActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void bttnRegistrarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnRegistrarVisitaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestionarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestionarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestionarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestionarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GestionarVisita().setVisible(true);
-            }
-        });
-    }
-
+    }//GEN-LAST:event_bttnRegistrarVisitaActionPerformed
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton bttnEliminarVisita;
+    private javax.swing.JButton bttnHistorialVisitas;
+    private javax.swing.JButton bttnModificarVisita;
+    private javax.swing.JButton bttnRegistrarVisita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

@@ -93,9 +93,6 @@ public abstract class Usuario implements Serializable {
         this.correo = correo;
     }
     
-    // Getters y Setters para todos los demás campos...
-    // ... (El resto de getters y setters están bien, asegurándose de usar 'contrasena')
-    
     public String getContrasena() { 
         return contrasena;
     }
@@ -103,9 +100,6 @@ public abstract class Usuario implements Serializable {
     public void setContrasena(String contrasena) { 
         this.contrasena = contrasena;
     }
-
-    // Otros métodos de negocio...
-
 
     public double getTelefono() {
         return telefono;

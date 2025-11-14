@@ -55,11 +55,7 @@ public class Gato implements Serializable {
     
     @OneToOne(mappedBy = "gatoRelacionado")
     private Postulacion postulacionActiva;
-    
-    @ManyToOne
-    @JoinColumn(name = "hogar_actual_id", nullable = true) 
-    private Hogar hogarActual;
-    
+
     // 🛑 REQUISITO JPA: Constructor sin argumentos OBLIGATORIO
     public Gato() {
         this.fecha = LocalDate.now();
@@ -194,8 +190,6 @@ public class Gato implements Serializable {
     
     public List<Tarea> getHistorialTareas() { return historialTareas; }
     public void setHistorialTareas(List<Tarea> historialTareas) { this.historialTareas = historialTareas; }
-    
-    public Hogar getHogarActual() { return hogarActual; }
-    public void setHogarActual(Hogar hogarActual) { this.hogarActual = hogarActual; }
+
 }
 

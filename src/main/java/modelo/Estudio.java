@@ -25,10 +25,10 @@ public class Estudio implements Serializable {
     
     public Estudio() {}
 
-    public Estudio(long IdEstudio, String nombreEstudio, String descripcion) {
+    public Estudio(long IdEstudio, String nombreEstudio, String descripcion, HistoriaClinica historia) {
         this.nombreEstudio = nombreEstudio;
         this.descripcion = descripcion;
-        this.historiaClinica = historiaClinica;
+        this.historiaClinica = historia;
     }
 
     public long getIdEstudio() {

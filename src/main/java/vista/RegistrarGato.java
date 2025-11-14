@@ -3,12 +3,12 @@ package vista;
 import modelo.Controladora;
 
 
-public class RegistarGato extends javax.swing.JFrame {
+public class RegistrarGato extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistarGato.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarGato.class.getName());
 
     Controladora Control = new  Controladora();
-    public RegistarGato() {
+    public RegistrarGato() {
         initComponents();
     }
 
@@ -101,7 +101,7 @@ public class RegistarGato extends javax.swing.JFrame {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Si", "No" }));
 
-        jLabel10.setText("Esatdo de Salud:");
+        jLabel10.setText("Estado de Salud:");
 
         jLabel6.setText("Disponible:");
 
@@ -193,7 +193,7 @@ public class RegistarGato extends javax.swing.JFrame {
         );
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel3.setText("Registar Gato");
+        jLabel3.setText("Registrar Gato");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,7 +216,7 @@ public class RegistarGato extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(29, 29, 29)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
