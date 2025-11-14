@@ -1,5 +1,6 @@
 package modelo;
 
+import java.time.LocalDate;
 import persistencia.ControladoraPersistencia;
 import modelo.Gato;
 import modelo.FamiliaAdoptante;
@@ -177,4 +178,57 @@ public class Controladora {
             throw new OperacionException("Error al traer los gatos: " + e.getMessage(), e);
         }
     } 
+    
+    public List<Visita> traerTodasLasVisitas() {
+        return controlpersis.traerTodasVisitas();
+    }
+
+    public List<Visita> filtrarVisitas(String nombreFamilia, String nombreVoluntario) {
+        // Reemplazo los campos de la imagen por filtros que sí se pueden hacer
+        // con tu modelo: Familia y Voluntario.
+        return controlpersis.buscarVisitasFiltradas(nombreFamilia, nombreVoluntario);
+    }
+    
+    public Visita buscarVisita(long idVisita) throws OperacionException {
+        Visita v = controlpersis.buscarVisita(idVisita);
+        if (v == null) {
+            throw new OperacionException("No se encontró la visita con ID: " + idVisita);
+        }
+        return v;
+    }
+    
+    public void modificarVisita(long idVisita, String nuevaDescripcion, LocalDate nuevaFecha) throws OperacionException {
+        try {
+            Visita visita = this.buscarVisita(idVisita); // Reutiliza el método
+            
+            visita.setDescripcion(nuevaDescripcion);
+            visita.setFecha(nuevaFecha);
+            
+            controlpersis.editarVisita(visita);
+            
+        } catch (Exception e) {
+            throw new OperacionException("Error al modificar la visita: " + e.getMessage(), e);
+        }
+    }
+    
+    public void eliminarVisita(long idVisita) throws OperacionException {
+        try {
+            controlpersis.eliminarVisita(idVisita);
+        } catch (Exception e) {
+            throw new OperacionException("Error al eliminar la visita: " + e.getMessage(), e);
+        }
+    }
+
+    // (Este método ya lo teníamos para el ComboBox)
+    public List<FamiliaAdoptante> traerTodasLasFamilias() {
+        // Llama al método público de controlpersis, NO al jpa
+        return controlpersis.traerTodasLasFamilias();
+    }
+
+    // (Este método también)
+    public void registrarVisitaDeSeguimiento(int idFamilia, int idVoluntario, 
+                                            LocalDate fecha, String descripcion) 
+                                            throws OperacionException {
+        // ... (la lógica de la respuesta anterior)
+    }
 }

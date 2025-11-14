@@ -12,6 +12,7 @@ import modelo.Voluntario;
 import modelo.Gato;
 import modelo.Postulacion; 
 import java.util.List;
+import modelo.Visita;
 
 
 
@@ -140,5 +141,61 @@ public class ControladoraPersistencia {
         postulacionJpa.create(postulacion);
     }
     
+    public Visita buscarVisita(long id) {
+        return visitaJpa.findVisita(id);
+    }
     
+    public void editarVisita(Visita visita) throws Exception {
+        visitaJpa.edit(visita);
+    }
+    
+    public void eliminarVisita(long id) throws persistencia.exceptions.NonexistentEntityException {
+        visitaJpa.destroy(id);
+    }
+    
+    public List<Visita> traerTodasVisitas() {
+        return visitaJpa.findVisitaEntities();
+    }
+    
+    /**
+     * Busca visitas filtrando por el nombre de la familia y el nombre del voluntario.
+     */
+    public List<Visita> buscarVisitasFiltradas(String nombreFamilia, String nombreVoluntario) {
+        EntityManager em = visitaJpa.getEntityManager();
+        try {
+            // Consulta base JPQL
+            String jpql = "SELECT v FROM Visita v WHERE 1=1";
+            
+            // Añadir filtros dinámicamente
+            if (nombreFamilia != null && !nombreFamilia.isEmpty()) {
+                // 'familia' es el nombre del atributo en la entidad Visita
+                // 'nombre' es el atributo en la entidad FamiliaAdoptante (que hereda de Usuario)
+                jpql += " AND v.familia.nombre LIKE :familia";
+            }
+            if (nombreVoluntario != null && !nombreVoluntario.isEmpty()) {
+                // 'voluntarioEncargado' es el atributo en Visita
+                // 'nombre' es el atributo en Voluntario (que hereda de Usuario)
+                jpql += " AND v.voluntarioEncargado.nombre LIKE :voluntario";
+            }
+            
+            TypedQuery<Visita> query = em.createQuery(jpql, Visita.class);
+            
+            // Asignar los parámetros
+            if (nombreFamilia != null && !nombreFamilia.isEmpty()) {
+                query.setParameter("familia", "%" + nombreFamilia + "%");
+            }
+            if (nombreVoluntario != null && !nombreVoluntario.isEmpty()) {
+                query.setParameter("voluntario", "%" + nombreVoluntario + "%");
+            }
+            
+            return query.getResultList();
+            
+        } finally {
+            em.close();
+        }
+    }
+    public List<FamiliaAdoptante> traerTodasLasFamilias() {
+        // Llama al método del JpaController que SÍ está visible aquí
+        return familiaAdoptanteJpa.findFamiliaAdoptanteEntities();
+    }
 }

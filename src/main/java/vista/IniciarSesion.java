@@ -3,12 +3,9 @@ package vista;
 import javax.swing.JOptionPane;
 import modelo.Controladora;
 import modelo.Usuario;
-import vista.Registrarse;
 import modelo.LoginException;
 
 public class IniciarSesion extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IniciarSesion.class.getName());
 
     private final Controladora control;
     public IniciarSesion() {
@@ -205,7 +202,7 @@ public class IniciarSesion extends javax.swing.JFrame {
                     panelVet.setLocationRelativeTo(null);
                     break;
                 case "VOLUNTARIO":
-                    VistaVoluntario panelVol = new VistaVoluntario(); //
+                    VistaVoluntario panelVol = new VistaVoluntario(control, usuarioValidado); //
                     panelVol.setVisible(true);
                     panelVol.setLocationRelativeTo(null);
                     break;
