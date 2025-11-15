@@ -290,11 +290,6 @@ public class Controladora {
             throw new OperacionException("Error de persistencia al registrar el gato: " + e.getMessage(), e);
         }
     }
-
-    // Método auxiliar para cargar el ComboBox de Zonas (en caso de que lo necesites)
-    public List<Zona> traerTodasLasZonas() {
-        return controlpersis.traerTodasLasZonas();
-    }
     
     public void asignarGatoAFamilia(long idGato, int idFamilia) throws OperacionException {
     try {
@@ -409,6 +404,69 @@ public Voluntario buscarVoluntario(long idVoluntario) {
 public Gato buscarGatoPorNombre(String nombreGato) {
     
     return controlpersis.buscarGatoPorNombre(nombreGato);
+}
+
+public void registrarZona(String nombreZona, String ubicacionGPS) throws OperacionException {
+    if (nombreZona.isEmpty() || ubicacionGPS.isEmpty()) {
+        throw new OperacionException("El nombre de la zona y la ubicación GPS son obligatorios.");
+    }
+    try {
+        Zona nuevaZona = new Zona();
+        nuevaZona.setNombreZona(nombreZona);
+        nuevaZona.setUbicacionGPS(ubicacionGPS);
+        
+        controlpersis.crearZona(nuevaZona);
+        
+    } catch (Exception e) {
+        throw new OperacionException("Error al registrar la zona: Verifique duplicados.", e);
+    }
+}
+
+// --- READ/LIST (Modificado para lanzar excepción si está vacía) ---
+public List<Zona> traerTodasLasZonas() throws OperacionException {
+    List<Zona> zonas = controlpersis.traerTodasLasZonas();
+    if (zonas == null || zonas.isEmpty()) {
+        throw new OperacionException("No hay zonas registradas en el sistema.");
+    }
+    return zonas;
+}
+
+// --- UPDATE ---
+public void modificarZona(long idZona, String nombreZona, String ubicacionGPS) throws OperacionException {
+    if (nombreZona.isEmpty() || ubicacionGPS.isEmpty()) {
+        throw new OperacionException("El nombre de la zona y la ubicación GPS son obligatorios.");
+    }
+    try {
+        Zona zona = controlpersis.buscarZona(idZona);
+        if (zona == null) {
+            throw new OperacionException("La zona que intenta modificar no existe.");
+        }
+        
+        zona.setNombreZona(nombreZona);
+        zona.setUbicacionGPS(ubicacionGPS);
+        
+        controlpersis.modificarZona(zona);
+        
+    } catch (Exception e) {
+        throw new OperacionException("Error al modificar la zona.", e);
+    }
+}
+
+
+public void eliminarZona(long idZona) throws OperacionException {
+    try {
+        controlpersis.eliminarZona(idZona);
+    } catch (persistencia.exceptions.NonexistentEntityException e) {
+        throw new OperacionException("Error: La zona seleccionada no existe.", e);
+    } catch (Exception e) {
+        // Esto captura la excepción si hay registros relacionados (integridad referencial)
+        throw new OperacionException("Error crítico al eliminar la zona. Verifique que no tenga gatos asignados.", e);
+    }
+}
+
+
+public Zona buscarZona(long idZona) {
+    return controlpersis.buscarZona(idZona);
 }
 }
 

@@ -416,13 +416,30 @@ public class VistaGestionarVisitas extends javax.swing.JFrame {
         // --- 1. Crear el formulario personalizado para el JOptionPane ---
         JPanel panelForm = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
         
-        // ComboBox de Familias
-        List<FamiliaAdoptante> familias = control.traerTodasLasFamilias();
+        // Declaración fuera del try/catch para que sea accesible
+        List<FamiliaAdoptante> familias;
         DefaultComboBoxModel<FamiliaAdoptante> comboModel = new DefaultComboBoxModel<>();
-        for (FamiliaAdoptante f : familias) {
-            comboModel.addElement(f); // Usa el .toString() que sobreescribimos
+        
+        try {
+            // Cargar Familias (Línea que lanza OperacionException)
+            familias = control.traerTodasLasFamilias();
+            
+            // Si la carga tiene éxito, llena el modelo
+            for (FamiliaAdoptante f : familias) {
+                comboModel.addElement(f); 
+            }
+            
+        } catch (OperacionException e) {
+            // Muestra el error de negocio (ej. "No hay familias registradas")
+            JOptionPane.showMessageDialog(this, 
+                e.getMessage(), 
+                "Error de Carga de Familias", 
+                JOptionPane.WARNING_MESSAGE);
+            return; // Termina el método si no hay familias para registrar
         }
-        JComboBox<FamiliaAdoptante> cmbFamilias = new JComboBox<>(comboModel);
+        
+        // ComboBox de Familias
+        JComboBox<FamiliaAdoptante> cmbFamilias = new JComboBox<>(comboModel); // Usa el modelo lleno
         
         // Área de texto para Descripción
         JTextArea txtDescripcion = new JTextArea(5, 20);
@@ -435,11 +452,12 @@ public class VistaGestionarVisitas extends javax.swing.JFrame {
 
         // --- 2. Mostrar el JOptionPane ---
         int resultado = JOptionPane.showConfirmDialog(this, panelForm, "Registrar Nueva Visita", 
-                                                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                                                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         // --- 3. Procesar la entrada ---
         if (resultado == JOptionPane.OK_OPTION) {
             try {
+                // ... (El resto de la lógica de procesamiento y la segunda llamada al control que ya está en un try/catch)
                 FamiliaAdoptante familiaSel = (FamiliaAdoptante) cmbFamilias.getSelectedItem();
                 String descripcion = txtDescripcion.getText();
                 

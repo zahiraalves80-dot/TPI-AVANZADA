@@ -132,25 +132,21 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionarUsuariosActionPerformed
 
     private void btnGestionarZonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarZonasActionPerformed
-     try {
-            // 1. Crear una instancia de la nueva ventana
-            //GestionarZonas panelZonas = new GestionarZonas(); //
+     VistaGestionarZonas panelZonas = new VistaGestionarZonas(this.control, this); 
             
-            // 2. Hacer visible la nueva ventana
-            //panelZonas.setVisible(true);
+            // 2. Mostrar la nueva ventana
+            panelZonas.setVisible(true);
+            panelZonas.setLocationRelativeTo(null);
             
-            // 3. Centrar la nueva ventana
-            //panelZonas.setLocationRelativeTo(null);
-            
-            // (Opcional: Si quieres cerrar el panel de Admin, usa this.dispose())
+            // 3. Ocultar esta ventana
+            this.setVisible(false);
             
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, 
-                "Error al abrir la gestión de zonas.", 
+                "Error al abrir la gestión de zonas: " + e.getMessage(), 
                 "Error de Navegación", 
                 JOptionPane.ERROR_MESSAGE);
-        }
     }//GEN-LAST:event_btnGestionarZonasActionPerformed
 
     private void btnGestionarReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarReportesActionPerformed

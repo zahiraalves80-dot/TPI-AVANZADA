@@ -15,6 +15,7 @@ import java.util.List;
 import modelo.Tarea;
 import modelo.Visita;
 import modelo.Zona;
+import persistencia.exceptions.NonexistentEntityException;
 
 
 
@@ -255,6 +256,26 @@ public Voluntario buscarVoluntario(long idVoluntario) {
 public Gato buscarGatoPorNombre(String nombreGato) {
      
     return null; 
+}
+
+public void crearZona(Zona zona) throws Exception {
+    zonaJpa.create(zona);
+}
+
+// --- READ (Por ID) ---
+public modelo.Zona buscarZona(long id) {
+    return zonaJpa.findZona(id);
+}
+
+
+// --- UPDATE ---
+public void modificarZona(Zona zona) throws Exception {
+    zonaJpa.edit(zona);
+}
+
+// --- DELETE ---
+public void eliminarZona(long id) throws NonexistentEntityException {
+    zonaJpa.destroy(id);
 }
 
 }

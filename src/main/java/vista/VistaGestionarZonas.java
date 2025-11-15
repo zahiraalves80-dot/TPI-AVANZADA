@@ -22,9 +22,79 @@ import modelo.OperacionException;
 import modelo.Usuario;
 import modelo.Visita;
 import modelo.Voluntario;
+import modelo.Zona;
 
 public class VistaGestionarZonas extends javax.swing.JFrame {
+    private final Controladora control;
+    private final VistaAdministrador vistaAnterior;
     
+    private DefaultTableModel modeloTabla;
+    private TableRowSorter<TableModel> sorter;
+
+    public VistaGestionarZonas(Controladora control, VistaAdministrador vistaAnterior) {
+        this.control = control;
+        this.vistaAnterior = vistaAnterior;
+        initComponents(); 
+        configurarTabla(); 
+        cargarZonas();
+    } 
+       private void configurarTabla() {
+        String titulos[] = {"ID", "Nombre", "Ubicación GPS"};
+        modeloTabla = new DefaultTableModel(null, titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        }; 
+        jTableVisitas.setModel(modeloTabla);
+        sorter = new TableRowSorter<>(modeloTabla);
+        jTableVisitas.setRowSorter(sorter);
+        
+        jTableVisitas.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableVisitas.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableVisitas.getColumnModel().getColumn(0).setPreferredWidth(0);
+        
+        txtFiltroGato.getDocument().addDocumentListener(new DocumentListener() { // <-- SINTAXIS CORREGIDA (No más paréntesis extra)
+            public void changedUpdate(DocumentEvent e) { filtrarTabla(); }
+            public void removeUpdate(DocumentEvent e) { filtrarTabla(); }
+            public void insertUpdate(DocumentEvent e) { filtrarTabla(); }
+        });
+       }
+       
+       private void cargarZonas() {
+        modeloTabla.setRowCount(0); // Limpiar tabla
+        try {
+            List<Zona> zonas = control.traerTodasLasZonas();
+            if (zonas != null) {
+                for (Zona z : zonas) {
+                    Object[] fila = {
+                        z.getIdZona(), z.getNombreZona(), z.getUbicacionGPS()
+                    };
+                    modeloTabla.addRow(fila);
+                }
+            }
+        } catch (OperacionException e) {
+            // Muestra el error de negocio si no hay zonas
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+       
+     private void filtrarTabla() {  
+    String filtroZona = txtFiltroGato.getText();
+    if (!filtroZona.isEmpty()) {
+      sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtroZona, 1)); 
+      } else {
+        sorter.setRowFilter(null);
+    }
+    }
+     private long getIdSeleccionado() {
+    int filaVista = jTableVisitas.getSelectedRow();
+    if (filaVista == -1) {
+        
+        JOptionPane.showMessageDialog(this, "Debe seleccionar una zona de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
+         return -1;
+    }
+    int filaModelo = jTableVisitas.convertRowIndexToModel(filaVista);
+    return (long) modeloTabla.getValueAt(filaModelo, 0); 
+     }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -205,25 +275,99 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFiltroGatoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-       
+        long idZona = getIdSeleccionado();
+        if (idZona == -1) return;
+        
+        try {
+            Zona zona = control.buscarZona(idZona); 
+            if (zona == null) throw new OperacionException("La zona seleccionada no existe.");
+
+            JPanel panelForm = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
+            JTextField txtNombre = new JTextField(zona.getNombreZona(), 20);
+            JTextField txtUbicacion = new JTextField(zona.getUbicacionGPS(), 20);
+
+            panelForm.add(new JLabel("ID: " + idZona));
+            panelForm.add(new JLabel("Nombre de la Zona:"));
+            panelForm.add(txtNombre);
+            panelForm.add(new JLabel("Ubicación GPS:"));
+            panelForm.add(txtUbicacion);
+
+            int resultado = JOptionPane.showConfirmDialog(this, panelForm, "Modificar Zona (ID: " + idZona + ")", 
+                                                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            if (resultado == JOptionPane.OK_OPTION) {
+                String nombre = txtNombre.getText().trim();
+                String ubicacion = txtUbicacion.getText().trim();
+                
+                control.modificarZona(idZona, nombre, ubicacion);
+                
+                JOptionPane.showMessageDialog(this, "Zona modificada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarZonas(); // Recargar la tabla
+            }
+
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Modificar", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    long idZona = getIdSeleccionado();
+        if (idZona == -1) return;
         
+        int respuesta = JOptionPane.showConfirmDialog(this, 
+            "¿ESTÁS SEGURO de borrar la zona ID: " + idZona + "? Verifique que no tenga gatos asignados.", 
+            "Confirmar Eliminación", 
+            JOptionPane.YES_NO_OPTION, 
+            JOptionPane.WARNING_MESSAGE);
+            
+        if (respuesta == JOptionPane.YES_OPTION) {
+            try {
+                control.eliminarZona(idZona);
+                
+                JOptionPane.showMessageDialog(this, "Zona eliminada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarZonas(); // Recargar la tabla
+            } catch (OperacionException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 /**
      * Cierra esta ventana y muestra la anterior.
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       
+       his.vistaAnterior.setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 /**
      * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        
+        panelForm.add(new JLabel("Nombre de la Zona:"));
+        panelForm.add(txtNombre);
+        panelForm.add(new JLabel("Ubicación GPS:"));
+        panelForm.add(txtUbicacion);
+
+        int resultado = JOptionPane.showConfirmDialog(this, panelForm, "Registrar Nueva Zona", 
+                                                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (resultado == JOptionPane.OK_OPTION) {
+            try {
+                String nombre = txtNombre.getText().trim();
+                String ubicacion = txtUbicacion.getText().trim();
+
+                control.registrarZona(nombre, ubicacion);
+                
+                JOptionPane.showMessageDialog(this, "Zona registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarZonas(); // Recargar la tabla
+                
+            } catch (OperacionException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Registrar", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+        
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
