@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class Sesion implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idSesion;
     private LocalDate fechaHoraIncio;
 

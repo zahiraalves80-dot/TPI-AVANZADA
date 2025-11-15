@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Tratamiento implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idTratamiento;
     private String diagnostico;
     private String tratamiento;

@@ -23,6 +23,18 @@ import modelo.Usuario;
 import modelo.Visita;
 import modelo.Voluntario;
 import modelo.Zona;
+import org.jxmapviewer.JXMapViewer;
+import org.jxmapviewer.OSMTileFactoryInfo;
+import org.jxmapviewer.viewer.DefaultTileFactory;
+import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.TileFactoryInfo;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 
 public class VistaGestionarZonas extends javax.swing.JFrame {
     private final Controladora control;
@@ -342,31 +354,79 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
      * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        JPanel panelForm = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
+        JPanel panelForm = new JPanel(new java.awt.BorderLayout(5, 5));
+    JPanel panelControles = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
+    
     JTextField txtNombre = new JTextField(20);
-    JTextField txtUbicacion = new JTextField(20);
-        panelForm.add(new JLabel("Nombre de la Zona:"));
-        panelForm.add(txtNombre);
-        panelForm.add(new JLabel("Ubicación GPS:"));
-        panelForm.add(txtUbicacion);
+    JTextField txtUbicacion = new JTextField("Haga clic en el mapa...", 20);
+    txtUbicacion.setEditable(false); // Solo se actualiza al hacer clic
 
-        int resultado = JOptionPane.showConfirmDialog(this, panelForm, "Registrar Nueva Zona", 
-                                                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-        if (resultado == JOptionPane.OK_OPTION) {
-            try {
-                String nombre = txtNombre.getText().trim();
-                String ubicacion = txtUbicacion.getText().trim();
-
-                control.registrarZona(nombre, ubicacion);
+    // --- 2. Configuración del Mapa (JXMapViewer) ---
+    JXMapViewer mapViewer = new JXMapViewer();
+    mapViewer.setPreferredSize(new Dimension(500, 350));
+    
+    // Coordenadas de Posadas, Misiones, Argentina
+    // Latitud: -27.36709, Longitud: -55.89608
+    final GeoPosition posadas = new GeoPosition(-27.36709, -55.89608); 
+    
+    // Configuración del proveedor de mosaicos (OpenStreetMap)
+    TileFactoryInfo info = new OSMTileFactoryInfo();
+    DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+    mapViewer.setTileFactory(tileFactory);
+    mapViewer.setZoom(7); 
+    mapViewer.setCenterPosition(posadas);
+    
+    // --- 3. Listener para Capturar Coordenadas al Clic ---
+    mapViewer.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 1) { // Capturar con un solo clic
+                // Convertir el punto del clic a coordenadas geográficas
+                GeoPosition pos = mapViewer.convertPointToGeoPosition(e.getPoint());
                 
-                JOptionPane.showMessageDialog(this, "Zona registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                cargarZonas(); // Recargar la tabla
+                // Formatear las coordenadas
+                String coords = String.format("%.6f,%.6f", pos.getLatitude(), pos.getLongitude());
                 
-            } catch (OperacionException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Registrar", JOptionPane.ERROR_MESSAGE);
+                // Mostrar las coordenadas en el campo de texto
+                txtUbicacion.setText(coords);
             }
         }
+    });
+
+    // --- 4. Ensamblaje del Panel del Formulario ---
+    panelControles.add(new JLabel("Nombre de la Zona:"));
+    panelControles.add(txtNombre);
+    panelControles.add(new JLabel("Ubicación GPS (Clic en mapa):"));
+    panelControles.add(txtUbicacion);
+    
+    // Colocamos los controles arriba y el mapa en el centro
+    panelForm.add(panelControles, java.awt.BorderLayout.NORTH);
+    panelForm.add(mapViewer, java.awt.BorderLayout.CENTER);
+
+    // --- 5. Mostrar el Diálogo ---
+    int resultado = JOptionPane.showConfirmDialog(this, panelForm, "Registrar Nueva Zona (Seleccione en el Mapa)", 
+                                                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+    // --- 6. Procesar la Entrada ---
+    if (resultado == JOptionPane.OK_OPTION) {
+        try {
+            String nombre = txtNombre.getText().trim();
+            String ubicacion = txtUbicacion.getText().trim();
+
+            if (nombre.isEmpty() || ubicacion.contains("Haga clic")) {
+                throw new modelo.OperacionException("Debe ingresar un nombre y seleccionar una ubicación en el mapa.");
+            }
+
+            // Llamar a la Controladora para registrar
+            control.registrarZona(nombre, ubicacion);
+            
+            JOptionPane.showMessageDialog(this, "Zona registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarZonas(); // Recargar la tabla
+            
+        } catch (modelo.OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Registrar", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
         

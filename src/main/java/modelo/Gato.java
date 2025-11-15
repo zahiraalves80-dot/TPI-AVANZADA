@@ -25,7 +25,7 @@ public class Gato implements Serializable {
     SANO, ENFERMO, EN_TRATAMIENTO
 }
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idGato;                     
     private LocalDate fecha;                
     private String nombre;                  

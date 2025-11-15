@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Estudio implements Serializable {
    
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idEstudio;
     private String nombreEstudio;   // Nombre del análisis realizado (ej., "Análisis de Sangre", "Radiografía").
     private String descripcion;     // Resultados o conclusiones del estudio.

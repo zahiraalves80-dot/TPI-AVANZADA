@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class Visita implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idVisita;       
     private LocalDate fecha;    
     private int horaVisita;     // Hora de la visita (se asume un formato de hora entero, ej. 15 para 3 PM).

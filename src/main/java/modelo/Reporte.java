@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class Reporte implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idReporte;
     private LocalDate fechaReporte;
     private int cantidad;

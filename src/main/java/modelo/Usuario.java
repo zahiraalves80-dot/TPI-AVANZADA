@@ -29,7 +29,7 @@ public abstract class Usuario implements Serializable {
     }
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuario;
     
   

@@ -474,5 +474,79 @@ public void eliminarZona(long idZona) throws OperacionException {
 public Zona buscarZona(long idZona) {
     return controlpersis.buscarZona(idZona);
 }
+
+// --- NUEVO MÉTODO: TRAER TODOS LOS USUARIOS ---
+public List<Usuario> traerTodosLosUsuarios() throws OperacionException {
+    List<Usuario> usuarios = controlpersis.traerTodosLosUsuarios();
+    if (usuarios == null || usuarios.isEmpty()) {
+        throw new OperacionException("No hay usuarios registrados en el sistema.");
+    }
+    return usuarios;
+}
+
+// --- NUEVO MÉTODO: ELIMINAR USUARIO (por ID) ---
+public void eliminarUsuario(int id) throws OperacionException {
+    try {
+        controlpersis.eliminarUsuario(id);
+    } catch (persistencia.exceptions.NonexistentEntityException e) {
+        throw new OperacionException("Error: El usuario seleccionado no existe.", e);
+    } catch (Exception e) {
+        throw new OperacionException("Error crítico al eliminar el usuario. Verifique la integridad referencial.", e);
+    }
+}
+
+public Usuario buscarUsuario(int id) throws OperacionException {
+    Usuario u = controlpersis.buscarUsuario(id);
+    if (u == null) {
+        throw new OperacionException("No se encontró el usuario con ID: " + id);
+    }
+    return u;
+}
+
+// --- LÓGICA DE MODIFICACIÓN CENTRAL ---
+public void modificarUsuario(int id, String nombre, String correo, String telefonoStr, String direccion, String matriculaStr) throws OperacionException {
+    
+    if (nombre.isEmpty() || correo.isEmpty() || telefonoStr.isEmpty() || direccion.isEmpty()) {
+        throw new OperacionException("Todos los campos obligatorios deben ser completados.");
+    }
+    
+    try {
+        // 1. Obtener el usuario existente
+        Usuario usuario = controlpersis.buscarUsuario(id);
+        if (usuario == null) {
+            throw new OperacionException("El usuario a modificar no fue encontrado.");
+        }
+        
+        // Convertir datos comunes
+        double telefono = Double.parseDouble(telefonoStr);
+        
+        // 2. Actualizar campos comunes
+        usuario.setNombre(nombre);
+        usuario.setCorreo(correo);
+        usuario.setTelefono(telefono);
+        usuario.setdireccion(direccion);
+        // NOTA: La contraseña no se modifica en esta vista por seguridad.
+        
+        // 3. Manejar campos específicos de rol (Veterinario)
+        if (usuario.getRol().equals("VETERINARIO") && usuario instanceof Veterinario) {
+            Veterinario vet = (Veterinario) usuario;
+            if (matriculaStr.isEmpty()) {
+                throw new OperacionException("La Matrícula es obligatoria para el Veterinario.");
+            }
+            int matricula = Integer.parseInt(matriculaStr);
+            vet.setMatricula(matricula);
+        }
+        
+        // 4. Guardar cambios (Persistencia)
+        controlpersis.modificarUsuario(usuario);
+        
+    } catch (NumberFormatException e) {
+        throw new OperacionException("El Teléfono o la Matrícula deben ser números válidos.", e);
+    } catch (OperacionException e) {
+        throw e; // Lanza las excepciones de negocio (ej. campo vacío)
+    } catch (Exception e) {
+        throw new OperacionException("Error de persistencia al modificar el usuario: " + e.getMessage(), e);
+    }
+}
 }
 

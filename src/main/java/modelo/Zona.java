@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 public class Zona {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idZona;
     private String nombreZona;      
     private String ubicacionGPS;

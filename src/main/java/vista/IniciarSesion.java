@@ -51,9 +51,8 @@ public class IniciarSesion extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Ingresar");
+        jButton2.setText("Registrarse");
         jButton2.setToolTipText("");
-        jButton2.setActionCommand("Ingresar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

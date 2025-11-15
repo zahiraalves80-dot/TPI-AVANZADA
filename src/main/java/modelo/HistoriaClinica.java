@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class HistoriaClinica implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idHistoria;
     private LocalDate fechaCreacion;
     //private List<Tratamiento> tratamientos = new ArrayList<>;

@@ -296,5 +296,28 @@ public void eliminarZona(long id) throws NonexistentEntityException {
     zonaJpa.destroy(id);
 }
 
+public List<Usuario> traerTodosLosUsuarios() {
+    // Delega directamente al JpaController de la clase base Usuario
+    return usuarioJpa.findUsuarioEntities();
+}
+
+// --- NUEVO MÉTODO: BUSCAR USUARIO POR ID ---
+public Usuario buscarUsuario(int id) {
+    return usuarioJpa.findUsuario(id);
+}
+
+// --- NUEVO MÉTODO: MODIFICAR USUARIO ---
+public void modificarUsuario(Usuario usuario) throws NonexistentEntityException, Exception {
+    usuarioJpa.edit(usuario);
+}
+
+// --- NUEVO MÉTODO: ELIMINAR USUARIO ---
+public void eliminarUsuario(int id) throws NonexistentEntityException {
+    usuarioJpa.destroy(id);
+}
+
+
+
+
 }
     

@@ -86,7 +86,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
                 .addComponent(btnAsignarGato)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGestionarVisitas)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -135,7 +135,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -151,7 +151,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarTareaActionPerformed
 
     private void btnAsignarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarGatoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnAsignarGatoActionPerformed
 
     private void btnGestionarVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarVisitasActionPerformed
@@ -168,23 +168,21 @@ public class VistaVoluntario extends javax.swing.JFrame {
 
     private void btnRegistrarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarGatoActionPerformed
           try {
-        // 1. Crear la nueva instancia, enviando 'this' como la vista anterior
-        RegistrarGato registrarGato = new RegistrarGato(control, this); 
         
-        // 2. Mostrar la nueva ventana
+        RegistrarGato registrarGato = new RegistrarGato(this.control, this); 
+        
         registrarGato.setVisible(true);
         registrarGato.setLocationRelativeTo(null);
         
-        // 3. Ocultar la ventana actual (VistaVoluntario)
-        this.setVisible(false);
+        // 3. Ocultar el menú de Voluntario
+        this.setVisible(false); 
         
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this,
             "Error al abrir el registro de gato: " + e.getMessage(),
             "Error de Navegación",
             JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    } 
+    }
     }//GEN-LAST:event_btnRegistrarGatoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

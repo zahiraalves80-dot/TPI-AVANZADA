@@ -24,7 +24,7 @@ public class Postulacion implements Serializable {
         RECHAZADA
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idPostulacion;
     private LocalDate fechaCreacion;
     private Estado estado;

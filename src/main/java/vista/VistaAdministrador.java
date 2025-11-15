@@ -128,7 +128,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGestionarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarUsuariosActionPerformed
-        // TODO add your handling code here:
+        
+    
     }//GEN-LAST:event_btnGestionarUsuariosActionPerformed
 
     private void btnGestionarZonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarZonasActionPerformed

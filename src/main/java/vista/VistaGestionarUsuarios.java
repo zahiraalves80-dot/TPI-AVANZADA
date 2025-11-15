@@ -22,8 +22,96 @@ import modelo.OperacionException;
 import modelo.Usuario;
 import modelo.Visita;
 import modelo.Voluntario;
+import controladora.Controladora;
+import modelo.Usuario;
+import modelo.OperacionException;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.JOptionPane;
+import java.util.List;
+import javax.swing.RowFilter;
+import modelo.Veterinario;
 
 public class VistaGestionarUsuarios extends javax.swing.JFrame {
+    private final Controladora control;
+    private final VistaAdministrador vistaAnterior;
+    private DefaultTableModel modeloTabla;
+    private TableRowSorter<TableModel> sorter;
+    
+
+    VistaGestionarUsuarios(Controladora control, VistaAdministrador vistaAnterior) {
+        this.control = control;
+        this.vistaAnterior = vistaAnterior;
+        initComponents();
+        configurarTabla(); 
+        cargarUsuarios();
+    }
+    
+    private void configurarTabla() {
+        String titulos[] = {"ID", "Nombre", "Correo", "Rol", "Teléfono"};
+        modeloTabla = new DefaultTableModel(null, titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        }; 
+        jTableVisitas.setModel(modeloTabla); // Asumo que su tabla se llama jTableVisitas
+        sorter = new TableRowSorter<>(modeloTabla);
+        jTableVisitas.setRowSorter(sorter);
+        
+        // Ocultar la columna ID (Columna 0)
+        jTableVisitas.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableVisitas.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableVisitas.getColumnModel().getColumn(0).setPreferredWidth(0);
+        
+        // Añadir Listener al campo de filtro (txtFiltroGato en el formulario)
+        txtFiltroGato.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrarTabla(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrarTabla(); }
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrarTabla(); }
+        });
+    }
+
+    private void cargarUsuarios() {
+        modeloTabla.setRowCount(0); // Limpiar tabla
+        try {
+            List<Usuario> usuarios = control.traerTodosLosUsuarios();
+            if (usuarios != null) {
+                for (Usuario u : usuarios) {
+                    Object[] fila = {
+                        u.getIdUsuario(),
+                        u.getNombre(),
+                        u.getCorreo(),
+                        u.getRol(),
+                        u.getTelefono()
+                    };
+                    modeloTabla.addRow(fila);
+                }
+            }
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    private void filtrarTabla() {  
+        String filtroNombre = txtFiltroGato.getText();
+        if (!filtroNombre.isEmpty()) {
+            // Filtra por la columna de Nombre (Columna 1)
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtroNombre, 1)); 
+        } else {
+            sorter.setRowFilter(null);
+        }
+    }
+    
+    // Método auxiliar para obtener el ID seleccionado
+    private int getIdSeleccionado() {
+        int filaVista = jTableVisitas.getSelectedRow();
+        if (filaVista == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
+            return -1;
+        }
+        int filaModelo = jTableVisitas.convertRowIndexToModel(filaVista);
+        return (int) modeloTabla.getValueAt(filaModelo, 0); 
+    }
     
     
     @SuppressWarnings("unchecked")
@@ -197,23 +285,118 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFiltroGatoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-       
+       int idUsuario = getIdSeleccionado();
+    if (idUsuario == -1) return; // Muestra error si no hay selección
+
+    try {
+        // 1. Buscar el usuario completo
+        Usuario usuario = control.buscarUsuario(idUsuario);
+
+        // --- 2. Crear el formulario dinámico con los datos actuales ---
+        JPanel panelForm = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
+        
+        // Campos comunes
+        JTextField txtNombre = new JTextField(usuario.getNombre(), 20);
+        JTextField txtCorreo = new JTextField(usuario.getCorreo(), 20);
+        // Mostramos el teléfono como String, aunque se guarde como double
+        JTextField txtTelefono = new JTextField(String.valueOf((int)usuario.getTelefono()), 20); 
+        JTextField txtDireccion = new JTextField(usuario.getdireccion(), 20);
+        
+        // Campo específico de Veterinario (solo si aplica)
+        JTextField txtMatricula = null;
+        String matriculaInicial = "";
+
+        if (usuario.getRol().equals("VETERINARIO")) {
+            Veterinario vet = (Veterinario) usuario;
+            matriculaInicial = String.valueOf(vet.getMatricula());
+            txtMatricula = new JTextField(matriculaInicial, 20);
+        }
+        
+        // Ensamblar el formulario
+        panelForm.add(new JLabel("ID Usuario: " + idUsuario + " (Rol: " + usuario.getRol() + ")"));
+        panelForm.add(new JLabel("Nombre:"));
+        panelForm.add(txtNombre);
+        panelForm.add(new JLabel("Correo:"));
+        panelForm.add(txtCorreo);
+        panelForm.add(new JLabel("Teléfono:"));
+        panelForm.add(txtTelefono);
+        panelForm.add(new JLabel("Dirección:"));
+        panelForm.add(txtDireccion);
+
+        if (txtMatricula != null) {
+            panelForm.add(new JLabel("Matrícula (Solo Veterinario):"));
+            panelForm.add(txtMatricula);
+        }
+        
+        // --- 3. Mostrar el diálogo y obtener resultado ---
+        int resultado = JOptionPane.showConfirmDialog(this, panelForm, "Modificar Usuario", 
+                                                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (resultado == JOptionPane.OK_OPTION) {
+            // 4. Capturar los datos modificados
+            String nombre = txtNombre.getText().trim();
+            String correo = txtCorreo.getText().trim();
+            String telefonoStr = txtTelefono.getText().trim();
+            String direccion = txtDireccion.getText().trim();
+            String matriculaStr = (txtMatricula != null) ? txtMatricula.getText().trim() : "";
+
+            // Llamar a la Controladora para guardar los cambios
+            control.modificarUsuario(
+                idUsuario,
+                nombre,
+                correo,
+                telefonoStr,
+                direccion,
+                matriculaStr 
+            );
+            
+            JOptionPane.showMessageDialog(this, "Usuario modificado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarUsuarios(); // Recargar la tabla
+        }
+
+    } catch (OperacionException e) {
+        JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Modificación", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    int idUsuario = getIdSeleccionado();
+    if (idUsuario == -1) return;
+
+    int respuesta = JOptionPane.showConfirmDialog(this, 
+        "¿ESTÁS SEGURO de borrar el usuario ID: " + idUsuario + "?", 
+        "Confirmar Eliminación", 
+        JOptionPane.YES_NO_OPTION, 
+        JOptionPane.WARNING_MESSAGE);
         
+    if (respuesta == JOptionPane.YES_OPTION) {
+        try {
+            control.eliminarUsuario(idUsuario);
+            
+            JOptionPane.showMessageDialog(this, "Usuario eliminado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarUsuarios(); // Recargar la tabla
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     }//GEN-LAST:event_btnEliminarActionPerformed
 /**
      * Cierra esta ventana y muestra la anterior.
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       
+        this.vistaAnterior.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 /**
      * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        
+        Registrarse reg = new Registrarse();
+    reg.setLocationRelativeTo(null);
+    reg.setVisible(true);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
