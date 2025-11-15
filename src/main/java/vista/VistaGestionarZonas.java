@@ -335,13 +335,16 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
      * Cierra esta ventana y muestra la anterior.
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       his.vistaAnterior.setVisible(true); 
+       this.vistaAnterior.setVisible(true); 
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 /**
      * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        JPanel panelForm = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
+    JTextField txtNombre = new JTextField(20);
+    JTextField txtUbicacion = new JTextField(20);
         panelForm.add(new JLabel("Nombre de la Zona:"));
         panelForm.add(txtNombre);
         panelForm.add(new JLabel("Ubicación GPS:"));

@@ -241,7 +241,8 @@ public class Controladora {
     
     public void registrarGato(String nombre, String raza, String sexo, String color, 
                               String esterilizado, String caracteristicas, 
-                              String estadoSalud, String disponible, String nombreZona) 
+                              String estadoSalud, String disponible, String nombreZona,
+                              String rutaFoto)
                               throws OperacionException 
     {
         // 1. Validación de campos obligatorios
@@ -275,6 +276,11 @@ public class Controladora {
             nuevoGato.setestadoFisico(estadoFisicoEnum);
             nuevoGato.setDisponible(disponibleEnum);
             
+            // Asignar la ruta de la foto (si se seleccionó una)
+        if (rutaFoto != null && !rutaFoto.isEmpty()) {
+             nuevoGato.setRutaFoto(rutaFoto);
+        }
+        
             // Asignar relaciones
             nuevoGato.setZona(zona);
             nuevoGato.setHistoriaClinica(new HistoriaClinica("Historia inicial al registro")); 

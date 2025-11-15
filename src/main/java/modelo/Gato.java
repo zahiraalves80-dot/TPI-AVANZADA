@@ -18,8 +18,8 @@ import javax.persistence.OneToOne;
 public class Gato implements Serializable {
     
     public enum RespuestaBinaria{ 
-        SI,  
-        NO   
+        NO,  
+        SI   
     }
     public enum EstadoSalud {
     SANO, ENFERMO, EN_TRATAMIENTO
@@ -37,7 +37,7 @@ public class Gato implements Serializable {
     private EstadoSalud estadoFisico;
     private String color;
     private String caracteristicas;
-    
+    private String rutaFoto;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "historia_clinica_id") 
     private HistoriaClinica historiaClinica;
@@ -190,6 +190,13 @@ public class Gato implements Serializable {
     
     public List<Tarea> getHistorialTareas() { return historialTareas; }
     public void setHistorialTareas(List<Tarea> historialTareas) { this.historialTareas = historialTareas; }
+    public String getRutaFoto() { 
+        return rutaFoto; 
+    }
+    
+    public void setRutaFoto(String rutaFoto) { 
+        this.rutaFoto = rutaFoto; 
+    }
 
 }
 

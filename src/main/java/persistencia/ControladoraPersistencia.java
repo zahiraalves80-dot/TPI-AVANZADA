@@ -254,8 +254,26 @@ public Voluntario buscarVoluntario(long idVoluntario) {
 
 
 public Gato buscarGatoPorNombre(String nombreGato) {
-     
-    return null; 
+    EntityManager em = gatoJpa.getEntityManager();
+    try {
+        // JPQL: Buscar Gato donde el atributo 'nombre' coincida con el parámetro
+        TypedQuery<Gato> query = em.createQuery(
+            "SELECT g FROM Gato g WHERE g.nombre = :nombre", 
+            Gato.class
+        );
+        query.setParameter("nombre", nombreGato);
+        return query.getSingleResult();
+    } catch (NoResultException e) {
+        // Retorna null si no se encuentra ningún gato con ese nombre
+        return null; 
+    } catch (Exception e) {
+        // Manejo general de errores
+        e.printStackTrace();
+        return null;
+    } finally {
+        em.close();
+    } 
+    
 }
 
 public void crearZona(Zona zona) throws Exception {

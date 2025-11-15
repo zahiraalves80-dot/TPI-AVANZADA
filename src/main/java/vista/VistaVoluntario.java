@@ -1,17 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package vista;
 
 import controladora.Controladora;
+import javax.swing.JOptionPane;
 import modelo.Usuario;
 import modelo.Voluntario;
 
-/**
- *
- * @author Usuario
- */
+
 public class VistaVoluntario extends javax.swing.JFrame {
     
     private final Controladora control;
@@ -172,9 +167,24 @@ public class VistaVoluntario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionarVisitasActionPerformed
 
     private void btnRegistrarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarGatoActionPerformed
-            RegistrarGato gat = new RegistrarGato(control);
-            gat.setVisible(true);
-            gat.setLocationRelativeTo(null);
+          try {
+        // 1. Crear la nueva instancia, enviando 'this' como la vista anterior
+        RegistrarGato registrarGato = new RegistrarGato(control, this); 
+        
+        // 2. Mostrar la nueva ventana
+        registrarGato.setVisible(true);
+        registrarGato.setLocationRelativeTo(null);
+        
+        // 3. Ocultar la ventana actual (VistaVoluntario)
+        this.setVisible(false);
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+            "Error al abrir el registro de gato: " + e.getMessage(),
+            "Error de Navegación",
+            JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    } 
     }//GEN-LAST:event_btnRegistrarGatoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

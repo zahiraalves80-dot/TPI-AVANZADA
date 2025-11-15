@@ -132,7 +132,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionarUsuariosActionPerformed
 
     private void btnGestionarZonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarZonasActionPerformed
-     VistaGestionarZonas panelZonas = new VistaGestionarZonas(this.control, this); 
+    try{
+        VistaGestionarZonas panelZonas = new VistaGestionarZonas(this.control, this); 
             
             // 2. Mostrar la nueva ventana
             panelZonas.setVisible(true);
@@ -148,7 +149,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 "Error de Navegación", 
                 JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btnGestionarZonasActionPerformed
-
+    }
     private void btnGestionarReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarReportesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGestionarReportesActionPerformed

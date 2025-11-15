@@ -66,6 +66,7 @@ public class Registrarse extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(452, 515));
@@ -110,15 +111,19 @@ public class Registrarse extends javax.swing.JFrame {
 
         jLabel9.setText("Matricula:");
 
+        jButton1.setText("Volver");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(btnRegistrarse))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +143,12 @@ public class Registrarse extends javax.swing.JFrame {
                                 .addComponent(jScrollPane5)
                                 .addComponent(jScrollPane6)
                                 .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField1)))))
+                                .addComponent(jTextField1))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(btnRegistrarse)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -177,7 +187,9 @@ public class Registrarse extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnRegistrarse)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegistrarse)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18))
         );
 
@@ -332,6 +344,27 @@ public class Registrarse extends javax.swing.JFrame {
             default -> null; 
         };
     }//GEN-LAST:event_btnRegistrarseActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // Reutilizamos la instancia de controladora ya existente en la clase
+            IniciarSesion login = new IniciarSesion(control); 
+            
+            // Hace visible la ventana de inicio de sesión
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+            
+            // Cierra la ventana actual de registro
+            this.dispose(); 
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error al volver a la pantalla de Login: " + e.getMessage(), 
+                "Error de Navegación", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
         
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -340,6 +373,7 @@ public class Registrarse extends javax.swing.JFrame {
     private javax.swing.JTextPane correo;
     private javax.swing.JTextPane correo1;
     private javax.swing.JTextPane correo2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
