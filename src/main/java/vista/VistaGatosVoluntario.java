@@ -12,7 +12,7 @@ import modelo.Gato;
 import modelo.OperacionException;
 import modelo.Usuario;
 
-public class VistaVeterinario extends javax.swing.JFrame {
+public class VistaGatosVoluntario extends javax.swing.JFrame {
     
    private final Controladora control;
     private final Usuario veterinario; // Guardamos el usuario veterinario
@@ -24,7 +24,7 @@ public class VistaVeterinario extends javax.swing.JFrame {
      * @param control La controladora principal de la aplicación.
      * @param usuario El objeto Usuario (Veterinario) que ha iniciado sesión.
      */
-    public VistaVeterinario(Controladora control, Usuario usuario) {
+    public VistaGatosVoluntario(Controladora control, Usuario usuario) {
         this.control = control;
         this.veterinario = usuario;
         initComponents();
@@ -146,6 +146,7 @@ public class VistaVeterinario extends javax.swing.JFrame {
         jTableVisitas = new javax.swing.JTable();
         btnVerPerfilGatoSeleccionado = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        btnRegistrarGato = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -183,6 +184,13 @@ public class VistaVeterinario extends javax.swing.JFrame {
             }
         });
 
+        btnRegistrarGato.setText("Registrar Gato");
+        btnRegistrarGato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarGatoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -193,7 +201,9 @@ public class VistaVeterinario extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnVolver)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRegistrarGato)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnVerPerfilGatoSeleccionado)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -206,7 +216,8 @@ public class VistaVeterinario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVerPerfilGatoSeleccionado)
-                    .addComponent(btnVolver))
+                    .addComponent(btnVolver)
+                    .addComponent(btnRegistrarGato))
                 .addGap(220, 220, 220))
         );
 
@@ -369,8 +380,29 @@ public class VistaVeterinario extends javax.swing.JFrame {
         aplicarFiltros();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnRegistrarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarGatoActionPerformed
+        // 1. Crear la nueva instancia, enviando 'this' como la vista anterior
+            RegistrarGato registrarGato = new RegistrarGato(control, this);
+        try{
+            // 2. Mostrar la nueva ventana
+            registrarGato.setVisible(true);
+            registrarGato.setLocationRelativeTo(null);
+
+            // 3. Ocultar la ventana actual (VistaVoluntario)
+            this.setVisible(false);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Error al abrir el registro de gato: " + e.getMessage(),
+                "Error de Navegación",
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            }
+    }//GEN-LAST:event_btnRegistrarGatoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnRegistrarGato;
     private javax.swing.JButton btnVerPerfilGatoSeleccionado;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;

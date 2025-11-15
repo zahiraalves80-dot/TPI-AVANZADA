@@ -15,9 +15,9 @@ public class RegistrarGato extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarGato.class.getName());
     private final Controladora control;
     private String rutaFotoSeleccionada = "";
-    private final VistaVoluntario vistaVoluntario;
+    private final VistaGatosVoluntario vistaVoluntario;
     
-    public RegistrarGato(Controladora control,VistaVoluntario vistaVoluntario) {
+    public RegistrarGato(Controladora control,VistaGatosVoluntario vistaVoluntario) {
         this.control = control;
         this.vistaVoluntario = vistaVoluntario;
         initComponents();

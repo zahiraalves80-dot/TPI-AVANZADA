@@ -18,28 +18,36 @@ public class VistaVoluntario extends javax.swing.JFrame {
         initComponents();
         jLabel1.setText("Voluntario, " + usuario.getNombre());
     }
+   /* codigo de BOTON REGISTRAR GATO ANTERIORMENTEtry {
+            // 1. Crear la nueva instancia, enviando 'this' como la vista anterior
+            RegistrarGato registrarGato = new RegistrarGato(control, this);
 
+            // 2. Mostrar la nueva ventana
+            registrarGato.setVisible(true);
+            registrarGato.setLocationRelativeTo(null);
+
+            // 3. Ocultar la ventana actual (VistaVoluntario)
+            this.setVisible(false);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Error al abrir el registro de gato: " + e.getMessage(),
+                "Error de Navegación",
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        btnRegistrarGato = new javax.swing.JButton();
         btnRegistrarTarea = new javax.swing.JButton();
-        btnAsignarGato = new javax.swing.JButton();
-        btnGestionarVisitas = new javax.swing.JButton();
+        btnRegistrarGato1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        btnRegistrarGato.setText("Registrar Gato");
-        btnRegistrarGato.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarGatoActionPerformed(evt);
-            }
-        });
 
         btnRegistrarTarea.setText("Registrar Tarea");
         btnRegistrarTarea.addActionListener(new java.awt.event.ActionListener() {
@@ -48,17 +56,10 @@ public class VistaVoluntario extends javax.swing.JFrame {
             }
         });
 
-        btnAsignarGato.setText("Asignar Gato a Familia");
-        btnAsignarGato.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrarGato1.setText("Gestionar Gato");
+        btnRegistrarGato1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAsignarGatoActionPerformed(evt);
-            }
-        });
-
-        btnGestionarVisitas.setText("Gestionar Visitas");
-        btnGestionarVisitas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGestionarVisitasActionPerformed(evt);
+                btnRegistrarGato1ActionPerformed(evt);
             }
         });
 
@@ -69,24 +70,18 @@ public class VistaVoluntario extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGestionarVisitas, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAsignarGato, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegistrarTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegistrarGato, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRegistrarGato1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistrarTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnRegistrarGato)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRegistrarTarea)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAsignarGato)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGestionarVisitas)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addComponent(btnRegistrarGato1)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -122,7 +117,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -135,7 +130,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -150,45 +145,12 @@ public class VistaVoluntario extends javax.swing.JFrame {
         this.setVisible(false); // Ocultar el menú
     }//GEN-LAST:event_btnRegistrarTareaActionPerformed
 
-    private void btnAsignarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarGatoActionPerformed
-        
-    }//GEN-LAST:event_btnAsignarGatoActionPerformed
-
-    private void btnGestionarVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarVisitasActionPerformed
-        // 1. Crear instancia de la nueva ventana de gestión
-        VistaGestionarVisitas gestion = new VistaGestionarVisitas(this.control, this.voluntarioLogueado, this);
-        
-        // 2. Mostrar la nueva ventana
-        gestion.setVisible(true);
-        gestion.setLocationRelativeTo(this); // Centrarla
-        
-        // 3. Ocultar esta ventana (el menú de Voluntario)
-        this.setVisible(false);
-    }//GEN-LAST:event_btnGestionarVisitasActionPerformed
-
-    private void btnRegistrarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarGatoActionPerformed
-          try {
-        
-        RegistrarGato registrarGato = new RegistrarGato(this.control, this); 
-        
-        registrarGato.setVisible(true);
-        registrarGato.setLocationRelativeTo(null);
-        
-        // 3. Ocultar el menú de Voluntario
-        this.setVisible(false); 
-        
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this,
-            "Error al abrir el registro de gato: " + e.getMessage(),
-            "Error de Navegación",
-            JOptionPane.ERROR_MESSAGE);
-    }
-    }//GEN-LAST:event_btnRegistrarGatoActionPerformed
+    private void btnRegistrarGato1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarGato1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRegistrarGato1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAsignarGato;
-    private javax.swing.JButton btnGestionarVisitas;
-    private javax.swing.JButton btnRegistrarGato;
+    private javax.swing.JButton btnRegistrarGato1;
     private javax.swing.JButton btnRegistrarTarea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

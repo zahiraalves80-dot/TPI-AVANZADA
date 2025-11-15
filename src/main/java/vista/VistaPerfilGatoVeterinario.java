@@ -36,7 +36,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class VistaPerfilGato extends javax.swing.JFrame {
+public class VistaPerfilGatoVeterinario extends javax.swing.JFrame {
     
     // --- Variables de Lógica ---
     private final Gato gato;
@@ -50,7 +50,7 @@ public class VistaPerfilGato extends javax.swing.JFrame {
      * @param familia
      * @param control
      */
-    public VistaPerfilGato(Gato gato, FamiliaAdoptante familia, Controladora control) {
+    public VistaPerfilGatoVeterinario(Gato gato, FamiliaAdoptante familia, Controladora control) {
         this.gato = gato;
         this.familia = familia;
         this.control = control;
@@ -117,8 +117,10 @@ public class VistaPerfilGato extends javax.swing.JFrame {
         btnVerMapa = new javax.swing.JButton();
         btnVerQR = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
-        btnPostularse = new javax.swing.JButton();
+        btnEmitirCertificado = new javax.swing.JButton();
         lblObservacionesDato = new javax.swing.JLabel();
+        btnCambiarEstadoSalud = new javax.swing.JButton();
+        btnVerHistorialClinico = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -172,80 +174,104 @@ public class VistaPerfilGato extends javax.swing.JFrame {
             }
         });
 
-        btnPostularse.setText("Postularse");
-        btnPostularse.addActionListener(new java.awt.event.ActionListener() {
+        btnEmitirCertificado.setText("Emitir Certificado Aptitud");
+        btnEmitirCertificado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPostularseActionPerformed(evt);
+                btnEmitirCertificadoActionPerformed(evt);
             }
         });
 
         lblObservacionesDato.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblObservacionesDato.setText("OBSERVACIONES");
 
+        btnCambiarEstadoSalud.setText("Cambiar estado salud");
+        btnCambiarEstadoSalud.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCambiarEstadoSaludActionPerformed(evt);
+            }
+        });
+
+        btnVerHistorialClinico.setText("Ver Historial Clínico");
+        btnVerHistorialClinico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerHistorialClinicoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 76, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblEstadoSaludDato)
-                            .addComponent(lblGeneroDato)
-                            .addComponent(lblRazaDato)
-                            .addComponent(lblZonaDato)
-                            .addComponent(lblNombreDato)
-                            .addComponent(lblObservacionesDato)
-                            .addComponent(btnVerMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnVerQR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnPostularse, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)))
+                        .addGap(260, 260, 260)
+                        .addComponent(btnCerrar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
-                        .addComponent(btnCerrar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblObservacionesDato, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lblEstadoSaludDato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblGeneroDato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblZonaDato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblRazaDato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(btnVerQR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnEmitirCertificado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                                        .addComponent(btnCambiarEstadoSalud, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnVerHistorialClinico, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnVerMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(lblNombreDato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnVerMapa)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnVerQR)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEmitirCertificado)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCambiarEstadoSalud)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnVerHistorialClinico)))
                 .addGap(18, 18, 18)
-                .addComponent(lblNombreDato)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(lblNombreDato, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(lblRazaDato)
                 .addGap(18, 18, 18)
                 .addComponent(lblZonaDato)
                 .addGap(18, 18, 18)
                 .addComponent(lblGeneroDato)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(lblEstadoSaludDato)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblObservacionesDato)
                 .addGap(18, 18, 18)
-                .addComponent(btnVerMapa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnVerQR)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnPostularse)
-                .addGap(18, 18, 18)
+                .addComponent(lblObservacionesDato, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCerrar)
-                .addGap(16, 16, 16))
+                .addGap(10, 10, 10))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -329,7 +355,7 @@ public class VistaPerfilGato extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnVerQRActionPerformed
 
-    private void btnPostularseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostularseActionPerformed
+    private void btnEmitirCertificadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmitirCertificadoActionPerformed
         try {
             // 1. Obtener los IDs (ya los tenemos en las variables de clase)
             int idGato = (int) this.gato.getIdGato();
@@ -351,11 +377,21 @@ public class VistaPerfilGato extends javax.swing.JFrame {
             // Atrapa cualquier otro error
             JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnPostularseActionPerformed
+    }//GEN-LAST:event_btnEmitirCertificadoActionPerformed
+
+    private void btnCambiarEstadoSaludActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarEstadoSaludActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCambiarEstadoSaludActionPerformed
+
+    private void btnVerHistorialClinicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerHistorialClinicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerHistorialClinicoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCambiarEstadoSalud;
     private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnPostularse;
+    private javax.swing.JButton btnEmitirCertificado;
+    private javax.swing.JButton btnVerHistorialClinico;
     private javax.swing.JButton btnVerMapa;
     private javax.swing.JButton btnVerQR;
     private javax.swing.JPanel jPanel1;
