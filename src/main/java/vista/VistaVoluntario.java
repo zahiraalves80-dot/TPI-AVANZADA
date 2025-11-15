@@ -147,7 +147,12 @@ public class VistaVoluntario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarTareaActionPerformed
-        // TODO add your handling code here:
+        RegistrarTarea regTarea = new RegistrarTarea(this.control, this.voluntarioLogueado);
+        
+        // 2. Mostrar la ventana
+        regTarea.setVisible(true);
+        regTarea.setLocationRelativeTo(this);
+        this.setVisible(false); // Ocultar el menú
     }//GEN-LAST:event_btnRegistrarTareaActionPerformed
 
     private void btnAsignarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarGatoActionPerformed

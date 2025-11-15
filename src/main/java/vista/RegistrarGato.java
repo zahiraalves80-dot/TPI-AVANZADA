@@ -1,12 +1,19 @@
 package vista;
 
 import controladora.Controladora;
+import javax.swing.JScrollPane;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import modelo.OperacionException;
+import modelo.Zona;
 
 
 public class RegistrarGato extends javax.swing.JFrame {
-    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarGato.class.getName());
     private final Controladora control;
+   
     
     public RegistrarGato(Controladora control) {
         this.control = control;
@@ -26,14 +33,14 @@ public class RegistrarGato extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        NOMBRE = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        RAZA = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
-        jTextField3 = new javax.swing.JTextField();
+        COLOR = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
@@ -41,10 +48,11 @@ public class RegistrarGato extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         RegistrarGato = new javax.swing.JButton();
         jComboBox5 = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        SCROLL = new javax.swing.JScrollPane();
+        CARACTERISTICAS = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -71,17 +79,17 @@ public class RegistrarGato extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        NOMBRE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                NOMBREActionPerformed(evt);
             }
         });
 
         jLabel4.setText("Raza:");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        RAZA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                RAZAActionPerformed(evt);
             }
         });
 
@@ -93,9 +101,9 @@ public class RegistrarGato extends javax.swing.JFrame {
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Si", "No" }));
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        COLOR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                COLORActionPerformed(evt);
             }
         });
 
@@ -118,13 +126,25 @@ public class RegistrarGato extends javax.swing.JFrame {
 
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Si", "No" }));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        CARACTERISTICAS.setColumns(20);
+        CARACTERISTICAS.setRows(5);
+        SCROLL.setViewportView(CARACTERISTICAS);
 
         jLabel11.setText("Zona");
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Si", "No" }));
+        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox4ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Agregar Imagen");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -138,18 +158,21 @@ public class RegistrarGato extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(SCROLL, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel2)
                                     .addComponent(jComboBox1, 0, 155, Short.MAX_VALUE)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField3)
+                                    .addComponent(RAZA)
+                                    .addComponent(NOMBRE)
+                                    .addComponent(COLOR)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -174,11 +197,11 @@ public class RegistrarGato extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(NOMBRE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(RAZA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -186,7 +209,7 @@ public class RegistrarGato extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(COLOR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -203,11 +226,13 @@ public class RegistrarGato extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel9)
-                .addGap(5, 5, 5)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SCROLL, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(RegistrarGato)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
@@ -241,30 +266,124 @@ public class RegistrarGato extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    
+    
+    private void cargarZonas() {
+        try {
+            // Llama a la Controladora para obtener las zonas
+            List<Zona> zonas = control.traerTodasLasZonas();
+            
+            // Crea un modelo para el ComboBox (jComboBox4)
+            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+            model.addElement("-"); // Opción por defecto
+            
+            if (zonas != null) {
+                for (Zona z : zonas) {
+                    model.addElement(z.getNombreZona());
+                }
+            }
+            jComboBox4.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error al cargar zonas: " + e.getMessage(), 
+                "Error de Carga", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void NOMBREActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NOMBREActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_NOMBREActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void RAZAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RAZAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_RAZAActionPerformed
 
     private void RegistrarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarGatoActionPerformed
-          
+      // 1. Captura de Datos (Capa de Vista)
+        String nombre = NOMBRE.getText().trim();
+        String raza = RAZA.getText().trim();
+        // Usamos .getSelectedItem().toString() para los ComboBox
+        String sexo = jComboBox1.getSelectedItem().toString().trim();
+        String color = COLOR.getText().trim();
+        String esterilizado = jComboBox3.getSelectedItem().toString().trim();
+        String caracteristicas = CARACTERISTICAS.getText().trim();
+        String estadoSalud = jComboBox2.getSelectedItem().toString().trim(); 
+        String disponible = jComboBox5.getSelectedItem().toString().trim();
+        String nombreZona = jComboBox4.getSelectedItem().toString().trim(); 
+
+        try {
+            // 2. Llamada a la Lógica de Negocio (Capa de Controladora)
+            control.registrarGato(
+                nombre, raza, sexo, color, 
+                esterilizado, caracteristicas, 
+                estadoSalud, disponible, nombreZona
+            );
+            
+            // 3. Mostrar Mensaje de Éxito y Limpiar Campos (Capa de Vista)
+            JOptionPane.showMessageDialog(this, 
+                "✅ Gato " + nombre + " registrado con éxito.", 
+                "Registro Exitoso", 
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            limpiarCampos();
+
+        } catch (OperacionException e) {
+            // 4. Manejo de Errores de Negocio (Campos Vacíos, Zona Inválida, etc.)
+            JOptionPane.showMessageDialog(this, 
+                e.getMessage(), 
+                "Error de Registro", 
+                JOptionPane.WARNING_MESSAGE);
+        } catch (Exception e) {
+            // 5. Manejo de Errores Críticos (DB o sistema)
+             JOptionPane.showMessageDialog(this, 
+                "Error crítico: No se pudo guardar el gato. " + e.getMessage(), 
+                "Error de Sistema", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    // MÉTODO PARA LIMPIAR LA INTERFAZ
+    private void limpiarCampos() {
+        NOMBRE.setText("");      // Nombre
+        RAZA.setText("");      // Raza
+        COLOR.setText("");      // Color
+        CARACTERISTICAS.setText("");       // Caracteristicas/Observaciones
         
+        // Resetear ComboBox a la primera posición ("-")
+        jComboBox1.setSelectedIndex(0); 
+        jComboBox2.setSelectedIndex(0); 
+        jComboBox3.setSelectedIndex(0); 
+        jComboBox4.setSelectedIndex(0); 
+        jComboBox5.setSelectedIndex(0); 
+       
+      
     }//GEN-LAST:event_RegistrarGatoActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void COLORActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_COLORActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_COLORActionPerformed
+
+    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea CARACTERISTICAS;
+    private javax.swing.JTextField COLOR;
+    private javax.swing.JTextField NOMBRE;
+    private javax.swing.JTextField RAZA;
     private javax.swing.JButton RegistrarGato;
+    private javax.swing.JScrollPane SCROLL;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -283,10 +402,5 @@ public class RegistrarGato extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,9 +1,56 @@
 package vista;
 
-public class AsignarGato extends javax.swing.JFrame {
+import controladora.Controladora;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import modelo.FamiliaAdoptante;
+import modelo.Gato;
+import modelo.OperacionException;
 
-    public AsignarGato() {
+public class AsignarGato extends javax.swing.JFrame {
+    
+    class ComboBoxItem {
+        private long id;
+        private String display;
+        public ComboBoxItem(long id, String display) {
+            this.id = id;
+            this.display = display;
+        }
+        public long getId() { return id; }
+        @Override
+        public String toString() { return display; }
+    }
+    
+    private final Controladora control;
+
+    public AsignarGato(Controladora control) {
+        this.control = control;
         initComponents();
+    }
+    private void cargarDatos() {
+        try {
+            // Cargar Gatos Disponibles (jComboBox1)
+            List<Gato> gatos = control.traerGatosDisponibles();
+            DefaultComboBoxModel<ComboBoxItem> modeloGato = new DefaultComboBoxModel<>();
+            modeloGato.addElement(new ComboBoxItem(0, "Seleccionar Gato...")); 
+            for (Gato g : gatos) {
+                modeloGato.addElement(new ComboBoxItem(g.getIdGato(), g.getNombre() + " (" + g.getRaza() + ")"));
+            }
+            jComboBox1.setModel(modeloGato);
+
+            // Cargar Familias Adoptantes (jComboBox2)
+            List<FamiliaAdoptante> familias = control.traerTodasLasFamilias();
+            DefaultComboBoxModel<ComboBoxItem> modeloFamilia = new DefaultComboBoxModel<>();
+            modeloFamilia.addElement(new ComboBoxItem(0, "Seleccionar Familia...")); 
+            for (FamiliaAdoptante f : familias) {
+                modeloFamilia.addElement(new ComboBoxItem(f.getIdUsuario(), f.getNombre() + " (" + f.getdireccion() + ")"));
+            }
+            jComboBox2.setModel(modeloFamilia);
+
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Carga", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -34,6 +81,11 @@ public class AsignarGato extends javax.swing.JFrame {
         jLabel3.setText("Familia destino:");
 
         jButton1.setText("Asignar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,10 +142,42 @@ public class AsignarGato extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ComboBoxItem gatoItem = (ComboBoxItem) jComboBox1.getSelectedItem();
+        ComboBoxItem familiaItem = (ComboBoxItem) jComboBox2.getSelectedItem();
+        
+        long idGato = gatoItem.getId();
+        int idFamilia = (int) familiaItem.getId(); 
+
+        // 2. Validación de Vista
+        if (idGato == 0 || idFamilia == 0) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un gato y una familia válidos.", "Error de Selección", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // 3. Llamar a la lógica de negocio
+            control.asignarGatoAFamilia(idGato, idFamilia);
+            
+            // 4. Éxito y recarga/cierre
+            JOptionPane.showMessageDialog(this, 
+                "✅ Gato asignado exitosamente a: " + familiaItem.toString(), 
+                "Éxito en Adopción", 
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            this.dispose(); // Cierra la ventana tras la asignación
+
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Operación", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error crítico: " + e.getMessage(), "Error de Persistencia", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<ComboBoxItem> jComboBox1;
+    private javax.swing.JComboBox<ComboBoxItem> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

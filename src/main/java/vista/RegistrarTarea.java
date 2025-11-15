@@ -1,11 +1,33 @@
 package vista;
 
+import controladora.Controladora;
+import modelo.OperacionException;
+import modelo.Tarea;
+import modelo.Voluntario;
+import javax.swing.JOptionPane;
+import javax.swing.DefaultComboBoxModel;
+import java.util.Date;
+
 public class RegistrarTarea extends javax.swing.JFrame {
-    
+    private final Controladora control;
+    private final Voluntario voluntario;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarTarea.class.getName());
 
-    public RegistrarTarea() {
+    public RegistrarTarea(Controladora control, Voluntario voluntario) {
+        this.control = control;
+        this.voluntario = voluntario;
         initComponents();
+        cargarTipoTarea();
+    }
+    
+    private void cargarTipoTarea() {
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement("-");
+        for (Tarea.TipoTarea tipo : Tarea.TipoTarea.values()) {
+            // Muestra los nombres de los Enums (ej. ALIMENTACION)
+            model.addElement(tipo.toString()); 
+        }
+        jComboBox1.setModel(model); // Asumo que jComboBox1 es el Tipo de Tarea
     }
 
     @SuppressWarnings("unchecked")
@@ -40,6 +62,11 @@ public class RegistrarTarea extends javax.swing.JFrame {
         jLabel4.setText("Descripcion:");
 
         jButton1.setText("Registrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -112,6 +139,35 @@ public class RegistrarTarea extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      String fechaStr = jFormattedTextField1.getText().trim();
+        String tipoTareaStr = jComboBox1.getSelectedItem().toString().trim();
+        String descripcion = jTextField1.getText().trim(); // Asumo jTextField1 es la descripción
+        String nombreGato = "-";
+        
+        long idVoluntario = voluntario.getIdUsuario();
+        
+        try {
+            // 2. Llamar al controlador
+            control.registrarTarea(
+                idVoluntario, 
+                nombreGato, 
+                fechaStr, 
+                tipoTareaStr, 
+                descripcion
+            );
+            
+            JOptionPane.showMessageDialog(this, "✅ Tarea registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            // Cierra la ventana:
+            this.dispose();
+
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Registro", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error crítico: " + e.getMessage(), "Error de Sistema", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

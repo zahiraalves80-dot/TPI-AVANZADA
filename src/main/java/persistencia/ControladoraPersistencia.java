@@ -12,7 +12,9 @@ import modelo.Voluntario;
 import modelo.Gato;
 import modelo.Postulacion; 
 import java.util.List;
+import modelo.Tarea;
 import modelo.Visita;
+import modelo.Zona;
 
 
 
@@ -194,8 +196,66 @@ public class ControladoraPersistencia {
             em.close();
         }
     }
+    
+    public void crearGato(Gato gato) throws Exception {
+        // Delega la operación al GatoJpaController
+        gatoJpa.create(gato);
+    }
+    
+    public Zona buscarZonaPorNombre(String nombreZona) {
+        EntityManager em = zonaJpa.getEntityManager();
+        try {
+            // JPQL para encontrar la Zona por su nombre
+            TypedQuery<Zona> query = em.createQuery(
+                "SELECT z FROM Zona z WHERE z.nombreZona = :nombreZona", 
+                Zona.class
+            );
+            query.setParameter("nombreZona", nombreZona);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            // Retorna null si la zona no existe (se valida en la Controladora)
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Zona> traerTodasLasZonas() {
+        // Llama al método del JpaController que devuelve todas las zonas
+        return zonaJpa.findZonaEntities();
+    }
+    
     public List<FamiliaAdoptante> traerTodasLasFamilias() {
-        // Llama al método del JpaController que SÍ está visible aquí
+    try {
+        // Asumo que tienes FamiliaAdoptanteJpaController (familiaAdoptanteJpa)
         return familiaAdoptanteJpa.findFamiliaAdoptanteEntities();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
     }
 }
+
+// --- Método para actualizar un gato (reutiliza el JpaController) ---
+public void modificarGato(Gato gato) throws Exception {
+    // Asumo que tienes GatoJpaController (gatoJpa)
+    gatoJpa.edit(gato); 
+}
+public void crearTarea(Tarea tarea) throws Exception {
+    // Asumo que tienes TareaJpaController (tareaJpa)
+    tareaJpa.create(tarea);
+}
+
+
+public Voluntario buscarVoluntario(long idVoluntario) {
+  
+    return voluntarioJpa.findVoluntario((int)idVoluntario);
+}
+
+
+public Gato buscarGatoPorNombre(String nombreGato) {
+     
+    return null; 
+}
+
+}
+    
