@@ -122,7 +122,7 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("Gestionar Historias Clínicas");
+        jLabel1.setText("Gestionar Reportes");
 
         jLabel2.setText("Nombre del gato:");
 

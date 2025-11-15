@@ -197,7 +197,7 @@ public class IniciarSesion extends javax.swing.JFrame {
                     panelAdmin.setLocationRelativeTo(null);
                     break;
                 case "VETERINARIO":
-                    VistaVeterinario panelVet = new VistaVeterinario(); //
+                    VistaVeterinario panelVet = new VistaVeterinario(control, usuarioValidado); //
                     panelVet.setVisible(true);
                     panelVet.setLocationRelativeTo(null);
                     break;
