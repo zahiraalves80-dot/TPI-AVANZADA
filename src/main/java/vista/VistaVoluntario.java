@@ -49,7 +49,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnGestionarTareas.setText("Registrar Tarea");
+        btnGestionarTareas.setText("Gestionar Tareas");
         btnGestionarTareas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGestionarTareasActionPerformed(evt);
