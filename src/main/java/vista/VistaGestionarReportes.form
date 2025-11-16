@@ -83,6 +83,8 @@
                               <Component id="btnVerReporte" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnRegistrarReporte" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -100,6 +102,7 @@
                           <Component id="btnRegistrarReporte" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVolver" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVerReporte" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="220" max="-2" attributes="0"/>
                   </Group>
@@ -130,7 +133,7 @@
             </Container>
             <Component class="javax.swing.JButton" name="btnRegistrarReporte">
               <Properties>
-                <Property name="text" type="java.lang.String" value=" Registrar Reporte"/>
+                <Property name="text" type="java.lang.String" value=" Registrar "/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarReporteActionPerformed"/>
@@ -146,10 +149,18 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnVerReporte">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ver Reporte Seleccionado"/>
+                <Property name="text" type="java.lang.String" value="Modificar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVerReporteActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Eliminar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

@@ -15,18 +15,18 @@ import modelo.Usuario;
 public class VistaGatosVoluntario extends javax.swing.JFrame {
     
    private final Controladora control;
-    private final Usuario veterinario; // Guardamos el usuario veterinario
+    private final Usuario veterinario;
+    private final Usuario voluntarioLogueado;
+    private final VistaVoluntario vistaVoluntarioAnterior;
     private DefaultTableModel modeloTabla;
     private TableRowSorter<TableModel> sorter;
 
-    /**
-     * Constructor para la VistaVeterinario.
-     * @param control La controladora principal de la aplicación.
-     * @param usuario El objeto Usuario (Veterinario) que ha iniciado sesión.
-     */
-    public VistaGatosVoluntario(Controladora control, Usuario usuario) {
+
+    public VistaGatosVoluntario(Controladora control, Usuario usuario, VistaVoluntario vistaAnterior) {
         this.control = control;
         this.veterinario = usuario;
+        this.voluntarioLogueado = usuario;
+        this.vistaVoluntarioAnterior = vistaAnterior;
         initComponents();
         configurarTabla(); // Prepara la JTable y el sorter
         cargarGatos();     // Carga los datos iniciales
@@ -337,16 +337,13 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
      */
     private void btnVerPerfilGatoSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPerfilGatoSeleccionadoActionPerformed
         long idGato = getIdGatoSeleccionado();
-        if (idGato == -1) return; // Error ya mostrado
+        if (idGato == -1) return; 
 
         try {
             // 1. Buscar el objeto Gato completo
             Gato gato = control.buscarGatoCompleto((int) idGato); //
             
-            // 2. Un veterinario no es una familia y no puede postularse.
-            // Pasamos 'null' como familia a la VistaPerfilGatoFamilia.
-            // (La VistaPerfilGatoFamilia debe estar preparada para manejar un 'null'
-            // y desactivar el botón "Postularse" si la familia es null).
+            
             FamiliaAdoptante familia = null; 
             
             // 3. Abrir la vista de perfil

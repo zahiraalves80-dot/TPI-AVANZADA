@@ -147,7 +147,7 @@ public class IniciarSesion extends javax.swing.JFrame {
     private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
        try {
             // 1. Crear una instancia de la nueva ventana de registro
-            Registrarse regFamilia = new Registrarse();
+            Registrarse regFamilia = new Registrarse(this.control);
             
             // 2. Hacer visible la nueva ventana
             regFamilia.setLocationRelativeTo(null); 

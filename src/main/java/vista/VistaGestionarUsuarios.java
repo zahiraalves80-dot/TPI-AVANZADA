@@ -22,9 +22,101 @@ import modelo.OperacionException;
 import modelo.Usuario;
 import modelo.Visita;
 import modelo.Voluntario;
+import modelo.Usuario;
+import modelo.Veterinario; 
+import javax.swing.JFrame;
 
 public class VistaGestionarUsuarios extends javax.swing.JFrame {
+    private final Controladora control;
+    private final VistaAdministrador vistaAnterior;
     
+    private DefaultTableModel modeloTabla;
+    private TableRowSorter<TableModel> sorter;
+    
+    public VistaGestionarUsuarios(Controladora control, VistaAdministrador vistaAnterior) {
+        this.control = control;
+        this.vistaAnterior = vistaAnterior;
+        initComponents();
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        configurarTabla(); 
+        cargarUsuarios();
+    }
+    
+    
+    public VistaGestionarUsuarios() {
+        this.control = null;
+        this.vistaAnterior = null;
+        initComponents();
+    }
+    
+    private void configurarTabla() {
+        // Incluyo 'Teléfono' y 'Dirección' para tener más datos
+        String titulos[] = {"ID", "Nombre", "Correo", "Rol", "Teléfono"};
+        modeloTabla = new DefaultTableModel(null, titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        };
+        jTableUsuarios.setModel(modeloTabla);
+        
+        sorter = new TableRowSorter<>(modeloTabla);
+        jTableUsuarios.setRowSorter(sorter);
+        
+        // Ocultar Columna ID (0)
+        jTableUsuarios.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableUsuarios.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(0);
+    
+        // Listener para el filtro
+        jTextFieldFiltroNombreUsuario.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) { filtrarTabla(); }
+            public void removeUpdate(DocumentEvent e) { filtrarTabla(); }
+            public void insertUpdate(DocumentEvent e) { filtrarTabla(); }
+        });
+    }
+
+    private void cargarUsuarios() {
+        modeloTabla.setRowCount(0); // Limpiar tabla
+        try {
+            // Asumo que este método existe en Controladora y devuelve List<Usuario>
+            List<Usuario> usuarios = control.traerTodosLosUsuarios(); 
+            if (usuarios != null) {
+                for (Usuario u : usuarios) {
+                    Object[] fila = {
+                        u.getIdUsuario(), 
+                        u.getNombre(), 
+                        u.getCorreo(), 
+                        u.getRol(), 
+                        u.getTelefono() 
+                    };
+                    modeloTabla.addRow(fila);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar usuarios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void filtrarTabla() {
+        String filtro = jTextFieldFiltroNombreUsuario.getText();
+        if (!filtro.isEmpty()) {
+            // Filtra por la columna 1 (Nombre)
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtro, 1)); 
+        } else {
+            sorter.setRowFilter(null);
+        }
+    }
+    
+    private int getIdSeleccionado() {
+        int filaVista = jTableUsuarios.getSelectedRow();
+        if (filaVista == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
+            return -1;
+        }
+        // Convierte el índice de la vista al índice del modelo
+        int filaModelo = jTableUsuarios.convertRowIndexToModel(filaVista);
+        return (int) modeloTabla.getValueAt(filaModelo, 0); // Columna 0 = ID
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -193,27 +285,152 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldFiltroNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroNombreUsuarioActionPerformed
-        // TODO add your handling code here:
+        filtrarTabla();
     }//GEN-LAST:event_jTextFieldFiltroNombreUsuarioActionPerformed
 
     private void btnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuarioActionPerformed
-       
+       int idUsuario = getIdSeleccionado();
+       if (idUsuario == -1) return;
+
+       try {
+           Usuario usuario = control.buscarUsuario(idUsuario);
+           if (usuario == null) {
+               JOptionPane.showMessageDialog(this, "Usuario no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+               return;
+           }
+
+           // --- 1. Crear el formulario de modificación con valores actuales ---
+           JPanel panelForm = new JPanel(new java.awt.GridLayout(0, 2, 5, 5));
+           
+           JTextField txtNombre = new JTextField(usuario.getNombre());
+           JTextField txtCorreo = new JTextField(usuario.getCorreo());
+           JTextField txtTelefono = new JTextField(String.valueOf((int)usuario.getTelefono()));
+           JTextField txtDireccion = new JTextField(usuario.getdireccion());
+           JTextField txtMatricula = new JTextField();
+           
+           boolean esVeterinario = usuario.getRol().equals("VETERINARIO");
+           if (esVeterinario) {
+               Veterinario vet = (Veterinario)usuario;
+               txtMatricula.setText(String.valueOf(vet.getMatricula()));
+           }
+           
+           // Construcción del formulario
+           panelForm.add(new JLabel("ID (Rol):"));
+           panelForm.add(new JLabel(String.valueOf(idUsuario) + " (" + usuario.getRol() + ")"));
+           panelForm.add(new JLabel("Nombre:"));
+           panelForm.add(txtNombre);
+           panelForm.add(new JLabel("Correo:"));
+           panelForm.add(txtCorreo);
+           panelForm.add(new JLabel("Teléfono:"));
+           panelForm.add(txtTelefono);
+           panelForm.add(new JLabel("Dirección:"));
+           panelForm.add(txtDireccion);
+           
+           if (esVeterinario) {
+               panelForm.add(new JLabel("Matrícula:"));
+               panelForm.add(txtMatricula);
+           }
+           
+           int resultado = JOptionPane.showConfirmDialog(this, panelForm, "Modificar Usuario", 
+                                                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+           if (resultado == JOptionPane.OK_OPTION) {
+               // --- 2. Recopilar y validar datos ---
+               String nombre = txtNombre.getText().trim();
+               String correo = txtCorreo.getText().trim();
+               String telefonoStr = txtTelefono.getText().trim();
+               String direccion = txtDireccion.getText().trim();
+
+               if (nombre.isEmpty() || correo.isEmpty() || telefonoStr.isEmpty() || direccion.isEmpty()) {
+                   JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error de Validación", JOptionPane.WARNING_MESSAGE);
+                   return;
+               }
+
+               double telefono = 0;
+               try {
+                   telefono = Double.parseDouble(telefonoStr);
+               } catch (NumberFormatException e) {
+                   JOptionPane.showMessageDialog(this, "El teléfono debe ser un número válido.", "Error de Validación", JOptionPane.WARNING_MESSAGE);
+                   return;
+               }
+               
+               // --- 3. Aplicar cambios al objeto y persistir ---
+               usuario.setNombre(nombre);
+               usuario.setCorreo(correo);
+               usuario.setTelefono(telefono);
+               usuario.setdireccion(direccion);
+
+               if (esVeterinario) {
+                   String matriculaStr = txtMatricula.getText().trim();
+                   if (matriculaStr.isEmpty()) {
+                       JOptionPane.showMessageDialog(this, "La matrícula es obligatoria para veterinarios.", "Error de Validación", JOptionPane.WARNING_MESSAGE);
+                       return;
+                   }
+                   int matricula = 0;
+                   try {
+                       matricula = Integer.parseInt(matriculaStr);
+                   } catch (NumberFormatException e) {
+                       JOptionPane.showMessageDialog(this, "La matrícula debe ser un número entero.", "Error de Validación", JOptionPane.WARNING_MESSAGE);
+                       return;
+                   }
+                   ((Veterinario)usuario).setMatricula(matricula);
+               }
+
+               control.modificarUsuario(usuario);
+               
+               JOptionPane.showMessageDialog(this, "✅ Usuario modificado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+               cargarUsuarios(); // Recargar la tabla
+           }
+
+       } catch (OperacionException e) {
+           JOptionPane.showMessageDialog(this, "Error de operación: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+       } catch (Exception e) {
+           JOptionPane.showMessageDialog(this, "Error inesperado al modificar: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
+       }
     }//GEN-LAST:event_btnModificarUsuarioActionPerformed
 
     private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
-        
+        int idUsuario = getIdSeleccionado();
+        if (idUsuario == -1) return;
+
+        int confirmacion = JOptionPane.showConfirmDialog(this, 
+            "¿Está seguro de que desea eliminar el usuario ID: " + idUsuario + "? Esta acción es irreversible.", 
+            "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                control.eliminarUsuario(idUsuario); 
+                JOptionPane.showMessageDialog(this, " Usuario eliminado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarUsuarios(); // Recargar la tabla
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al eliminar el usuario: " + e.getMessage() + ". Asegúrese de que no tenga datos asociados.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
-/**
-     * Cierra esta ventana y muestra la anterior.
-     */
+
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       
+       this.vistaAnterior.setVisible(true); 
+       this.dispose(); 
     }//GEN-LAST:event_btnVolverActionPerformed
-/**
-     * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
-     */
+
     private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
+        try {
+        // 1. Crear la instancia de la ventana Registrarse, pasándole la Controladora.
+        // Esto es VITAL para que Registrarse.java pueda llamar a control.crearUsuario().
+        Registrarse panelRegistro = new Registrarse(this.control); 
         
+        // 2. Mostrar la nueva ventana
+        panelRegistro.setVisible(true);
+        panelRegistro.setLocationRelativeTo(null);
+        
+
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, 
+            "Error al abrir la ventana de registro: " + e.getMessage(), 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

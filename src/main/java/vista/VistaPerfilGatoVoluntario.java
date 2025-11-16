@@ -370,7 +370,17 @@ public class VistaPerfilGatoVoluntario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEmitirCertificadoActionPerformed
 
     private void btnAsignarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarGatoActionPerformed
-        // TODO add your handling code here:
+        try {
+        
+        AsignarGato asignarGato = new AsignarGato(this.control); 
+
+       
+        asignarGato.setVisible(true);
+        asignarGato.setLocationRelativeTo(this);
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al abrir la ventana de asignación: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnAsignarGatoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

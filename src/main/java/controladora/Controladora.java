@@ -13,6 +13,7 @@ import modelo.Estudio;
 import modelo.HistoriaClinica;
 import modelo.LoginException;
 import modelo.RegistroException;
+import modelo.Reporte;
 import modelo.Tarea;
 import modelo.Tratamiento;
 import modelo.Usuario;
@@ -20,6 +21,7 @@ import modelo.Veterinario;
 import modelo.Visita;
 import modelo.Voluntario;
 import modelo.Zona;
+import persistencia.exceptions.NonexistentEntityException;
 
 public class Controladora {
     
@@ -445,4 +447,173 @@ public class Controladora {
     public Zona buscarZona(long idZona) {
         return controlpersis.buscarZona(idZona);
     }
+    
+    public List<Usuario> traerTodosLosUsuarios() {
+        // No hay lógica de negocio compleja, se delega directamente.
+        return controlpersis.traerTodosLosUsuarios();
+    }
+    
+    
+    public Usuario buscarUsuario(int id) {
+        // Se utiliza en la lógica de Modificar de la vista.
+        return controlpersis.buscarUsuario(id);
+    }
+    
+    
+    public void modificarUsuario(Usuario usuario) throws OperacionException {
+        // 🚨 Aquí iría la validación de negocio (ej: validar formato de correo, etc.)
+        if (usuario.getNombre().isEmpty() || usuario.getCorreo().isEmpty()) {
+            throw new OperacionException("El nombre y correo del usuario son obligatorios.");
+        }
+        
+        try {
+            controlpersis.modificarUsuario(usuario);
+        } catch (NonexistentEntityException ex) {
+            // El objeto de persistencia no existía. Se convierte a una excepción de negocio.
+            throw new OperacionException("El usuario a modificar ya no existe en la base de datos.", ex);
+        } catch (Exception ex) {
+            // Error genérico de persistencia.
+            throw new OperacionException("Error inesperado al intentar modificar el usuario.", ex);
+        }
+    }
+    
+    
+    public void eliminarUsuario(int id) throws OperacionException {
+        try {
+            controlpersis.eliminarUsuario(id);
+        } catch (NonexistentEntityException ex) {
+            throw new OperacionException("No se puede eliminar el usuario: no existe en la base de datos.", ex);
+        } catch (Exception ex) {
+            // Este catch es vital para capturar errores de FK (Foreign Key)
+            throw new OperacionException("Error al eliminar el usuario. Revise si tiene datos asociados (ej: reportes, gatos, etc.)", ex);
+        }
+    }
+    
+    
+    public void registrarReporte(int cantidad, String descripcion) throws OperacionException {
+        
+        if (cantidad <= 0 || descripcion.isEmpty()) {
+            throw new OperacionException("La cantidad debe ser positiva y la descripción del reporte es obligatoria.");
+        }
+        
+        try {
+            Reporte nuevoReporte = new Reporte();
+            nuevoReporte.setCantidad(cantidad);
+            nuevoReporte.setDescripcion(descripcion);
+            nuevoReporte.setFechaReporte(LocalDate.now()); 
+            // Nota: Si Reporte requiere Administrador, se debería pasar aquí el objeto Administrador logueado.
+            
+            controlpersis.crearReporte(nuevoReporte);
+        } catch (Exception e) {
+            throw new OperacionException("Error al registrar el reporte: " + e.getMessage(), e);
+        }
+    }
+    
+    /**
+     * Trae todos los Reportes del sistema.
+     */
+    public List<Reporte> traerTodosLosReportes() throws OperacionException {
+        try {
+            List<Reporte> reportes = controlpersis.traerTodosLosReportes();
+            if (reportes == null || reportes.isEmpty()) {
+                throw new OperacionException("No hay reportes registrados en el sistema.");
+            }
+            return reportes;
+        } catch (Exception e) {
+            throw new OperacionException("Error al traer los reportes: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Busca un Reporte por su ID.
+     */
+    public Reporte buscarReporte(long id) throws OperacionException {
+        Reporte reporte = controlpersis.buscarReporte(id);
+        if (reporte == null) {
+            throw new OperacionException("Reporte no encontrado con ID: " + id);
+        }
+        return reporte;
+    }
+    
+    /**
+     * Modifica un Reporte existente.
+     */
+    public void modificarReporte(long id, int cantidad, String descripcion) throws OperacionException {
+        // 🚨 Validación de negocio
+        if (cantidad <= 0 || descripcion.isEmpty()) {
+            throw new OperacionException("La cantidad debe ser positiva y la descripción es obligatoria.");
+        }
+        
+        try {
+            Reporte reporte = buscarReporte(id); // Reutiliza el método de búsqueda
+            
+            reporte.setCantidad(cantidad);
+            reporte.setDescripcion(descripcion);
+            // La fecha no se modifica para mantener la fecha original del reporte.
+            
+            controlpersis.modificarReporte(reporte);
+            
+        } catch (NonexistentEntityException ex) {
+            throw new OperacionException("El reporte que intenta modificar no existe.", ex);
+        } catch (Exception ex) {
+            throw new OperacionException("Error al modificar el reporte: " + ex.getMessage(), ex);
+        }
+    }
+
+    /**
+     * Elimina un Reporte por su ID.
+     */
+    public void eliminarReporte(long id) throws OperacionException {
+        try {
+            controlpersis.eliminarReporte(id);
+        } catch (NonexistentEntityException ex) {
+            throw new OperacionException("El reporte que intenta eliminar no existe.", ex);
+        } catch (Exception ex) {
+            throw new OperacionException("Error crítico al eliminar el reporte: " + ex.getMessage(), ex);
+        }
+    }
+    
+    public List<Postulacion> traerTodasLasPostulaciones() throws OperacionException {
+    try {
+        List<Postulacion> postulaciones = controlpersis.traerTodasLasPostulaciones();
+        if (postulaciones == null || postulaciones.isEmpty()) {
+            throw new OperacionException("No hay postulaciones registradas en el sistema.");
+        }
+        return postulaciones;
+    } catch (Exception e) {
+        throw new OperacionException("Error al traer postulaciones: " + e.getMessage(), e);
+    }
+}
+
+public Postulacion buscarPostulacionPorId(long id) throws OperacionException {
+    Postulacion p = controlpersis.buscarPostulacion(id); // Asumo controlpersis.buscarPostulacion(long)
+    if (p == null) {
+        throw new OperacionException("Postulación no encontrada.");
+    }
+    return p;
+}
+
+public void cambiarEstadoPostulacion(long idPostulacion, Postulacion.Estado nuevoEstado) throws OperacionException {
+    try {
+        Postulacion p = controlpersis.buscarPostulacion(idPostulacion);
+        if (p == null) {
+            throw new OperacionException("Postulación no encontrada para modificar el estado.");
+        }
+        
+        p.setEstado(nuevoEstado);
+        controlpersis.modificarPostulacion(p);
+        
+        // 🟢 Lógica de Asignación si se APROBÓ
+        if (nuevoEstado == Postulacion.Estado.APROBADA) {
+             long idGato = p.getGatoRelacionado().getIdGato();
+             int idFamilia = p.getFamiliaPostulante().getIdUsuario();
+             
+             // Esto marcará el gato como NO disponible y le asignará la familia.
+             this.asignarGatoAFamilia(idGato, idFamilia); // Ya existe en su Controladora
+        }
+        
+    } catch (Exception ex) {
+        throw new OperacionException("Error al cambiar el estado de la postulación.", ex);
+    }
+}
 }

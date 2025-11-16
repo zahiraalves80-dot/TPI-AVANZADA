@@ -14,6 +14,7 @@ import modelo.Postulacion;
 import java.util.List;
 import modelo.Estudio;
 import modelo.HistoriaClinica;
+import modelo.Reporte;
 import modelo.Tarea;
 import modelo.Tratamiento;
 import modelo.Visita;
@@ -341,6 +342,47 @@ public void modificarUsuario(Usuario usuario) throws NonexistentEntityException,
 public void eliminarUsuario(int id) throws NonexistentEntityException {
     usuarioJpa.destroy(id);
 }
+
+public void crearReporte(Reporte reporte) throws Exception {
+        reporteJpa.create(reporte);
+    }
+    
+    public List<Reporte> traerTodosLosReportes() {
+        // Utiliza el método que trae todas las entidades
+        return reporteJpa.findReporteEntities();
+    }
+    
+    public Reporte buscarReporte(long id) {
+        // Utiliza el método que busca por ID
+        return reporteJpa.findReporte(id);
+    }
+    
+    public void modificarReporte(Reporte reporte) throws NonexistentEntityException, Exception {
+        reporteJpa.edit(reporte);
+    }
+    
+    public void eliminarReporte(long id) throws NonexistentEntityException {
+        reporteJpa.destroy(id);
+    }
+    public List<Postulacion> traerTodasLasPostulaciones() {
+        // Delega al método que trae todas las entidades
+        return postulacionJpa.findPostulacionEntities();
+    }
+    
+    
+    public Postulacion buscarPostulacion(long id) {
+        // Delega al método findPostulacion
+        return postulacionJpa.findPostulacion(id);
+    }
+    
+    
+    public void modificarPostulacion(Postulacion postulacion) throws Exception {
+        // Delega la operación al JpaController
+        postulacionJpa.edit(postulacion);
+    }
+    
+    
+
 
 
 

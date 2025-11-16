@@ -44,6 +44,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         btnGestionarTareas = new javax.swing.JButton();
         btnGestionarGato = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -63,6 +64,13 @@ public class VistaVoluntario extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Ver postulaciones");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -70,6 +78,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGestionarGato, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGestionarTareas, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
@@ -81,7 +90,9 @@ public class VistaVoluntario extends javax.swing.JFrame {
                 .addComponent(btnGestionarTareas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGestionarGato)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -146,12 +157,38 @@ public class VistaVoluntario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionarTareasActionPerformed
 
     private void btnGestionarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarGatoActionPerformed
-        // TODO add your handling code here:
+        try {
+        // 1. Crear la instancia de VistaGatosVoluntario, pasando el control,
+        // el usuario Voluntario logueado y 'this' como vista anterior.
+        VistaGatosVoluntario vistaGatos = new VistaGatosVoluntario(
+            this.control, 
+            this.voluntarioLogueado, 
+            this // Referencia a VistaVoluntario
+        ); 
+
+        // 2. Mostrar la nueva ventana
+        vistaGatos.setVisible(true);
+        vistaGatos.setLocationRelativeTo(null); 
+
+        // 3. Ocultar la ventana actual
+        this.setVisible(false);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+            "Error al abrir la gestión de gatos: " + e.getMessage(),
+            "Error de Navegación",
+            JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnGestionarGatoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGestionarGato;
     private javax.swing.JButton btnGestionarTareas;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

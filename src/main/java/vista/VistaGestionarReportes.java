@@ -17,14 +17,84 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import controladora.Controladora;
+import java.awt.Panel;
+import javax.swing.JFrame;
 import modelo.FamiliaAdoptante;
 import modelo.OperacionException;
+import modelo.Reporte;
 import modelo.Usuario;
 import modelo.Visita;
 import modelo.Voluntario;
 
 public class VistaGestionarReportes extends javax.swing.JFrame {
+    private final Controladora control;
+    private final VistaAdministrador vistaAnterior;
+    private DefaultTableModel modeloTabla;
+    private TableRowSorter<TableModel> sorter;
     
+    public VistaGestionarReportes(Controladora control, VistaAdministrador vistaAnterior) {
+        this.control = control;
+        this.vistaAnterior = vistaAnterior;
+        initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        configurarTabla();
+        cargarReportes(); 
+    }
+    
+    public VistaGestionarReportes() {
+        this.control = null;
+        this.vistaAnterior = null;
+        initComponents();
+    }
+    
+    // MÉTODOS DE SOPORTE DE TABLA
+    private void configurarTabla() {
+        // Ajuste las columnas según sus atributos de Reporte (ID, Fecha, Cantidad, Descripción)
+        String titulos[] = {"ID", "Fecha", "Cantidad", "Descripción"};
+        modeloTabla = new DefaultTableModel(null, titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        };
+        jTableReportes.setModel(modeloTabla);
+        sorter = new TableRowSorter<>(modeloTabla);
+        jTableReportes.setRowSorter(sorter);
+        
+        // Ocultar Columna ID (0)
+        jTableReportes.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableReportes.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableReportes.getColumnModel().getColumn(0).setPreferredWidth(0);
+    }
+    
+    private void cargarReportes() {
+        modeloTabla.setRowCount(0);
+        try {
+            // Se asume que existe un método para traer todos los reportes
+            List<Reporte> reportes = control.traerTodosLosReportes(); 
+            if (reportes != null) {
+                for (Reporte r : reportes) {
+                    Object[] fila = {
+                        r.getIdReporte(),
+                        r.getFechaReporte().toString(),
+                        r.getCantidad(),
+                        r.getDescripcion()
+                    };
+                    modeloTabla.addRow(fila);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar reportes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private long getIdReporteSeleccionado() {
+        int filaVista = jTableReportes.getSelectedRow();
+        if (filaVista == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un reporte de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
+            return -1;
+        }
+        int filaModelo = jTableReportes.convertRowIndexToModel(filaVista);
+        return (long) modeloTabla.getValueAt(filaModelo, 0); 
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -37,6 +107,7 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
         btnRegistrarReporte = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         btnVerReporte = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -59,7 +130,7 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTableReportes);
 
-        btnRegistrarReporte.setText(" Registrar Reporte");
+        btnRegistrarReporte.setText(" Registrar ");
         btnRegistrarReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarReporteActionPerformed(evt);
@@ -73,10 +144,17 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
             }
         });
 
-        btnVerReporte.setText("Ver Reporte Seleccionado");
+        btnVerReporte.setText("Modificar");
         btnVerReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerReporteActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Eliminar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -94,6 +172,8 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
                         .addComponent(btnVerReporte)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnRegistrarReporte)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -106,7 +186,8 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrarReporte)
                     .addComponent(btnVolver)
-                    .addComponent(btnVerReporte))
+                    .addComponent(btnVerReporte)
+                    .addComponent(jButton1))
                 .addGap(220, 220, 220))
         );
 
@@ -204,13 +285,40 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
      * Cierra esta ventana y muestra la anterior.
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       
+        if (vistaAnterior != null) {
+            this.vistaAnterior.setVisible(true);
+        }
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
-/**
-     * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
-     */
+
     private void btnRegistrarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarReporteActionPerformed
-        
+        JPanel panelForm = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
+        JTextField txtCantidad = new JTextField(10);
+        JTextArea txtDescripcion = new JTextArea(5, 20);
+
+        panelForm.add(new JLabel("Cantidad:"));
+        panelForm.add(txtCantidad);
+        panelForm.add(new JLabel("Descripción:"));
+        panelForm.add(new JScrollPane(txtDescripcion));
+
+        int resultado = JOptionPane.showConfirmDialog(this, panelForm, "Registrar Nuevo Reporte", 
+                                                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (resultado == JOptionPane.OK_OPTION) {
+            try {
+                int cantidad = Integer.parseInt(txtCantidad.getText().trim());
+                String descripcion = txtDescripcion.getText().trim();
+
+                control.registrarReporte(cantidad, descripcion);
+                
+                JOptionPane.showMessageDialog(this, "✅ Reporte registrado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarReportes();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            } catch (OperacionException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Negocio", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnRegistrarReporteActionPerformed
 
     private void jTextFieldFiltroFechaReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroFechaReporteActionPerformed
@@ -222,13 +330,65 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldFiltroTipoReporteActionPerformed
 
     private void btnVerReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerReporteActionPerformed
-        // TODO add your handling code here:
+        long idReporte = getIdReporteSeleccionado();
+        if (idReporte == -1) return;
+        
+        try {
+            Reporte reporte = control.buscarReporte(idReporte);
+            
+            JPanel panelForm = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
+            JTextField txtCantidad = new JTextField(String.valueOf(reporte.getCantidad()), 10);
+            JTextArea txtDescripcion = new JTextArea(reporte.getDescripcion(), 5, 20);
+
+            panelForm.add(new JLabel("ID: " + idReporte + " (Fecha: " + reporte.getFechaReporte() + ")"));
+            panelForm.add(new JLabel("Nueva Cantidad:"));
+            panelForm.add(txtCantidad);
+            panelForm.add(new JLabel("Nueva Descripción:"));
+            panelForm.add(new JScrollPane(txtDescripcion));
+
+            int resultado = JOptionPane.showConfirmDialog(this, panelForm, "Modificar Reporte", 
+                                                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            if (resultado == JOptionPane.OK_OPTION) {
+                int cantidad = Integer.parseInt(txtCantidad.getText().trim());
+                String descripcion = txtDescripcion.getText().trim();
+                
+                control.modificarReporte(idReporte, cantidad, descripcion);
+                
+                JOptionPane.showMessageDialog(this, "✅ Reporte modificado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarReportes(); 
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Negocio", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnVerReporteActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        long idReporte = getIdReporteSeleccionado();
+        if (idReporte == -1) return;
+
+        int confirmacion = JOptionPane.showConfirmDialog(this, 
+            "¿Está seguro de que desea eliminar el reporte ID: " + idReporte + "?", 
+            "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                control.eliminarReporte(idReporte); 
+                JOptionPane.showMessageDialog(this, "✅ Reporte eliminado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarReportes(); 
+            } catch (OperacionException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Eliminación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrarReporte;
     private javax.swing.JButton btnVerReporte;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

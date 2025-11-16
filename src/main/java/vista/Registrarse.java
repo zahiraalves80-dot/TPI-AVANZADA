@@ -12,9 +12,11 @@ public class Registrarse extends javax.swing.JFrame {
     /**
      * Creates new form InicioSesion
      */
-    public Registrarse() {
-        control = new Controladora();
+    public Registrarse(Controladora control) {
+        this.control = control;
         initComponents();
+        
+        
         
         jTextFieldMatriculaVeterinario.setEnabled(false);
         

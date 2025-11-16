@@ -351,7 +351,7 @@ public class RegistrarGato extends javax.swing.JFrame {
             
             // 3. Mostrar Mensaje de Éxito y Limpiar Campos (Capa de Vista)
             JOptionPane.showMessageDialog(this, 
-                "✅ Gato " + nombre + " registrado con éxito.", 
+                " Gato " + nombre + " registrado con éxito.", 
                 "Registro Exitoso", 
                 JOptionPane.INFORMATION_MESSAGE);
             
