@@ -43,7 +43,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnRegistrarTarea = new javax.swing.JButton();
-        btnRegistrarGato1 = new javax.swing.JButton();
+        btnGestionarGato = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -56,10 +56,10 @@ public class VistaVoluntario extends javax.swing.JFrame {
             }
         });
 
-        btnRegistrarGato1.setText("Gestionar Gato");
-        btnRegistrarGato1.addActionListener(new java.awt.event.ActionListener() {
+        btnGestionarGato.setText("Gestionar Gato");
+        btnGestionarGato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarGato1ActionPerformed(evt);
+                btnGestionarGatoActionPerformed(evt);
             }
         });
 
@@ -70,7 +70,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRegistrarGato1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGestionarGato, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrarTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
@@ -80,7 +80,7 @@ public class VistaVoluntario extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnRegistrarTarea)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnRegistrarGato1)
+                .addComponent(btnGestionarGato)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -145,12 +145,12 @@ public class VistaVoluntario extends javax.swing.JFrame {
         this.setVisible(false); // Ocultar el menú
     }//GEN-LAST:event_btnRegistrarTareaActionPerformed
 
-    private void btnRegistrarGato1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarGato1ActionPerformed
+    private void btnGestionarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarGatoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnRegistrarGato1ActionPerformed
+    }//GEN-LAST:event_btnGestionarGatoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRegistrarGato1;
+    private javax.swing.JButton btnGestionarGato;
     private javax.swing.JButton btnRegistrarTarea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

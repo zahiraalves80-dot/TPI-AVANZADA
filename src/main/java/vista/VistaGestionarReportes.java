@@ -33,21 +33,20 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableVisitas = new javax.swing.JTable();
-        btnRegistrar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        jTableReportes = new javax.swing.JTable();
+        btnRegistrarReporte = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        btnVerReporte = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtFiltroGato = new javax.swing.JTextField();
-        txtFiltroFamilia = new javax.swing.JTextField();
+        jTextFieldFiltroFechaReporte = new javax.swing.JTextField();
+        jTextFieldFiltroTipoReporte = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTableVisitas.setModel(new javax.swing.table.DefaultTableModel(
+        jTableReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -58,26 +57,12 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTableVisitas);
+        jScrollPane1.setViewportView(jTableReportes);
 
-        btnRegistrar.setText("Registrar");
-        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrarReporte.setText(" Registrar Reporte");
+        btnRegistrarReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarActionPerformed(evt);
-            }
-        });
-
-        btnModificar.setText("Modificar");
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
-            }
-        });
-
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnRegistrarReporteActionPerformed(evt);
             }
         });
 
@@ -88,6 +73,13 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
             }
         });
 
+        btnVerReporte.setText("Ver Reporte Seleccionado");
+        btnVerReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerReporteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -95,15 +87,13 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnVolver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRegistrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnModificar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnVerReporte)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRegistrarReporte)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -114,31 +104,30 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegistrar)
-                    .addComponent(btnModificar)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnVolver))
+                    .addComponent(btnRegistrarReporte)
+                    .addComponent(btnVolver)
+                    .addComponent(btnVerReporte))
                 .addGap(220, 220, 220))
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Gestionar Reportes");
 
-        jLabel2.setText("Nombre del gato:");
+        jLabel2.setText("Fecha de Reporte:");
 
-        txtFiltroGato.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroFechaReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroGatoActionPerformed(evt);
+                jTextFieldFiltroFechaReporteActionPerformed(evt);
             }
         });
 
-        txtFiltroFamilia.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroTipoReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroFamiliaActionPerformed(evt);
+                jTextFieldFiltroTipoReporteActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("Familia Adoptante:");
+        jLabel3.setText("Tipo de Reporte:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -148,11 +137,11 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldFiltroFechaReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(txtFiltroFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldFiltroTipoReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -163,11 +152,11 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtFiltroFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldFiltroTipoReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldFiltroFechaReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -211,22 +200,6 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtFiltroGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroGatoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFiltroGatoActionPerformed
-
-    private void txtFiltroFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroFamiliaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFiltroFamiliaActionPerformed
-
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-       
-    }//GEN-LAST:event_btnModificarActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
-    }//GEN-LAST:event_btnEliminarActionPerformed
 /**
      * Cierra esta ventana y muestra la anterior.
      */
@@ -236,14 +209,25 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
 /**
      * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
      */
-    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+    private void btnRegistrarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarReporteActionPerformed
         
-    }//GEN-LAST:event_btnRegistrarActionPerformed
+    }//GEN-LAST:event_btnRegistrarReporteActionPerformed
+
+    private void jTextFieldFiltroFechaReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroFechaReporteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFiltroFechaReporteActionPerformed
+
+    private void jTextFieldFiltroTipoReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroTipoReporteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFiltroTipoReporteActionPerformed
+
+    private void btnVerReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerReporteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerReporteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnRegistrarReporte;
+    private javax.swing.JButton btnVerReporte;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -252,8 +236,8 @@ public class VistaGestionarReportes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableVisitas;
-    private javax.swing.JTextField txtFiltroFamilia;
-    private javax.swing.JTextField txtFiltroGato;
+    private javax.swing.JTable jTableReportes;
+    private javax.swing.JTextField jTextFieldFiltroFechaReporte;
+    private javax.swing.JTextField jTextFieldFiltroTipoReporte;
     // End of variables declaration//GEN-END:variables
 }

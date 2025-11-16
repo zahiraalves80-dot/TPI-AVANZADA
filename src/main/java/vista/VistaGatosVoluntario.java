@@ -46,16 +46,16 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
                 return false; // La tabla no es editable
             }
         };
-        jTableVisitas.setModel(modeloTabla);
+        jTableGatos.setModel(modeloTabla);
 
         // 2. Configurar el ordenador/filtro
         sorter = new TableRowSorter<>(modeloTabla);
-        jTableVisitas.setRowSorter(sorter);
+        jTableGatos.setRowSorter(sorter);
 
         // 3. Ocultar la columna ID (Columna 0)
-        jTableVisitas.getColumnModel().getColumn(0).setMaxWidth(0);
-        jTableVisitas.getColumnModel().getColumn(0).setMinWidth(0);
-        jTableVisitas.getColumnModel().getColumn(0).setPreferredWidth(0);
+        jTableGatos.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableGatos.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableGatos.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
 
     /**
@@ -105,8 +105,8 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
     private void aplicarFiltros() {
         List<RowFilter<Object, Object>> filtros = new java.util.ArrayList<>();
         
-        String filtroGato = txtFiltroGato.getText().trim();
-        String filtroFamilia = txtFiltroFamilia.getText().trim();
+        String filtroGato = jTextFieldFiltroNombreGato.getText().trim();
+        String filtroFamilia = jTextFieldFiltroNombreFamilia.getText().trim();
 
         // Columna 1 es "Nombre Gato"
         if (!filtroGato.isEmpty()) {
@@ -126,14 +126,14 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
      * @return El ID del Gato, o -1 si no hay selección.
      */
     private long getIdGatoSeleccionado() {
-        int filaVista = jTableVisitas.getSelectedRow();
+        int filaVista = jTableGatos.getSelectedRow();
         if (filaVista == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un gato de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
             return -1;
         }
         
         // Convierte el índice de la vista (filtrada) al índice del modelo (datos reales)
-        int filaModelo = jTableVisitas.convertRowIndexToModel(filaVista);
+        int filaModelo = jTableGatos.convertRowIndexToModel(filaVista);
         return (long) modeloTabla.getValueAt(filaModelo, 0); // Columna 0 = ID
     }
     @SuppressWarnings("unchecked")
@@ -143,21 +143,21 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableVisitas = new javax.swing.JTable();
+        jTableGatos = new javax.swing.JTable();
         btnVerPerfilGatoSeleccionado = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         btnRegistrarGato = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtFiltroGato = new javax.swing.JTextField();
-        txtFiltroFamilia = new javax.swing.JTextField();
+        jTextFieldFiltroNombreGato = new javax.swing.JTextField();
+        jTextFieldFiltroNombreFamilia = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTableVisitas.setModel(new javax.swing.table.DefaultTableModel(
+        jTableGatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -168,7 +168,7 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTableVisitas);
+        jScrollPane1.setViewportView(jTableGatos);
 
         btnVerPerfilGatoSeleccionado.setText("Ver Perfil Gato Seleccionado");
         btnVerPerfilGatoSeleccionado.addActionListener(new java.awt.event.ActionListener() {
@@ -226,15 +226,15 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre del gato:");
 
-        txtFiltroGato.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroNombreGato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroGatoActionPerformed(evt);
+                jTextFieldFiltroNombreGatoActionPerformed(evt);
             }
         });
 
-        txtFiltroFamilia.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroNombreFamilia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroFamiliaActionPerformed(evt);
+                jTextFieldFiltroNombreFamiliaActionPerformed(evt);
             }
         });
 
@@ -255,12 +255,12 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldFiltroNombreGato, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(txtFiltroFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldFiltroNombreFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBuscar)))
                 .addContainerGap(141, Short.MAX_VALUE))
@@ -274,12 +274,12 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtFiltroFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldFiltroNombreFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBuscar)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldFiltroNombreGato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -324,13 +324,13 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFiltroGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroGatoActionPerformed
+    private void jTextFieldFiltroNombreGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroNombreGatoActionPerformed
         aplicarFiltros();
-    }//GEN-LAST:event_txtFiltroGatoActionPerformed
+    }//GEN-LAST:event_jTextFieldFiltroNombreGatoActionPerformed
 
-    private void txtFiltroFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroFamiliaActionPerformed
+    private void jTextFieldFiltroNombreFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroNombreFamiliaActionPerformed
         aplicarFiltros();
-    }//GEN-LAST:event_txtFiltroFamiliaActionPerformed
+    }//GEN-LAST:event_jTextFieldFiltroNombreFamiliaActionPerformed
 /**
      * Cierra esta ventana y muestra la anterior.
      */
@@ -412,8 +412,8 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableVisitas;
-    private javax.swing.JTextField txtFiltroFamilia;
-    private javax.swing.JTextField txtFiltroGato;
+    private javax.swing.JTable jTableGatos;
+    private javax.swing.JTextField jTextFieldFiltroNombreFamilia;
+    private javax.swing.JTextField jTextFieldFiltroNombreGato;
     // End of variables declaration//GEN-END:variables
 }

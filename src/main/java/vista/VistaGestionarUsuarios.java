@@ -33,19 +33,19 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableVisitas = new javax.swing.JTable();
-        btnRegistrar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        jTableUsuarios = new javax.swing.JTable();
+        btnRegistrarUsuario = new javax.swing.JButton();
+        btnModificarUsuario = new javax.swing.JButton();
+        btnEliminarUsuario = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtFiltroGato = new javax.swing.JTextField();
+        jTextFieldFiltroNombreUsuario = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTableVisitas.setModel(new javax.swing.table.DefaultTableModel(
+        jTableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -56,26 +56,26 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTableVisitas);
+        jScrollPane1.setViewportView(jTableUsuarios);
 
-        btnRegistrar.setText("Registrar");
-        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrarUsuario.setText("Registrar");
+        btnRegistrarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarActionPerformed(evt);
+                btnRegistrarUsuarioActionPerformed(evt);
             }
         });
 
-        btnModificar.setText("Modificar");
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+        btnModificarUsuario.setText("Modificar");
+        btnModificarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
+                btnModificarUsuarioActionPerformed(evt);
             }
         });
 
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarUsuario.setText("Eliminar");
+        btnEliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnEliminarUsuarioActionPerformed(evt);
             }
         });
 
@@ -97,11 +97,11 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnVolver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRegistrar)
+                        .addComponent(btnRegistrarUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnModificar)
+                        .addComponent(btnModificarUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminar)
+                        .addComponent(btnEliminarUsuario)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -112,9 +112,9 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegistrar)
-                    .addComponent(btnModificar)
-                    .addComponent(btnEliminar)
+                    .addComponent(btnRegistrarUsuario)
+                    .addComponent(btnModificarUsuario)
+                    .addComponent(btnEliminarUsuario)
                     .addComponent(btnVolver))
                 .addGap(220, 220, 220))
         );
@@ -124,9 +124,9 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre del usuario:");
 
-        txtFiltroGato.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroNombreUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroGatoActionPerformed(evt);
+                jTextFieldFiltroNombreUsuarioActionPerformed(evt);
             }
         });
 
@@ -138,7 +138,7 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldFiltroNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -147,7 +147,7 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldFiltroNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -192,17 +192,17 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFiltroGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroGatoActionPerformed
+    private void jTextFieldFiltroNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroNombreUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFiltroGatoActionPerformed
+    }//GEN-LAST:event_jTextFieldFiltroNombreUsuarioActionPerformed
 
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+    private void btnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuarioActionPerformed
        
-    }//GEN-LAST:event_btnModificarActionPerformed
+    }//GEN-LAST:event_btnModificarUsuarioActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
         
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
 /**
      * Cierra esta ventana y muestra la anterior.
      */
@@ -212,14 +212,14 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
 /**
      * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
      */
-    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+    private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
         
-    }//GEN-LAST:event_btnRegistrarActionPerformed
+    }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnEliminarUsuario;
+    private javax.swing.JButton btnModificarUsuario;
+    private javax.swing.JButton btnRegistrarUsuario;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -227,7 +227,7 @@ public class VistaGestionarUsuarios extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableVisitas;
-    private javax.swing.JTextField txtFiltroGato;
+    private javax.swing.JTable jTableUsuarios;
+    private javax.swing.JTextField jTextFieldFiltroNombreUsuario;
     // End of variables declaration//GEN-END:variables
 }

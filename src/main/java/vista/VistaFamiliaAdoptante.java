@@ -50,14 +50,14 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPaneTablaGatosDisponibles = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnVolverAtras = new javax.swing.JButton();
-        btnVerPerfil = new javax.swing.JButton();
+        btnVerPerfilGatoSeleccionado = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldFiltroNombreGato = new javax.swing.JTextField();
+        jTextFieldFiltroNombreRazaGato = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,7 +76,7 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
             }
         ));
         jTable1.setName("Tabla Gato"); // NOI18N
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPaneTablaGatosDisponibles.setViewportView(jTable1);
 
         btnVolverAtras.setText("Volver Atrás");
         btnVolverAtras.setName("Actualizar"); // NOI18N
@@ -86,10 +86,10 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
             }
         });
 
-        btnVerPerfil.setText("Ver Perfil de Gato Seleccionado");
-        btnVerPerfil.addActionListener(new java.awt.event.ActionListener() {
+        btnVerPerfilGatoSeleccionado.setText("Ver Perfil de Gato Seleccionado");
+        btnVerPerfilGatoSeleccionado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerPerfilActionPerformed(evt);
+                btnVerPerfilGatoSeleccionadoActionPerformed(evt);
             }
         });
 
@@ -97,15 +97,15 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
 
         jLabel3.setText("Raza:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroNombreGato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextFieldFiltroNombreGatoActionPerformed(evt);
             }
         });
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroNombreRazaGato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jTextFieldFiltroNombreRazaGatoActionPerformed(evt);
             }
         });
 
@@ -119,16 +119,16 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnVolverAtras)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnVerPerfil))
+                        .addComponent(btnVerPerfilGatoSeleccionado))
                     .addComponent(jLabel1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPaneTablaGatosDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldFiltroNombreGato, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(35, 35, 35)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldFiltroNombreRazaGato, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))))
                 .addGap(20, 20, 20))
         );
@@ -143,14 +143,14 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldFiltroNombreGato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldFiltroNombreRazaGato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneTablaGatosDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVolverAtras)
-                    .addComponent(btnVerPerfil))
+                    .addComponent(btnVerPerfilGatoSeleccionado))
                 .addGap(19, 19, 19))
         );
 
@@ -187,7 +187,7 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
         cargarGatosDisponibles();
     }//GEN-LAST:event_btnVolverAtrasActionPerformed
 
-    private void btnVerPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPerfilActionPerformed
+    private void btnVerPerfilGatoSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPerfilGatoSeleccionadoActionPerformed
        try {
         // 1. Obtener la fila seleccionada
         int filaSeleccionada = jTable1.getSelectedRow();
@@ -255,15 +255,15 @@ private void mostrarQR(String texto, String nombreGato) {
         // Este catch es para la biblioteca Zxing
         JOptionPane.showMessageDialog(this, "Error al crear la imagen QR.", "Error Zxing", JOptionPane.ERROR_MESSAGE);
     } 
-    }//GEN-LAST:event_btnVerPerfilActionPerformed
+    }//GEN-LAST:event_btnVerPerfilGatoSeleccionadoActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextFieldFiltroNombreGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroNombreGatoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextFieldFiltroNombreGatoActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jTextFieldFiltroNombreRazaGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroNombreRazaGatoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jTextFieldFiltroNombreRazaGatoActionPerformed
 
     private void cargarGatosDisponibles() {
     try {
@@ -307,16 +307,16 @@ private void mostrarQR(String texto, String nombreGato) {
     }
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnVerPerfil;
+    private javax.swing.JButton btnVerPerfilGatoSeleccionado;
     private javax.swing.JButton btnVolverAtras;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPaneTablaGatosDisponibles;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextFieldFiltroNombreGato;
+    private javax.swing.JTextField jTextFieldFiltroNombreRazaGato;
     // End of variables declaration//GEN-END:variables
 }

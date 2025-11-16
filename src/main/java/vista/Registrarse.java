@@ -16,9 +16,9 @@ public class Registrarse extends javax.swing.JFrame {
         control = new Controladora();
         initComponents();
         
-        jTextField1.setEnabled(false);
+        jTextFieldMatriculaVeterinario.setEnabled(false);
         
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 // Aquí se llama a tu método
                 actualizarCamposPorRol();
@@ -44,39 +44,38 @@ public class Registrarse extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        recontraseña = new javax.swing.JTextPane();
+        jTextFieldReContraseña = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        nombre = new javax.swing.JTextPane();
+        jTextFieldNombreUsuario = new javax.swing.JTextPane();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnRegistrarse = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        correo = new javax.swing.JTextPane();
+        jTextFieldCorreo = new javax.swing.JTextPane();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        contraseña = new javax.swing.JTextPane();
+        jTextFieldContraseña = new javax.swing.JTextPane();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        correo1 = new javax.swing.JTextPane();
+        jTextFieldTelefono = new javax.swing.JTextPane();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        correo2 = new javax.swing.JTextPane();
+        jTextFieldDireccion = new javax.swing.JTextPane();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBoxRol = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jTextFieldMatriculaVeterinario = new javax.swing.JTextField();
+        btnVolverAtras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(452, 515));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         jLabel1.setText("Registrarse");
 
-        jScrollPane1.setViewportView(recontraseña);
+        jScrollPane1.setViewportView(jTextFieldReContraseña);
 
-        jScrollPane2.setViewportView(nombre);
+        jScrollPane2.setViewportView(jTextFieldNombreUsuario);
 
         jLabel2.setText("Usuario:");
 
@@ -89,32 +88,32 @@ public class Registrarse extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane3.setViewportView(correo);
+        jScrollPane3.setViewportView(jTextFieldCorreo);
 
         jLabel4.setText("Correo:");
 
-        jScrollPane4.setViewportView(contraseña);
+        jScrollPane4.setViewportView(jTextFieldContraseña);
 
         jLabel5.setText("Contraseña:");
 
         jLabel6.setText("Teléfono:");
 
-        jScrollPane5.setViewportView(correo1);
+        jScrollPane5.setViewportView(jTextFieldTelefono);
 
         jLabel7.setText("Dirección:");
 
-        jScrollPane6.setViewportView(correo2);
+        jScrollPane6.setViewportView(jTextFieldDireccion);
 
         jLabel8.setText("Rol:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Familia Adoptante", "Voluntario", "Veterinario", "Administrador" }));
+        jComboBoxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Familia Adoptante", "Voluntario", "Veterinario", "Administrador" }));
 
         jLabel9.setText("Matricula:");
 
-        jButton1.setText("Volver");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnVolverAtras.setText("Volver");
+        btnVolverAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnVolverAtrasActionPerformed(evt);
             }
         });
 
@@ -142,13 +141,13 @@ public class Registrarse extends javax.swing.JFrame {
                                 .addComponent(jLabel6)
                                 .addComponent(jScrollPane5)
                                 .addComponent(jScrollPane6)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField1))))
+                                .addComponent(jComboBoxRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldMatriculaVeterinario))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(btnRegistrarse)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(btnVolverAtras)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -173,11 +172,11 @@ public class Registrarse extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldMatriculaVeterinario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -189,7 +188,7 @@ public class Registrarse extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrarse)
-                    .addComponent(jButton1))
+                    .addComponent(btnVolverAtras))
                 .addGap(18, 18, 18))
         );
 
@@ -237,15 +236,15 @@ public class Registrarse extends javax.swing.JFrame {
     
     
     // --- 1. Captura de Datos de la Vista ---
-    String nombreStr = nombre.getText().trim();
-    String correoStr = correo.getText().trim();
-    String contrasenaStr = contraseña.getText().trim();
-    String recontrasenaStr = recontraseña.getText().trim();
-    String telefonoStr = correo1.getText().trim(); 
-    String direccionStr = correo2.getText().trim(); 
-    String matriculaStr = jTextField1.getText().trim();
+    String nombreStr = jTextFieldNombreUsuario.getText().trim();
+    String correoStr = jTextFieldCorreo.getText().trim();
+    String contrasenaStr = jTextFieldContraseña.getText().trim();
+    String recontrasenaStr = jTextFieldReContraseña.getText().trim();
+    String telefonoStr = jTextFieldTelefono.getText().trim(); 
+    String direccionStr = jTextFieldDireccion.getText().trim(); 
+    String matriculaStr = jTextFieldMatriculaVeterinario.getText().trim();
             
-    String rolDisplay = (String) jComboBox1.getSelectedItem(); 
+    String rolDisplay = (String) jComboBoxRol.getSelectedItem(); 
     String rolDB = mapearRol(rolDisplay); // Llama a la función de mapeo
 
     // --- 2. Validación BÁSICA (Incluyendo Dirección) ---
@@ -286,14 +285,14 @@ public class Registrarse extends javax.swing.JFrame {
     this.dispose();
         
         // Limpiar campos
-        nombre.setText("");
-        correo.setText("");
-        contraseña.setText("");
-        recontraseña.setText("");
-        correo1.setText("");
-        correo2.setText("");
-        jTextField1.setText("");
-        jComboBox1.setSelectedIndex(0);
+        jTextFieldNombreUsuario.setText("");
+        jTextFieldCorreo.setText("");
+        jTextFieldContraseña.setText("");
+        jTextFieldReContraseña.setText("");
+        jTextFieldTelefono.setText("");
+        jTextFieldDireccion.setText("");
+        jTextFieldMatriculaVeterinario.setText("");
+        jComboBoxRol.setSelectedIndex(0);
         
     } catch (modelo.RegistroException e) { 
     // Error de negocio (VALIDO)
@@ -312,19 +311,19 @@ public class Registrarse extends javax.swing.JFrame {
     }
     private void actualizarCamposPorRol() {
         // 1. Obtener el valor seleccionado en el JComboBox
-        String rolSeleccionado = (String) jComboBox1.getSelectedItem();
+        String rolSeleccionado = (String) jComboBoxRol.getSelectedItem();
         
         // 2. Determinar si el campo debe estar habilitado
         // La variable 'matEnabled' será TRUE solo si el rol es "Veterinario"
         boolean matEnabled = "Veterinario".equals(rolSeleccionado);
         
         // 3. Aplicar la condición al campo de la Matrícula (jTextField1)
-        jTextField1.setEnabled(matEnabled);
+        jTextFieldMatriculaVeterinario.setEnabled(matEnabled);
         
         // 4. Limpieza (Mejora de Usabilidad)
         // Si el campo se deshabilita, borra cualquier texto que tuviera.
         if (!matEnabled) {
-            jTextField1.setText(""); 
+            jTextFieldMatriculaVeterinario.setText(""); 
         }
     }
     
@@ -345,7 +344,7 @@ public class Registrarse extends javax.swing.JFrame {
         };
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
         try {
             // Reutilizamos la instancia de controladora ya existente en la clase
             IniciarSesion login = new IniciarSesion(control); 
@@ -364,17 +363,13 @@ public class Registrarse extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnVolverAtrasActionPerformed
         
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrarse;
-    private javax.swing.JTextPane contraseña;
-    private javax.swing.JTextPane correo;
-    private javax.swing.JTextPane correo1;
-    private javax.swing.JTextPane correo2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnVolverAtras;
+    private javax.swing.JComboBox<String> jComboBoxRol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -392,8 +387,12 @@ public class Registrarse extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextPane nombre;
-    private javax.swing.JTextPane recontraseña;
+    private javax.swing.JTextPane jTextFieldContraseña;
+    private javax.swing.JTextPane jTextFieldCorreo;
+    private javax.swing.JTextPane jTextFieldDireccion;
+    private javax.swing.JTextField jTextFieldMatriculaVeterinario;
+    private javax.swing.JTextPane jTextFieldNombreUsuario;
+    private javax.swing.JTextPane jTextFieldReContraseña;
+    private javax.swing.JTextPane jTextFieldTelefono;
     // End of variables declaration//GEN-END:variables
 }

@@ -65,18 +65,18 @@
                           <Group type="102" attributes="0">
                               <Component id="btnVolverAtras" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btnVerPerfil" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnVerPerfilGatoSeleccionado" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" min="-2" pref="527" max="-2" attributes="0"/>
+                          <Component id="jScrollPaneTablaGatosDisponibles" min="-2" pref="527" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField1" alignment="0" min="-2" pref="116" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldFiltroNombreGato" alignment="0" min="-2" pref="116" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextField2" min="-2" pref="116" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldFiltroNombreRazaGato" min="-2" pref="116" max="-2" attributes="0"/>
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -97,15 +97,15 @@
                       </Group>
                       <EmptySpace pref="7" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldFiltroNombreGato" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldFiltroNombreRazaGato" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="265" max="-2" attributes="0"/>
+                      <Component id="jScrollPaneTablaGatosDisponibles" min="-2" pref="265" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnVolverAtras" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnVerPerfil" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnVerPerfilGatoSeleccionado" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                   </Group>
@@ -121,7 +121,7 @@
                 <Property name="text" type="java.lang.String" value="Gatos Disponibles "/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+            <Container class="javax.swing.JScrollPane" name="jScrollPaneTablaGatosDisponibles">
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
@@ -149,12 +149,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVolverAtrasActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnVerPerfil">
+            <Component class="javax.swing.JButton" name="btnVerPerfilGatoSeleccionado">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ver Perfil de Gato Seleccionado"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVerPerfilActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVerPerfilGatoSeleccionadoActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
@@ -167,14 +167,14 @@
                 <Property name="text" type="java.lang.String" value="Raza:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="jTextFieldFiltroNombreGato">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldFiltroNombreGatoActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField2">
+            <Component class="javax.swing.JTextField" name="jTextFieldFiltroNombreRazaGato">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldFiltroNombreRazaGatoActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

@@ -44,15 +44,15 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
             @Override
             public boolean isCellEditable(int row, int column) { return false; }
         }; 
-        jTableVisitas.setModel(modeloTabla);
+        jTableZonas.setModel(modeloTabla);
         sorter = new TableRowSorter<>(modeloTabla);
-        jTableVisitas.setRowSorter(sorter);
+        jTableZonas.setRowSorter(sorter);
         
-        jTableVisitas.getColumnModel().getColumn(0).setMaxWidth(0);
-        jTableVisitas.getColumnModel().getColumn(0).setMinWidth(0);
-        jTableVisitas.getColumnModel().getColumn(0).setPreferredWidth(0);
+        jTableZonas.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableZonas.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableZonas.getColumnModel().getColumn(0).setPreferredWidth(0);
         
-        txtFiltroGato.getDocument().addDocumentListener(new DocumentListener() { // <-- SINTAXIS CORREGIDA (No más paréntesis extra)
+        jTextFieldFiltroNombreZona.getDocument().addDocumentListener(new DocumentListener() { // <-- SINTAXIS CORREGIDA (No más paréntesis extra)
             public void changedUpdate(DocumentEvent e) { filtrarTabla(); }
             public void removeUpdate(DocumentEvent e) { filtrarTabla(); }
             public void insertUpdate(DocumentEvent e) { filtrarTabla(); }
@@ -78,7 +78,7 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
     }
        
      private void filtrarTabla() {  
-    String filtroZona = txtFiltroGato.getText();
+    String filtroZona = jTextFieldFiltroNombreZona.getText();
     if (!filtroZona.isEmpty()) {
       sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtroZona, 1)); 
       } else {
@@ -86,13 +86,13 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
     }
     }
      private long getIdSeleccionado() {
-    int filaVista = jTableVisitas.getSelectedRow();
+    int filaVista = jTableZonas.getSelectedRow();
     if (filaVista == -1) {
         
         JOptionPane.showMessageDialog(this, "Debe seleccionar una zona de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
          return -1;
     }
-    int filaModelo = jTableVisitas.convertRowIndexToModel(filaVista);
+    int filaModelo = jTableZonas.convertRowIndexToModel(filaVista);
     return (long) modeloTabla.getValueAt(filaModelo, 0); 
      }
     
@@ -103,20 +103,20 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableVisitas = new javax.swing.JTable();
-        btnRegistrar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        jTableZonas = new javax.swing.JTable();
+        btnRegistrarZona = new javax.swing.JButton();
+        btnModificarZona = new javax.swing.JButton();
+        btnEliminarZona = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtFiltroGato = new javax.swing.JTextField();
+        jTextFieldFiltroNombreZona = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTableVisitas.setModel(new javax.swing.table.DefaultTableModel(
+        jTableZonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -127,26 +127,26 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTableVisitas);
+        jScrollPane1.setViewportView(jTableZonas);
 
-        btnRegistrar.setText("Registrar");
-        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrarZona.setText("Registrar");
+        btnRegistrarZona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarActionPerformed(evt);
+                btnRegistrarZonaActionPerformed(evt);
             }
         });
 
-        btnModificar.setText("Modificar");
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+        btnModificarZona.setText("Modificar");
+        btnModificarZona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
+                btnModificarZonaActionPerformed(evt);
             }
         });
 
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarZona.setText("Eliminar");
+        btnEliminarZona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnEliminarZonaActionPerformed(evt);
             }
         });
 
@@ -168,11 +168,11 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnVolver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRegistrar)
+                        .addComponent(btnRegistrarZona)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnModificar)
+                        .addComponent(btnModificarZona)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminar)
+                        .addComponent(btnEliminarZona)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -183,9 +183,9 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegistrar)
-                    .addComponent(btnModificar)
-                    .addComponent(btnEliminar)
+                    .addComponent(btnRegistrarZona)
+                    .addComponent(btnModificarZona)
+                    .addComponent(btnEliminarZona)
                     .addComponent(btnVolver))
                 .addGap(220, 220, 220))
         );
@@ -195,9 +195,9 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre de la zona:");
 
-        txtFiltroGato.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroNombreZona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroGatoActionPerformed(evt);
+                jTextFieldFiltroNombreZonaActionPerformed(evt);
             }
         });
 
@@ -209,7 +209,7 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldFiltroNombreZona, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jLabel3)
                 .addContainerGap(349, Short.MAX_VALUE))
@@ -225,7 +225,7 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldFiltroNombreZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -270,11 +270,11 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFiltroGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroGatoActionPerformed
+    private void jTextFieldFiltroNombreZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroNombreZonaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFiltroGatoActionPerformed
+    }//GEN-LAST:event_jTextFieldFiltroNombreZonaActionPerformed
 
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+    private void btnModificarZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarZonaActionPerformed
         long idZona = getIdSeleccionado();
         if (idZona == -1) return;
         
@@ -308,9 +308,9 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
         } catch (OperacionException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Modificar", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnModificarActionPerformed
+    }//GEN-LAST:event_btnModificarZonaActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    private void btnEliminarZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarZonaActionPerformed
     long idZona = getIdSeleccionado();
         if (idZona == -1) return;
         
@@ -330,7 +330,7 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }//GEN-LAST:event_btnEliminarZonaActionPerformed
 /**
      * Cierra esta ventana y muestra la anterior.
      */
@@ -341,7 +341,7 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
 /**
      * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
      */
-    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+    private void btnRegistrarZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarZonaActionPerformed
         JPanel panelForm = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
     JTextField txtNombre = new JTextField(20);
     JTextField txtUbicacion = new JTextField(20);
@@ -367,14 +367,14 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Registrar", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btnRegistrarActionPerformed
+    }//GEN-LAST:event_btnRegistrarZonaActionPerformed
 
         
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnEliminarZona;
+    private javax.swing.JButton btnModificarZona;
+    private javax.swing.JButton btnRegistrarZona;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -383,7 +383,7 @@ public class VistaGestionarZonas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableVisitas;
-    private javax.swing.JTextField txtFiltroGato;
+    private javax.swing.JTable jTableZonas;
+    private javax.swing.JTextField jTextFieldFiltroNombreZona;
     // End of variables declaration//GEN-END:variables
 }

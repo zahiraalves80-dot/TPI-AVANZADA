@@ -182,7 +182,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFiltroGato" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
+                          <Component id="jTextFieldFiltroNombreGato" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -206,7 +206,7 @@
                           <Group type="102" attributes="0">
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="txtFiltroGato" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldFiltroNombreGato" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="16" max="32767" attributes="0"/>
@@ -220,9 +220,9 @@
                 <Property name="text" type="java.lang.String" value="Nombre del gato:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtFiltroGato">
+            <Component class="javax.swing.JTextField" name="jTextFieldFiltroNombreGato">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFiltroGatoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldFiltroNombreGatoActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtFiltroFamilia">

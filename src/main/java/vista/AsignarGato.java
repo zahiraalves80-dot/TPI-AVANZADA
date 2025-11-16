@@ -37,7 +37,7 @@ public class AsignarGato extends javax.swing.JFrame {
             for (Gato g : gatos) {
                 modeloGato.addElement(new ComboBoxItem(g.getIdGato(), g.getNombre() + " (" + g.getRaza() + ")"));
             }
-            jComboBox1.setModel(modeloGato);
+            jComboBoxGatosDisponiblesAAsignar.setModel(modeloGato);
 
             // Cargar Familias Adoptantes (jComboBox2)
             List<FamiliaAdoptante> familias = control.traerTodasLasFamilias();
@@ -46,7 +46,7 @@ public class AsignarGato extends javax.swing.JFrame {
             for (FamiliaAdoptante f : familias) {
                 modeloFamilia.addElement(new ComboBoxItem(f.getIdUsuario(), f.getNombre() + " (" + f.getdireccion() + ")"));
             }
-            jComboBox2.setModel(modeloFamilia);
+            jComboBoxFamiliaDisponibleAdopcion.setModel(modeloFamilia);
 
         } catch (OperacionException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Carga", JOptionPane.ERROR_MESSAGE);
@@ -60,30 +60,30 @@ public class AsignarGato extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBoxGatosDisponiblesAAsignar = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        jComboBoxFamiliaDisponibleAdopcion = new javax.swing.JComboBox<>();
+        btnAsignarGatoAFamilia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Asignar Gato:");
+        jLabel1.setText("Asignar Gato");
 
         jLabel2.setText("Gato a asignar:");
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxGatosDisponiblesAAsignar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jComboBoxGatosDisponiblesAAsignarActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Familia destino:");
 
-        jButton1.setText("Asignar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAsignarGatoAFamilia.setText("Asignar");
+        btnAsignarGatoAFamilia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAsignarGatoAFamiliaActionPerformed(evt);
             }
         });
 
@@ -91,36 +91,37 @@ public class AsignarGato extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(73, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox1, 0, 190, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAsignarGatoAFamilia)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBoxGatosDisponiblesAAsignar, 0, 190, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBoxFamiliaDisponibleAdopcion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBoxGatosDisponiblesAAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBoxFamiliaDisponibleAdopcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(jButton1)
+                .addComponent(btnAsignarGatoAFamilia)
                 .addContainerGap(80, Short.MAX_VALUE))
         );
 
@@ -138,13 +139,13 @@ public class AsignarGato extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jComboBoxGatosDisponiblesAAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGatosDisponiblesAAsignarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jComboBoxGatosDisponiblesAAsignarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ComboBoxItem gatoItem = (ComboBoxItem) jComboBox1.getSelectedItem();
-        ComboBoxItem familiaItem = (ComboBoxItem) jComboBox2.getSelectedItem();
+    private void btnAsignarGatoAFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarGatoAFamiliaActionPerformed
+        ComboBoxItem gatoItem = (ComboBoxItem) jComboBoxGatosDisponiblesAAsignar.getSelectedItem();
+        ComboBoxItem familiaItem = (ComboBoxItem) jComboBoxFamiliaDisponibleAdopcion.getSelectedItem();
         
         long idGato = gatoItem.getId();
         int idFamilia = (int) familiaItem.getId(); 
@@ -172,12 +173,12 @@ public class AsignarGato extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error crítico: " + e.getMessage(), "Error de Persistencia", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAsignarGatoAFamiliaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<ComboBoxItem> jComboBox1;
-    private javax.swing.JComboBox<ComboBoxItem> jComboBox2;
+    private javax.swing.JButton btnAsignarGatoAFamilia;
+    private javax.swing.JComboBox<ComboBoxItem> jComboBoxFamiliaDisponibleAdopcion;
+    private javax.swing.JComboBox<ComboBoxItem> jComboBoxGatosDisponiblesAAsignar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

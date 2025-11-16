@@ -114,7 +114,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTableVisitas">
+                <Component class="javax.swing.JTable" name="jTableGatos">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
@@ -171,13 +171,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFiltroGato" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
+                          <Component id="jTextFieldFiltroNombreGato" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="txtFiltroFamilia" min="-2" pref="124" max="-2" attributes="0"/>
+                              <Component id="jTextFieldFiltroNombreFamilia" min="-2" pref="124" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnBuscar" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -195,14 +195,14 @@
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="txtFiltroFamilia" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldFiltroNombreFamilia" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="txtFiltroGato" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldFiltroNombreGato" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="16" max="32767" attributes="0"/>
@@ -216,14 +216,14 @@
                 <Property name="text" type="java.lang.String" value="Nombre del gato:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtFiltroGato">
+            <Component class="javax.swing.JTextField" name="jTextFieldFiltroNombreGato">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFiltroGatoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldFiltroNombreGatoActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtFiltroFamilia">
+            <Component class="javax.swing.JTextField" name="jTextFieldFiltroNombreFamilia">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFiltroFamiliaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldFiltroNombreFamiliaActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
