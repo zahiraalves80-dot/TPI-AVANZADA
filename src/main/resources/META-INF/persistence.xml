@@ -6,7 +6,6 @@
     <class>modelo.Estudio</class>
     <class>modelo.FamiliaAdoptante</class>
     <class>modelo.Gato</class>
-    <class>modelo.HistoriaClinica</class>
     <class>modelo.Postulacion</class>
     <class>modelo.Reporte</class>
     <class>modelo.Sesion</class>
@@ -18,10 +17,11 @@
     <class>modelo.Voluntario</class>
     <class>modelo.Zona</class>
     <class>modelo.Aptitud</class>
+    <class>modelo.HistoriaClinica</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/tpiavanzadas?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
-      <property name="javax.persistence.jdbc.password" value="45022030"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <!-- Forzar creación -->
       <property name="hibernate.hbm2ddl.auto" value="update"/>

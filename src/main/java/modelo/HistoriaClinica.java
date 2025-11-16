@@ -52,6 +52,13 @@ public class HistoriaClinica implements Serializable {
         this.descripcion = descripcion;
     }
     
+    // 🟢 ================== INICIO CORRECCIÓN ==================
+    // Agregamos el getter que faltaba
+    public LocalDate getFechaCreacion() {
+        return fechaCreacion;
+    }
+    // 🟢 =================== FIN CORRECCIÓN ====================
+    
     public List<Tratamiento> getTratamientos() { return tratamientos; }
     public void setTratamientos(List<Tratamiento> tratamientos) { this.tratamientos = tratamientos; }
     
@@ -71,5 +78,3 @@ public class HistoriaClinica implements Serializable {
         // e.setHistoriaClinica(this); 
     }
 }
-    
-

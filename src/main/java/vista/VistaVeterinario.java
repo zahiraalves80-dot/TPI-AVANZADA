@@ -11,69 +11,61 @@ import modelo.FamiliaAdoptante;
 import modelo.Gato;
 import modelo.OperacionException;
 import modelo.Usuario;
+import modelo.Veterinario;
 
 public class VistaVeterinario extends javax.swing.JFrame {
     
    private final Controladora control;
-    private final Usuario veterinario; // Guardamos el usuario veterinario
+    private final Veterinario veterinario; 
     private DefaultTableModel modeloTabla;
     private TableRowSorter<TableModel> sorter;
 
-    /**
-     * Constructor para la VistaVeterinario.
-     * @param control La controladora principal de la aplicación.
-     * @param usuario El objeto Usuario (Veterinario) que ha iniciado sesión.
-     */
     public VistaVeterinario(Controladora control, Usuario usuario) {
         this.control = control;
-        this.veterinario = usuario;
+        this.veterinario = (Veterinario) usuario; // Casting del usuario logueado
         initComponents();
-        configurarTabla(); // Prepara la JTable y el sorter
-        cargarGatos();     // Carga los datos iniciales
+        configurarTabla(); 
         
-        // Personaliza el saludo
+        // 🟢 Carga todos los gatos (como solicitaste)
+        cargarTodosGatos(); 
+        
         jLabel1.setText("Gatos (Veterinario: " + usuario.getNombre() + ")");
     }
+   
     /**
-     * Configura la JTable, el modelo de tabla y el sistema de filtrado (sorter).
+     * Configura la JTable, el modelo y el sorter (filtro).
      */
     private void configurarTabla() {
-        // 1. Definir las columnas de la tabla
         String titulos[] = {"ID", "Nombre Gato", "Raza", "Familia Adoptante", "Estado Salud"};
         modeloTabla = new DefaultTableModel(null, titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // La tabla no es editable
+                return false; 
             }
         };
-        jTableVisitas.setModel(modeloTabla);
+        // 🟢 Usa el nombre correcto de tu tabla
+        jTableGatos.setModel(modeloTabla); 
 
-        // 2. Configurar el ordenador/filtro
         sorter = new TableRowSorter<>(modeloTabla);
-        jTableVisitas.setRowSorter(sorter);
+        jTableGatos.setRowSorter(sorter);
 
-        // 3. Ocultar la columna ID (Columna 0)
-        jTableVisitas.getColumnModel().getColumn(0).setMaxWidth(0);
-        jTableVisitas.getColumnModel().getColumn(0).setMinWidth(0);
-        jTableVisitas.getColumnModel().getColumn(0).setPreferredWidth(0);
+        // Ocultar la columna ID (Columna 0)
+        jTableGatos.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableGatos.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableGatos.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
 
     /**
-     * Carga (o recarga) los gatos desde la base de datos a la JTable.
-     * Utiliza el método disponible en la controladora.
+     * 🟢 Carga TODOS los gatos, no solo los disponibles.
      */
-    private void cargarGatos() {
-        modeloTabla.setRowCount(0); // Limpiar la tabla antes de cargar
+    private void cargarTodosGatos() {
+        modeloTabla.setRowCount(0); 
         try {
-            // NOTA: Usamos traerGatosDisponibles() ya que es el único método
-            // en tu Controladora que devuelve una List<Gato>.
-            // Si necesitas ver TODOS (incluyendo adoptados), deberás añadir
-            // un método "traerTodosLosGatos()" a tu Controladora.
-            List<Gato> gatos = control.traerGatosDisponibles(); //
+            // Llama al método de la controladora que trae TODOS los gatos
+            List<Gato> gatos = control.traerTodosLosGatos();
 
             if (gatos != null && !gatos.isEmpty()) {
                 for (Gato g : gatos) {
-                    // Determinar el nombre de la familia (si existe)
                     String nombreFamilia = "N/A (Disponible)";
                     if (g.getFamiliaAdoptante() != null) {
                         nombreFamilia = g.getFamiliaAdoptante().getNombre();
@@ -84,29 +76,28 @@ public class VistaVeterinario extends javax.swing.JFrame {
                         g.getNombre(),
                         g.getRaza(),
                         nombreFamilia,
-                        g.getestadoFisico().toString() //
+                        g.getestadoFisico().toString() 
                     };
                     modeloTabla.addRow(fila);
                 }
             }
         } catch (OperacionException e) {
-            // Si no hay gatos, muestra el mensaje de la excepción
             JOptionPane.showMessageDialog(this, e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            // Error crítico
             JOptionPane.showMessageDialog(this, "Error inesperado al cargar gatos: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
     
     /**
-     * Aplica los filtros de los JTextField a la JTable usando el sorter.
+     * 🟢 Aplica los filtros de los JTextField a la JTable.
      */
     private void aplicarFiltros() {
         List<RowFilter<Object, Object>> filtros = new java.util.ArrayList<>();
         
-        String filtroGato = txtFiltroGato.getText().trim();
-        String filtroFamilia = txtFiltroFamilia.getText().trim();
+        // Usa los nombres de variables de tu archivo .form
+        String filtroGato = jTextFieldFiltroNombreGato.getText().trim(); 
+        String filtroFamilia = jTextFieldFiltroNombreFamilia.getText().trim(); 
 
         // Columna 1 es "Nombre Gato"
         if (!filtroGato.isEmpty()) {
@@ -117,25 +108,29 @@ public class VistaVeterinario extends javax.swing.JFrame {
             filtros.add(RowFilter.regexFilter("(?i)" + filtroFamilia, 3));
         }
         
-        // Aplica los filtros combinados (AND)
-        sorter.setRowFilter(RowFilter.andFilter(filtros));
+        // Aplica filtros combinados (AND)
+        if (filtros.isEmpty()) {
+            sorter.setRowFilter(null); // Si no hay filtros, muestra todo
+        } else {
+            sorter.setRowFilter(RowFilter.andFilter(filtros));
+        }
     }
     
     /**
-     * Obtiene el ID del gato seleccionado en la tabla.
-     * @return El ID del Gato, o -1 si no hay selección.
+     * Obtiene el ID (long) del gato seleccionado en la tabla.
      */
     private long getIdGatoSeleccionado() {
-        int filaVista = jTableVisitas.getSelectedRow();
+        int filaVista = jTableGatos.getSelectedRow();
         if (filaVista == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un gato de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
             return -1;
         }
         
         // Convierte el índice de la vista (filtrada) al índice del modelo (datos reales)
-        int filaModelo = jTableVisitas.convertRowIndexToModel(filaVista);
+        int filaModelo = jTableGatos.convertRowIndexToModel(filaVista);
         return (long) modeloTabla.getValueAt(filaModelo, 0); // Columna 0 = ID
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -143,20 +138,19 @@ public class VistaVeterinario extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableVisitas = new javax.swing.JTable();
+        jTableGatos = new javax.swing.JTable();
         btnVerPerfilGatoSeleccionado = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtFiltroGato = new javax.swing.JTextField();
-        txtFiltroFamilia = new javax.swing.JTextField();
+        jTextFieldFiltroNombreGato = new javax.swing.JTextField();
+        jTextFieldFiltroNombreFamilia = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTableVisitas.setModel(new javax.swing.table.DefaultTableModel(
+        jTableGatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -167,7 +161,7 @@ public class VistaVeterinario extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTableVisitas);
+        jScrollPane1.setViewportView(jTableGatos);
 
         btnVerPerfilGatoSeleccionado.setText("Ver Perfil Gato Seleccionado");
         btnVerPerfilGatoSeleccionado.addActionListener(new java.awt.event.ActionListener() {
@@ -215,26 +209,19 @@ public class VistaVeterinario extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre del gato:");
 
-        txtFiltroGato.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroNombreGato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroGatoActionPerformed(evt);
+                jTextFieldFiltroNombreGatoActionPerformed(evt);
             }
         });
 
-        txtFiltroFamilia.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFiltroNombreFamilia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroFamiliaActionPerformed(evt);
+                jTextFieldFiltroNombreFamiliaActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Familia Adoptante:");
-
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -244,15 +231,12 @@ public class VistaVeterinario extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldFiltroNombreGato, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(txtFiltroFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar)))
-                .addContainerGap(141, Short.MAX_VALUE))
+                    .addComponent(jTextFieldFiltroNombreFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,13 +246,11 @@ public class VistaVeterinario extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtFiltroFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscar)))
+                        .addComponent(jTextFieldFiltroNombreFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtFiltroGato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldFiltroNombreGato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -313,13 +295,13 @@ public class VistaVeterinario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFiltroGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroGatoActionPerformed
+    private void jTextFieldFiltroNombreGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroNombreGatoActionPerformed
         aplicarFiltros();
-    }//GEN-LAST:event_txtFiltroGatoActionPerformed
+    }//GEN-LAST:event_jTextFieldFiltroNombreGatoActionPerformed
 
-    private void txtFiltroFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroFamiliaActionPerformed
+    private void jTextFieldFiltroNombreFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiltroNombreFamiliaActionPerformed
         aplicarFiltros();
-    }//GEN-LAST:event_txtFiltroFamiliaActionPerformed
+    }//GEN-LAST:event_jTextFieldFiltroNombreFamiliaActionPerformed
 /**
      * Cierra esta ventana y muestra la anterior.
      */
@@ -342,20 +324,18 @@ public class VistaVeterinario extends javax.swing.JFrame {
         if (idGato == -1) return; // Error ya mostrado
 
         try {
-            // 1. Buscar el objeto Gato completo
-            Gato gato = control.buscarGatoCompleto((int) idGato); //
+            // 1. Buscar el objeto Gato completo (ya no necesita cast a (int))
+            Gato gato = control.buscarGatoCompleto(idGato);
             
-            // 2. Un veterinario no es una familia y no puede postularse.
-            // Pasamos 'null' como familia a la VistaPerfilGatoFamilia.
-            // (La VistaPerfilGatoFamilia debe estar preparada para manejar un 'null'
-            // y desactivar el botón "Postularse" si la familia es null).
-            FamiliaAdoptante familia = null; 
+            // 2. Abrir la vista específica del Veterinario
+            // Pasamos la 'control', el 'gato', el 'veterinario' y 'this' (para poder volver)
+            VistaPerfilGatoVeterinario perfilGato = new VistaPerfilGatoVeterinario(control, gato, this.veterinario, this); 
             
-            // 3. Abrir la vista de perfil
-            VistaPerfilGatoFamilia perfilGato = new VistaPerfilGatoFamilia(gato, familia, control); //
             perfilGato.setVisible(true);
             perfilGato.setLocationRelativeTo(this);
-            // No cerramos esta ventana, solo mostramos un detalle
+            
+            // 3. Ocultamos esta vista (VistaVeterinario)
+            this.setVisible(false); 
 
         } catch (OperacionException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Cargar Gato", JOptionPane.ERROR_MESSAGE);
@@ -365,12 +345,7 @@ public class VistaVeterinario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnVerPerfilGatoSeleccionadoActionPerformed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        aplicarFiltros();
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnVerPerfilGatoSeleccionado;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
@@ -380,8 +355,8 @@ public class VistaVeterinario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableVisitas;
-    private javax.swing.JTextField txtFiltroFamilia;
-    private javax.swing.JTextField txtFiltroGato;
+    private javax.swing.JTable jTableGatos;
+    private javax.swing.JTextField jTextFieldFiltroNombreFamilia;
+    private javax.swing.JTextField jTextFieldFiltroNombreGato;
     // End of variables declaration//GEN-END:variables
 }
