@@ -86,7 +86,7 @@
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnGestionarGato" min="-2" pref="168" max="-2" attributes="0"/>
-                          <Component id="btnRegistrarTarea" min="-2" pref="168" max="-2" attributes="0"/>
+                          <Component id="btnGestionarTareas" min="-2" pref="168" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="32" max="32767" attributes="0"/>
                   </Group>
@@ -96,7 +96,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnRegistrarTarea" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnGestionarTareas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnGestionarGato" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="18" max="32767" attributes="0"/>
@@ -105,12 +105,12 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnRegistrarTarea">
+            <Component class="javax.swing.JButton" name="btnGestionarTareas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Registrar Tarea"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarTareaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGestionarTareasActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnGestionarGato">
