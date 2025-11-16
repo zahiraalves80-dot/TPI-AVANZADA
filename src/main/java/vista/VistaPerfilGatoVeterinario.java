@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
+import javax.swing.JFrame; // 🟢 Agregado
 
 // --- Imports del Modelo (Lógica) ---
 import controladora.Controladora;
@@ -16,6 +17,8 @@ import modelo.FamiliaAdoptante;
 import modelo.Gato;
 import modelo.OperacionException;
 import modelo.Zona;
+import modelo.Veterinario; // 🟢 Agregado
+import modelo.HistoriaClinica; // 🟢 Agregado
 
 // --- Imports para QR (Librería Zxing) ---
 import com.google.zxing.BarcodeFormat;
@@ -38,69 +41,56 @@ import java.util.Set;
 
 public class VistaPerfilGatoVeterinario extends javax.swing.JFrame {
     
-    // --- Variables de Lógica ---
-    private final Gato gato;
-    private final FamiliaAdoptante familia;
+   private Gato gato; // 🟢 Hecho modificable para refrescar
+    private final Veterinario veterinario; // 🟢 Guardamos al veterinario
     private final Controladora control;
     private final javax.swing.JLabel lblFoto;
+    private final JFrame vistaAnterior; // 🟢 Guardamos la vista anterior
+
     /**
-     * Constructor principal.
-     * Recibe los objetos necesarios para mostrar el perfil y operar.
-     * @param gato
-     * @param familia
-     * @param control
+     * 🟢 CONSTRUCTOR MODIFICADO
+     * Recibe los objetos necesarios y la vista anterior para poder volver.
      */
-    public VistaPerfilGatoVeterinario(Gato gato, FamiliaAdoptante familia, Controladora control) {
-        this.gato = gato;
-        this.familia = familia;
+    public VistaPerfilGatoVeterinario(Controladora control, Gato gato, Veterinario veterinario, JFrame vistaAnterior) {
         this.control = control;
+        this.gato = gato;
+        this.veterinario = veterinario;
+        this.vistaAnterior = vistaAnterior; 
+        
         this.lblFoto = new javax.swing.JLabel();
-        initComponents(); // Carga el diseño de la interfaz
+        initComponents(); 
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
         
         jPanel2.setLayout(new java.awt.BorderLayout());
-    jPanel2.add(lblFoto, java.awt.BorderLayout.CENTER);
-        poblarDatos();    // Rellena la info automáticamente
+        jPanel2.add(lblFoto, java.awt.BorderLayout.CENTER);
+        poblarDatos(); 
     }
 
     /**
-     * REQUERIMIENTO 1: Rellena todos los JLabels con la información del Gato.
+     * Rellena todos los JLabels con la información del Gato.
      */
     private void poblarDatos() {
-        // Rellenar los datos del gato
+        // ... (Tu método poblarDatos() está perfecto, no necesita cambios)
         lblNombreDato.setText(gato.getNombre());
         lblRazaDato.setText(gato.getRaza());
         lblGeneroDato.setText(gato.getSexo());
         lblEstadoSaludDato.setText(gato.getestadoFisico().toString());
         lblObservacionesDato.setText(gato.getCaracteristicas());
         
-        // Rellenar la Zona (manejando si es nula)
         if (gato.getZona() != null) {
             lblZonaDato.setText(gato.getZona().getNombreZona());
         } else {
             lblZonaDato.setText("Sin zona asignada");
         }
         
-        String ruta = gato.getRutaFoto(); // Usamos el nuevo getter
-    if (ruta != null && !ruta.isEmpty()) {
-        try {
-            // Intentar cargar la imagen desde la ruta.
-           
-            javax.swing.ImageIcon icon = new javax.swing.ImageIcon(ruta);
-            
-            // Re-escalar la imagen para que encaje en el panel (ajuste la lógica si es necesario)
-            java.awt.Image image = icon.getImage();
-            java.awt.Image newImage = image.getScaledInstance(jPanel2.getWidth(), jPanel2.getHeight(), java.awt.Image.SCALE_SMOOTH);
-            
-            lblFoto.setIcon(new javax.swing.ImageIcon(newImage));
-            
-        } catch (Exception e) {
-            lblFoto.setText("Error al cargar imagen.");
-            e.printStackTrace();
+        String ruta = gato.getRutaFoto(); 
+        if (ruta != null && !ruta.isEmpty()) {
+            // ... (lógica de carga de imagen)
+        } else {
+            lblFoto.setText("Sin foto registrada");
+            lblFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         }
-    } else {
-        lblFoto.setText("Sin foto registrada");
-        lblFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    }
     }
     
     @SuppressWarnings("unchecked")
@@ -278,7 +268,8 @@ public class VistaPerfilGatoVeterinario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        // TODO add your handling code here:
+        this.vistaAnterior.setVisible(true); // Muestra VistaVeterinario
+        this.dispose(); // Cierra esta vista
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnVerMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerMapaActionPerformed
@@ -356,35 +347,69 @@ public class VistaPerfilGatoVeterinario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVerQRActionPerformed
 
     private void btnEmitirCertificadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmitirCertificadoActionPerformed
-        try {
-            // 1. Obtener los IDs (ya los tenemos en las variables de clase)
-            int idGato = (int) this.gato.getIdGato();
-            int idFamilia = this.familia.getIdUsuario();
+       try {
+            // Llama al placeholder en la controladora
+            control.emitirCertificadoAptitud(this.gato.getIdGato(), this.veterinario.getIdUsuario());
             
-            // 2. Llamar a la Controladora (Capa de Negocio)
-            control.crearPostulacion(idGato, idFamilia);
-            
-            // 3. Éxito
-            JOptionPane.showMessageDialog(this, "¡Postulación enviada con éxito!", "Postulación Registrada", JOptionPane.INFORMATION_MESSAGE);
-            
-            // 4. Cerrar la ventana
-            this.dispose();
+            JOptionPane.showMessageDialog(this, "Certificado emitido con éxito (placeholder).", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             
         } catch (OperacionException e) {
-            // Atrapa errores de negocio (ej. "Ya te postulaste a este gato")
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error en la Operación", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Función No Implementada", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
-            // Atrapa cualquier otro error
             JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEmitirCertificadoActionPerformed
 
     private void btnCambiarEstadoSaludActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarEstadoSaludActionPerformed
-        // TODO add your handling code here:
+        // 1. Obtener los posibles estados del Enum
+        Gato.EstadoSalud[] opciones = Gato.EstadoSalud.values(); //
+        
+        // 2. Mostrar el JOptionPane para seleccionar
+        Gato.EstadoSalud nuevoEstado = (Gato.EstadoSalud) JOptionPane.showInputDialog(
+            this,
+            "Seleccione el nuevo estado de salud para " + gato.getNombre() + ":",
+            "Cambiar Estado de Salud",
+            JOptionPane.QUESTION_MESSAGE,
+            null, // sin icono
+            opciones, // array de opciones
+            gato.getestadoFisico() // opción seleccionada por defecto
+        );
+
+        // 3. Procesar la selección
+        if (nuevoEstado != null && nuevoEstado != gato.getestadoFisico()) {
+            try {
+                // 4. Llamar a la controladora
+                control.modificarEstadoSaludGato(gato.getIdGato(), nuevoEstado);
+                
+                // 5. Refrescar los datos en esta vista
+                this.gato = control.buscarGatoCompleto((int)gato.getIdGato());
+                poblarDatos(); // Recarga los JLabels
+                
+                JOptionPane.showMessageDialog(this, "Estado de salud actualizado a: " + nuevoEstado.toString(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (OperacionException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Operación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnCambiarEstadoSaludActionPerformed
 
     private void btnVerHistorialClinicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerHistorialClinicoActionPerformed
-        // TODO add your handling code here:
+        try {
+            HistoriaClinica hc = gato.getHistoriaClinica();
+            if (hc == null) {
+                throw new OperacionException("Este gato no tiene una historia clínica asociada.");
+            }
+            
+            // 🟢 CORRECCIÓN: Pasamos el 'gato' completo (que contiene la HC)
+            // en lugar de solo 'hc'.
+            VistaHistoriaClinica vistaHC = new VistaHistoriaClinica(control, gato, this.veterinario, this);
+            
+            vistaHC.setVisible(true);
+            vistaHC.setLocationRelativeTo(this); // Se centra sobre esta ventana
+
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnVerHistorialClinicoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,21 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package vista;
 
-/**
- *
- * @author Usuario
- */
+import controladora.Controladora; // 🟢 Agregado
+import javax.swing.JFrame; // 🟢 Agregado
+import javax.swing.JOptionPane; // 🟢 Agregado
+import modelo.HistoriaClinica; // 🟢 Agregado
+import modelo.OperacionException; // 🟢 Agregado
+
 public class VistaTratamiento extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaTratamiento.class.getName());
+    private final Controladora control;
+    private final HistoriaClinica historia;
+    private final VistaHistoriaClinica vistaPadre; // 🟢 Vista que nos llamó
 
     /**
-     * Creates new form VistaTratamiento
+     * 🟢 CONSTRUCTOR MODIFICADO
      */
+    public VistaTratamiento(Controladora control, HistoriaClinica historia, VistaHistoriaClinica vistaPadre) {
+        this.control = control;
+        this.historia = historia;
+        this.vistaPadre = vistaPadre;
+        initComponents();
+        // 🟢 Importante: No cerrar la aplicación, solo esta ventana
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    
+    // Constructor original (para que NetBeans no falle)
     public VistaTratamiento() {
+        this.control = null;
+        this.historia = null;
+        this.vistaPadre = null;
         initComponents();
     }
 
@@ -52,8 +65,18 @@ public class VistaTratamiento extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextAreaDescripcionTratamiento);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCerrar.setText("Cerrar");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -110,6 +133,32 @@ public class VistaTratamiento extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String diagnostico = jTextAreaDiagnosticoTratamiento.getText().trim(); //
+        String descripcion = jTextAreaDescripcionTratamiento.getText().trim(); //
+        
+        try {
+            // Llama a la controladora
+            control.agregarTratamientoAHistoria(historia.getidHistoria(), diagnostico, descripcion);
+            
+            // Avisa al usuario
+            JOptionPane.showMessageDialog(this, "Tratamiento guardado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
+            // 🟢 Refresca la tabla de la vista anterior
+            vistaPadre.cargarDatos(); 
+            
+            // Cierra esta ventana (VistaTratamiento)
+            this.dispose(); 
+
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Guardar", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;

@@ -11,69 +11,61 @@ import modelo.FamiliaAdoptante;
 import modelo.Gato;
 import modelo.OperacionException;
 import modelo.Usuario;
+import modelo.Veterinario;
 
 public class VistaVeterinario extends javax.swing.JFrame {
     
    private final Controladora control;
-    private final Usuario veterinario; // Guardamos el usuario veterinario
+    private final Veterinario veterinario; 
     private DefaultTableModel modeloTabla;
     private TableRowSorter<TableModel> sorter;
 
-    /**
-     * Constructor para la VistaVeterinario.
-     * @param control La controladora principal de la aplicación.
-     * @param usuario El objeto Usuario (Veterinario) que ha iniciado sesión.
-     */
     public VistaVeterinario(Controladora control, Usuario usuario) {
         this.control = control;
-        this.veterinario = usuario;
+        this.veterinario = (Veterinario) usuario; // Casting del usuario logueado
         initComponents();
-        configurarTabla(); // Prepara la JTable y el sorter
-        cargarGatos();     // Carga los datos iniciales
+        configurarTabla(); 
         
-        // Personaliza el saludo
+        // 🟢 Carga todos los gatos (como solicitaste)
+        cargarTodosGatos(); 
+        
         jLabel1.setText("Gatos (Veterinario: " + usuario.getNombre() + ")");
     }
+   
     /**
-     * Configura la JTable, el modelo de tabla y el sistema de filtrado (sorter).
+     * Configura la JTable, el modelo y el sorter (filtro).
      */
     private void configurarTabla() {
-        // 1. Definir las columnas de la tabla
         String titulos[] = {"ID", "Nombre Gato", "Raza", "Familia Adoptante", "Estado Salud"};
         modeloTabla = new DefaultTableModel(null, titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // La tabla no es editable
+                return false; 
             }
         };
-        jTableGatos.setModel(modeloTabla);
+        // 🟢 Usa el nombre correcto de tu tabla
+        jTableGatos.setModel(modeloTabla); 
 
-        // 2. Configurar el ordenador/filtro
         sorter = new TableRowSorter<>(modeloTabla);
         jTableGatos.setRowSorter(sorter);
 
-        // 3. Ocultar la columna ID (Columna 0)
+        // Ocultar la columna ID (Columna 0)
         jTableGatos.getColumnModel().getColumn(0).setMaxWidth(0);
         jTableGatos.getColumnModel().getColumn(0).setMinWidth(0);
         jTableGatos.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
 
     /**
-     * Carga (o recarga) los gatos desde la base de datos a la JTable.
-     * Utiliza el método disponible en la controladora.
+     * 🟢 Carga TODOS los gatos, no solo los disponibles.
      */
-    private void cargarGatos() {
-        modeloTabla.setRowCount(0); // Limpiar la tabla antes de cargar
+    private void cargarTodosGatos() {
+        modeloTabla.setRowCount(0); 
         try {
-            // NOTA: Usamos traerGatosDisponibles() ya que es el único método
-            // en tu Controladora que devuelve una List<Gato>.
-            // Si necesitas ver TODOS (incluyendo adoptados), deberás añadir
-            // un método "traerTodosLosGatos()" a tu Controladora.
-            List<Gato> gatos = control.traerGatosDisponibles(); //
+            // Llama al método de la controladora que trae TODOS los gatos
+            List<Gato> gatos = control.traerTodosLosGatos();
 
             if (gatos != null && !gatos.isEmpty()) {
                 for (Gato g : gatos) {
-                    // Determinar el nombre de la familia (si existe)
                     String nombreFamilia = "N/A (Disponible)";
                     if (g.getFamiliaAdoptante() != null) {
                         nombreFamilia = g.getFamiliaAdoptante().getNombre();
@@ -84,29 +76,28 @@ public class VistaVeterinario extends javax.swing.JFrame {
                         g.getNombre(),
                         g.getRaza(),
                         nombreFamilia,
-                        g.getestadoFisico().toString() //
+                        g.getestadoFisico().toString() 
                     };
                     modeloTabla.addRow(fila);
                 }
             }
         } catch (OperacionException e) {
-            // Si no hay gatos, muestra el mensaje de la excepción
             JOptionPane.showMessageDialog(this, e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            // Error crítico
             JOptionPane.showMessageDialog(this, "Error inesperado al cargar gatos: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
     
     /**
-     * Aplica los filtros de los JTextField a la JTable usando el sorter.
+     * 🟢 Aplica los filtros de los JTextField a la JTable.
      */
     private void aplicarFiltros() {
         List<RowFilter<Object, Object>> filtros = new java.util.ArrayList<>();
         
-        String filtroGato = jTextFieldFiltroNombreGato.getText().trim();
-        String filtroFamilia = jTextFieldFiltroNombreFamilia.getText().trim();
+        // Usa los nombres de variables de tu archivo .form
+        String filtroGato = jTextFieldFiltroNombreGato.getText().trim(); 
+        String filtroFamilia = jTextFieldFiltroNombreFamilia.getText().trim(); 
 
         // Columna 1 es "Nombre Gato"
         if (!filtroGato.isEmpty()) {
@@ -117,13 +108,16 @@ public class VistaVeterinario extends javax.swing.JFrame {
             filtros.add(RowFilter.regexFilter("(?i)" + filtroFamilia, 3));
         }
         
-        // Aplica los filtros combinados (AND)
-        sorter.setRowFilter(RowFilter.andFilter(filtros));
+        // Aplica filtros combinados (AND)
+        if (filtros.isEmpty()) {
+            sorter.setRowFilter(null); // Si no hay filtros, muestra todo
+        } else {
+            sorter.setRowFilter(RowFilter.andFilter(filtros));
+        }
     }
     
     /**
-     * Obtiene el ID del gato seleccionado en la tabla.
-     * @return El ID del Gato, o -1 si no hay selección.
+     * Obtiene el ID (long) del gato seleccionado en la tabla.
      */
     private long getIdGatoSeleccionado() {
         int filaVista = jTableGatos.getSelectedRow();
@@ -136,6 +130,7 @@ public class VistaVeterinario extends javax.swing.JFrame {
         int filaModelo = jTableGatos.convertRowIndexToModel(filaVista);
         return (long) modeloTabla.getValueAt(filaModelo, 0); // Columna 0 = ID
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -329,20 +324,18 @@ public class VistaVeterinario extends javax.swing.JFrame {
         if (idGato == -1) return; // Error ya mostrado
 
         try {
-            // 1. Buscar el objeto Gato completo
-            Gato gato = control.buscarGatoCompleto((int) idGato); //
+            // 1. Buscar el objeto Gato completo (ya no necesita cast a (int))
+            Gato gato = control.buscarGatoCompleto(idGato);
             
-            // 2. Un veterinario no es una familia y no puede postularse.
-            // Pasamos 'null' como familia a la VistaPerfilGatoFamilia.
-            // (La VistaPerfilGatoFamilia debe estar preparada para manejar un 'null'
-            // y desactivar el botón "Postularse" si la familia es null).
-            FamiliaAdoptante familia = null; 
+            // 2. Abrir la vista específica del Veterinario
+            // Pasamos la 'control', el 'gato', el 'veterinario' y 'this' (para poder volver)
+            VistaPerfilGatoVeterinario perfilGato = new VistaPerfilGatoVeterinario(control, gato, this.veterinario, this); 
             
-            // 3. Abrir la vista de perfil
-            VistaPerfilGatoFamilia perfilGato = new VistaPerfilGatoFamilia(gato, familia, control); //
             perfilGato.setVisible(true);
             perfilGato.setLocationRelativeTo(this);
-            // No cerramos esta ventana, solo mostramos un detalle
+            
+            // 3. Ocultamos esta vista (VistaVeterinario)
+            this.setVisible(false); 
 
         } catch (OperacionException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Cargar Gato", JOptionPane.ERROR_MESSAGE);

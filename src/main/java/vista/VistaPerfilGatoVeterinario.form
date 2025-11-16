@@ -51,24 +51,22 @@
                           <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="lblObservacionesDato" pref="458" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="lblEstadoSaludDato" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblGeneroDato" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblZonaDato" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblRazaDato" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="btnVerQR" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="btnEmitirCertificado" alignment="0" pref="214" max="32767" attributes="0"/>
-                                          <Component id="btnCambiarEstadoSalud" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="btnVerHistorialClinico" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="btnVerMapa" max="32767" attributes="0"/>
-                                      </Group>
+                              <Component id="lblEstadoSaludDato" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblGeneroDato" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblZonaDato" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblRazaDato" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="btnVerQR" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="btnEmitirCertificado" alignment="0" pref="214" max="32767" attributes="0"/>
+                                      <Component id="btnCambiarEstadoSalud" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="btnVerHistorialClinico" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="btnVerMapa" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="lblNombreDato" alignment="0" max="32767" attributes="0"/>
                               </Group>
+                              <Component id="lblNombreDato" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>

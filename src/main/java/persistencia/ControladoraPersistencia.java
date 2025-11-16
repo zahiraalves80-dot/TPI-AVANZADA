@@ -12,7 +12,10 @@ import modelo.Voluntario;
 import modelo.Gato;
 import modelo.Postulacion; 
 import java.util.List;
+import modelo.Estudio;
+import modelo.HistoriaClinica;
 import modelo.Tarea;
+import modelo.Tratamiento;
 import modelo.Visita;
 import modelo.Zona;
 import persistencia.exceptions.NonexistentEntityException;
@@ -99,7 +102,7 @@ public class ControladoraPersistencia {
         }
     }
     
-    public Gato buscarGato(int idGato) {
+    public Gato buscarGato(long idGato) {
         try {
             return gatoJpa.findGato(idGato);
         } catch (Exception e) {
@@ -117,18 +120,17 @@ public class ControladoraPersistencia {
         
     }
     
-    public boolean existePostulacion(int idGato, int idFamilia) {
+    public boolean existePostulacion(long idGato, int idFamilia) {
         EntityManager em = postulacionJpa.getEntityManager();
         try {
-            // JPQL: "Cuenta las postulaciones p DONDE el ID del gato y el ID de la familia coincidan"
             TypedQuery<Long> query = em.createQuery(
-                "SELECT COUNT(p) FROM Postulacion p WHERE p.gato.idGato = :idGato AND p.familiaAdoptante.idUsuario = :idFamilia", 
+                // El JPQL usa el nombre del atributo (idGato), no de la columna
+                "SELECT COUNT(p) FROM Postulacion p WHERE p.gatoRelacionado.idGato = :idGato AND p.familiaPostulante.idUsuario = :idFamilia", 
                 Long.class
             );
-            query.setParameter("idGato", idGato);
+            query.setParameter("idGato", idGato); // Pasa el 'long'
             query.setParameter("idFamilia", idFamilia);
             
-            // Si el conteo es mayor a 0, significa que ya existe.
             return query.getSingleResult() > 0;
             
         } catch (NoResultException e) {
@@ -137,6 +139,30 @@ public class ControladoraPersistencia {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public List<Gato> traerTodosLosGatos() {
+        return gatoJpa.findGatoEntities(); // Devuelve la lista completa
+    }
+
+    // 🟢 NUEVO: Busca una Historia Clínica por ID
+    public HistoriaClinica buscarHistoriaClinica(long id) {
+        return historiaClinicaJpa.findHistoriaClinica(id);
+    }
+
+    // 🟢 NUEVO: Modifica una Historia Clínica (para agregar estudios/tratamientos)
+    public void modificarHistoriaClinica(HistoriaClinica historia) throws Exception {
+        historiaClinicaJpa.edit(historia);
+    }
+    
+    // 🟢 NUEVO: Crea un Tratamiento (JPA se encargará de la relación)
+    public void crearTratamiento(Tratamiento tratamiento) {
+        tratamientoJpa.create(tratamiento);
+    }
+
+    // 🟢 NUEVO: Crea un Estudio (JPA se encargará de la relación)
+    public void crearEstudio(Estudio estudio) {
+        estudiojpa.create(estudio);
     }
     
     public void crearPostulacion(Postulacion postulacion) throws Exception {

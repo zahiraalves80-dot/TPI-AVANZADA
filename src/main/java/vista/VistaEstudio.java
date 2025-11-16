@@ -1,24 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package vista;
 
-/**
- *
- * @author Usuario
- */
+import controladora.Controladora; // 🟢 Agregado
+import javax.swing.JFrame; // 🟢 Agregado
+import javax.swing.JOptionPane; // 🟢 Agregado
+import modelo.HistoriaClinica; // 🟢 Agregado
+import modelo.OperacionException; // 🟢 Agregado
+
 public class VistaEstudio extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaEstudio.class.getName());
+    private final Controladora control;
+    private final HistoriaClinica historia;
+    private final VistaHistoriaClinica vistaPadre; // 🟢 Vista que nos llamó
 
     /**
-     * Creates new form VistaTratamiento
+     * 🟢 CONSTRUCTOR MODIFICADO
      */
+    public VistaEstudio(Controladora control, HistoriaClinica historia, VistaHistoriaClinica vistaPadre) {
+        this.control = control;
+        this.historia = historia;
+        this.vistaPadre = vistaPadre;
+        initComponents();
+        // 🟢 Importante: No cerrar la aplicación, solo esta ventana
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    
+    // Constructor original (para que NetBeans no falle)
     public VistaEstudio() {
+        this.control = null;
+        this.historia = null;
+        this.vistaPadre = null;
         initComponents();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -47,8 +60,18 @@ public class VistaEstudio extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextAreaResultadoEstudio);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCerrar.setText("Cerrar");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,6 +128,32 @@ public class VistaEstudio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String nombreEstudio = jTextFieldNombreEstudio.getText().trim(); //
+        String resultado = jTextAreaResultadoEstudio.getText().trim(); //
+        
+        try {
+            // Llama a la controladora
+            control.agregarEstudioAHistoria(historia.getidHistoria(), nombreEstudio, resultado);
+            
+            // Avisa al usuario
+            JOptionPane.showMessageDialog(this, "Estudio guardado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
+            // 🟢 Refresca la tabla de la vista anterior
+            vistaPadre.cargarDatos(); 
+            
+            // Cierra esta ventana (VistaEstudio)
+            this.dispose(); 
+
+        } catch (OperacionException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Guardar", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
