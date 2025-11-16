@@ -6,7 +6,6 @@
     <class>modelo.Estudio</class>
     <class>modelo.FamiliaAdoptante</class>
     <class>modelo.Gato</class>
-    <class>modelo.HistoriaClinica</class>
     <class>modelo.Postulacion</class>
     <class>modelo.Reporte</class>
     <class>modelo.Sesion</class>
@@ -18,6 +17,7 @@
     <class>modelo.Voluntario</class>
     <class>modelo.Zona</class>
     <class>modelo.Aptitud</class>
+    <class>modelo.HistoriaClinica</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/tpiavanzadas?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
