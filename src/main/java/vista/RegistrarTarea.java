@@ -7,19 +7,79 @@ import modelo.Voluntario;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 import java.util.Date;
+import java.util.List;
+import modelo.Gato;
+import javax.swing.JFrame;
+import modelo.Zona;
 
 public class RegistrarTarea extends javax.swing.JFrame {
     private final Controladora control;
     private final Voluntario voluntario;
+    private final VistaTareasVoluntario vistaTareas;
+    private javax.swing.JFormattedTextField jFormattedTextFieldFecha1; 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarTarea.class.getName());
+    
 
-    public RegistrarTarea(Controladora control, Voluntario voluntario) {
+    public RegistrarTarea(Controladora control, Voluntario voluntario, VistaTareasVoluntario vistaTareas) {
         this.control = control;
         this.voluntario = voluntario;
+        this.vistaTareas = vistaTareas;
         initComponents();
         cargarTipoTarea();
+        cargarDatosAdicionales();
+    }
+   
+    class ComboBoxItem {
+        private long id;
+        private String display;
+        public ComboBoxItem(long id, String display) {
+            this.id = id;
+            this.display = display;
+        }
+        public long getId() { return id; }
+        @Override
+        public String toString() { return display; }
     }
     
+    
+    private void cargarDatosAdicionales() {
+    try {
+        
+        List<Gato> gatos = control.traerTodosLosGatos();
+        
+        DefaultComboBoxModel<ComboBoxItem> modeloGato = new DefaultComboBoxModel<>(); 
+        modeloGato.addElement(new ComboBoxItem(0, "--- Seleccionar Gato ---")); 
+        for (Gato g : gatos) {
+            modeloGato.addElement(new ComboBoxItem(g.getIdGato(), g.getNombre() + " (" + g.getRaza() + ")"));
+        }
+        
+       
+        jComboBoxGatoSeleccionado.setModel((DefaultComboBoxModel)modeloGato); 
+        
+        // --- 2. Cargar Voluntarios ---
+        List<Voluntario> voluntarios = control.traerTodosLosVoluntarios();
+        DefaultComboBoxModel<ComboBoxItem> modeloVoluntario = new DefaultComboBoxModel<>();
+        modeloVoluntario.addElement(new ComboBoxItem(0, "--- Seleccionar Voluntario ---")); 
+        for (Voluntario v : voluntarios) {
+            modeloVoluntario.addElement(new ComboBoxItem(v.getIdUsuario(), v.getNombre() + " (ID: " + v.getIdUsuario() + ")"));
+        }
+        
+        jComboBoxVoluntarioEncargadoTarea.setModel((DefaultComboBoxModel)modeloVoluntario);
+        
+       
+         for(int i = 0; i < modeloVoluntario.getSize(); i++) {
+            if (voluntario != null && modeloVoluntario.getElementAt(i).getId() == voluntario.getIdUsuario()) {
+                jComboBoxVoluntarioEncargadoTarea.setSelectedIndex(i);
+                break;
+            }
+        }
+        
+    } catch (OperacionException e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar listas: " + e.getMessage(), "Error de Carga", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error crítico al inicializar las listas.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
+    }
+}
     private void cargarTipoTarea() {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         model.addElement("-");
@@ -27,7 +87,7 @@ public class RegistrarTarea extends javax.swing.JFrame {
             // Muestra los nombres de los Enums (ej. ALIMENTACION)
             model.addElement(tipo.toString()); 
         }
-        jComboBoxTiposTarea.setModel(model); // Asumo que jComboBox1 es el Tipo de Tarea
+        jComboBoxTiposTarea.setModel(model); 
     }
 
     @SuppressWarnings("unchecked")
@@ -44,12 +104,12 @@ public class RegistrarTarea extends javax.swing.JFrame {
         btnRegistrarTarea = new javax.swing.JButton();
         jComboBoxTiposTarea = new javax.swing.JComboBox<>();
         btnVolverAtras = new javax.swing.JButton();
-        jFormattedTextFieldFecha1 = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jComboBoxVoluntarioEncargadoTarea = new javax.swing.JComboBox<>();
         jComboBoxGatoSeleccionado = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,10 +135,18 @@ public class RegistrarTarea extends javax.swing.JFrame {
         });
 
         jComboBoxTiposTarea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxTiposTarea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxTiposTareaActionPerformed(evt);
+            }
+        });
 
         btnVolverAtras.setText("Volver");
-
-        jFormattedTextFieldFecha1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        btnVolverAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverAtrasActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Ubicación:");
@@ -87,11 +155,28 @@ public class RegistrarTarea extends javax.swing.JFrame {
         jLabel6.setText("Voluntario Encargado:");
 
         jComboBoxVoluntarioEncargadoTarea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxVoluntarioEncargadoTarea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxVoluntarioEncargadoTareaActionPerformed(evt);
+            }
+        });
 
         jComboBoxGatoSeleccionado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxGatoSeleccionado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxGatoSeleccionadoActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Gato:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,24 +189,23 @@ public class RegistrarTarea extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel7)
-                            .addComponent(jComboBoxGatoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel2)
-                                .addComponent(jFormattedTextFieldFecha)
-                                .addComponent(jTextFieldDescripcionTarea)
-                                .addComponent(jComboBoxTiposTarea, 0, 244, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btnVolverAtras)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnRegistrarTarea))
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel5)
-                                .addComponent(jFormattedTextFieldFecha1)
-                                .addComponent(jComboBoxVoluntarioEncargadoTarea, 0, 244, Short.MAX_VALUE)))))
+                            .addComponent(jComboBoxGatoSeleccionado, 0, 244, Short.MAX_VALUE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2)
+                            .addComponent(jFormattedTextFieldFecha)
+                            .addComponent(jTextFieldDescripcionTarea)
+                            .addComponent(jComboBoxTiposTarea, 0, 244, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnVolverAtras)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRegistrarTarea))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addComponent(jComboBoxVoluntarioEncargadoTarea, 0, 244, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -139,9 +223,9 @@ public class RegistrarTarea extends javax.swing.JFrame {
                 .addComponent(jComboBoxTiposTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextFieldFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addGap(12, 12, 12)
                 .addComponent(jComboBoxGatoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,25 +267,38 @@ public class RegistrarTarea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarTareaActionPerformed
-      String fechaStr = jFormattedTextFieldFecha.getText().trim();
+     String fechaStr = jFormattedTextFieldFecha.getText().trim();
         String tipoTareaStr = jComboBoxTiposTarea.getSelectedItem().toString().trim();
-        String descripcion = jTextFieldDescripcionTarea.getText().trim(); // Asumo jTextField1 es la descripción
-        String nombreGato = "-";
+        String descripcion = jTextFieldDescripcionTarea.getText().trim();
         
-        long idVoluntario = voluntario.getIdUsuario();
+        // 🟢 Obtener IDs de los ComboBoxes
+        ComboBoxItem gatoItem = (ComboBoxItem) jComboBoxGatoSeleccionado.getSelectedItem();
+        ComboBoxItem voluntarioItem = (ComboBoxItem) jComboBoxVoluntarioEncargadoTarea.getSelectedItem();
+        
+        long idVoluntario = voluntarioItem.getId();
+        long idGato = gatoItem.getId();
+        String ubicacion = jFormattedTextFieldFecha1.getText().trim(); 
         
         try {
-            // 2. Llamar al controlador
-            control.registrarTarea(
+           
+            if (idGato == 0 || idVoluntario == 0 || ubicacion.isEmpty() || tipoTareaStr.equals("-")) {
+                throw new OperacionException("Debe seleccionar Gato, Tipo de Tarea y especificar la Ubicación.");
+            }
+            
+            // 2. Llamar al controlador con los datos completos
+            control.registrarTareaCompleta(
                 idVoluntario, 
-                nombreGato, 
+                idGato, 
+                ubicacion, 
                 fechaStr, 
                 tipoTareaStr, 
                 descripcion
             );
             
-            JOptionPane.showMessageDialog(this, "✅ Tarea registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            // Cierra la ventana:
+            // 3. Éxito y recarga
+            JOptionPane.showMessageDialog(this, " Tarea registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
+            this.vistaTareas.cargarTareas();
             this.dispose();
 
         } catch (OperacionException e) {
@@ -209,16 +306,44 @@ public class RegistrarTarea extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error crítico: " + e.getMessage(), "Error de Sistema", JOptionPane.ERROR_MESSAGE);
         }
+    
+    
+    
+    
     }//GEN-LAST:event_btnRegistrarTareaActionPerformed
+
+    private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
+       
+        this.vistaTareas.setVisible(true); 
+        
+        this.dispose();
+    
+    }//GEN-LAST:event_btnVolverAtrasActionPerformed
+
+    private void jComboBoxGatoSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGatoSeleccionadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxGatoSeleccionadoActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBoxVoluntarioEncargadoTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxVoluntarioEncargadoTareaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxVoluntarioEncargadoTareaActionPerformed
+
+    private void jComboBoxTiposTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTiposTareaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxTiposTareaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrarTarea;
     private javax.swing.JButton btnVolverAtras;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxGatoSeleccionado;
     private javax.swing.JComboBox<String> jComboBoxTiposTarea;
     private javax.swing.JComboBox<String> jComboBoxVoluntarioEncargadoTarea;
     private javax.swing.JFormattedTextField jFormattedTextFieldFecha;
-    private javax.swing.JFormattedTextField jFormattedTextFieldFecha1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

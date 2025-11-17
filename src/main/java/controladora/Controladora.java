@@ -603,7 +603,7 @@ public void cambiarEstadoPostulacion(long idPostulacion, Postulacion.Estado nuev
         p.setEstado(nuevoEstado);
         controlpersis.modificarPostulacion(p);
         
-        // 🟢 Lógica de Asignación si se APROBÓ
+       
         if (nuevoEstado == Postulacion.Estado.APROBADA) {
              long idGato = p.getGatoRelacionado().getIdGato();
              int idFamilia = p.getFamiliaPostulante().getIdUsuario();
@@ -614,6 +614,74 @@ public void cambiarEstadoPostulacion(long idPostulacion, Postulacion.Estado nuev
         
     } catch (Exception ex) {
         throw new OperacionException("Error al cambiar el estado de la postulación.", ex);
+    }
+}
+
+public List<Voluntario> traerTodosLosVoluntarios() throws OperacionException {
+    try {
+        List<Voluntario> voluntarios = controlpersis.traerTodosLosVoluntarios(); // 🟢 LLAMADA A PERSISTENCIA
+        if (voluntarios == null || voluntarios.isEmpty()) {
+            throw new OperacionException("No hay voluntarios registrados en el sistema.");
+        }
+        return voluntarios;
+    } catch (Exception e) {
+        throw new OperacionException("Error al traer la lista de voluntarios: " + e.getMessage(), e);
+    }
+}
+
+
+public void registrarTareaCompleta(long idVoluntario, long idGato, String ubicacion, String fechaStr, String tipoTareaStr, String descripcion) throws OperacionException {
+    
+    // 🚨 1. Validación de campos de la interfaz
+    if (ubicacion.isEmpty() || tipoTareaStr.equals("-") || descripcion.isEmpty() || fechaStr.isEmpty()) {
+        throw new OperacionException("Todos los campos de la tarea son obligatorios.");
+    }
+
+    try {
+        // 2. Buscar entidades por ID
+        Voluntario voluntario = controlpersis.buscarVoluntario(idVoluntario); //
+        Gato gato = controlpersis.buscarGato(idGato); 
+        
+        if (voluntario == null) throw new OperacionException("Error interno: Voluntario no encontrado.");
+        if (gato == null) throw new OperacionException("Error: Gato no encontrado.");
+        
+        // 3. Convertir Enum
+        Tarea.TipoTarea tipoTarea = Tarea.TipoTarea.valueOf(tipoTareaStr.toUpperCase());
+        
+       
+        Date fecha = new Date(); 
+        
+        // 4. Crear la entidad Tarea
+        Tarea nuevaTarea = new Tarea();
+        nuevaTarea.setFecha(fecha);
+        nuevaTarea.setTipoTarea(tipoTarea); //
+        nuevaTarea.setDescripcion(descripcion);
+        nuevaTarea.setUbicacion(ubicacion); //
+        nuevaTarea.setGatoAsignado(gato);
+        nuevaTarea.setVoluntarioQueRealiza(voluntario);
+
+        // 5. Persistir
+        controlpersis.crearTarea(nuevaTarea); //
+        
+    } catch (IllegalArgumentException e) {
+        throw new OperacionException("Error de formato: El tipo de tarea seleccionado no es válido.", e);
+    } catch (OperacionException e) {
+        throw e;
+    } catch (Exception e) {
+        throw new OperacionException("Error de persistencia al registrar la tarea: " + e.getMessage(), e);
+    }
+}
+
+public List<Tarea> traerTodasLasTareas() throws OperacionException {
+    try {
+        List<Tarea> tareas = controlpersis.traerTodasLasTareas();
+        
+        if (tareas == null || tareas.isEmpty()) {
+            throw new OperacionException("No hay tareas registradas en el sistema.");
+        }
+        return tareas;
+    } catch (Exception e) {
+        throw new OperacionException("Error al intentar cargar todas las tareas: " + e.getMessage(), e);
     }
 }
 }

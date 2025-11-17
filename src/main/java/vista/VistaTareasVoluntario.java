@@ -10,12 +10,16 @@ import javax.swing.table.TableRowSorter;
 import modelo.FamiliaAdoptante;
 import modelo.Gato;
 import modelo.OperacionException;
+import modelo.Tarea;
 import modelo.Usuario;
+import modelo.Voluntario;
 
 public class VistaTareasVoluntario extends javax.swing.JFrame {
     
    private final Controladora control;
-    private final Usuario veterinario; // Guardamos el usuario veterinario
+    private final Usuario veterinario; 
+    private final VistaVoluntario vistaAnterior;
+    private final Usuario voluntarioLogueado;
     private DefaultTableModel modeloTabla;
     private TableRowSorter<TableModel> sorter;
 
@@ -24,12 +28,14 @@ public class VistaTareasVoluntario extends javax.swing.JFrame {
      * @param control La controladora principal de la aplicación.
      * @param usuario El objeto Usuario (Veterinario) que ha iniciado sesión.
      */
-    public VistaTareasVoluntario(Controladora control, Usuario usuario) {
+    public VistaTareasVoluntario(Controladora control, Usuario usuario, VistaVoluntario vistaAnterior) {
         this.control = control;
         this.veterinario = usuario;
+        this.vistaAnterior = vistaAnterior;
+        this.voluntarioLogueado = usuario;
         initComponents();
         configurarTabla(); // Prepara la JTable y el sorter
-        cargarGatos();     // Carga los datos iniciales
+        cargarTareas();     // Carga los datos iniciales
         
         // Personaliza el saludo
         jLabel1.setText("Gatos (Veterinario: " + usuario.getNombre() + ")");
@@ -38,64 +44,53 @@ public class VistaTareasVoluntario extends javax.swing.JFrame {
      * Configura la JTable, el modelo de tabla y el sistema de filtrado (sorter).
      */
     private void configurarTabla() {
-        // 1. Definir las columnas de la tabla
-        String titulos[] = {"ID", "Nombre Gato", "Raza", "Familia Adoptante", "Estado Salud"};
+        
+        String titulos[] = {"ID", "Fecha", "Tipo Tarea", "Gato Asignado", "Descripción"};
         modeloTabla = new DefaultTableModel(null, titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // La tabla no es editable
+                return false;
             }
         };
         jTableTareas.setModel(modeloTabla);
 
-        // 2. Configurar el ordenador/filtro
         sorter = new TableRowSorter<>(modeloTabla);
         jTableTareas.setRowSorter(sorter);
 
-        // 3. Ocultar la columna ID (Columna 0)
         jTableTareas.getColumnModel().getColumn(0).setMaxWidth(0);
         jTableTareas.getColumnModel().getColumn(0).setMinWidth(0);
         jTableTareas.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
 
-    /**
-     * Carga (o recarga) los gatos desde la base de datos a la JTable.
-     * Utiliza el método disponible en la controladora.
-     */
-    private void cargarGatos() {
-        modeloTabla.setRowCount(0); // Limpiar la tabla antes de cargar
+    
+    public void cargarTareas() { 
+        modeloTabla.setRowCount(0); 
         try {
-            // NOTA: Usamos traerGatosDisponibles() ya que es el único método
-            // en tu Controladora que devuelve una List<Gato>.
-            // Si necesitas ver TODOS (incluyendo adoptados), deberás añadir
-            // un método "traerTodosLosGatos()" a tu Controladora.
-            List<Gato> gatos = control.traerGatosDisponibles(); //
+            // 🟢 LLAMADA AL MÉTODO QUE TRAE TODAS LAS TAREAS
+            List<Tarea> tareas = control.traerTodasLasTareas(); 
 
-            if (gatos != null && !gatos.isEmpty()) {
-                for (Gato g : gatos) {
-                    // Determinar el nombre de la familia (si existe)
-                    String nombreFamilia = "N/A (Disponible)";
-                    if (g.getFamiliaAdoptante() != null) {
-                        nombreFamilia = g.getFamiliaAdoptante().getNombre();
-                    }
+            if (tareas != null && !tareas.isEmpty()) {
+                for (Tarea t : tareas) {
+                    // Obtener los nombres necesarios para la tabla
+                    String nombreGato = (t.getGatoAsignado() != null) ? t.getGatoAsignado().getNombre() : "N/A";
+                    
+                    // Asegúrese de que el formato de fecha sea legible
+                    String fechaStr = (t.getFecha() != null) ? t.getFecha().toString() : "N/A";
                     
                     Object[] fila = {
-                        g.getIdGato(),
-                        g.getNombre(),
-                        g.getRaza(),
-                        nombreFamilia,
-                        g.getestadoFisico().toString() //
+                        t.getIdTarea(),
+                        fechaStr,
+                        t.getTipoTarea().toString(),
+                        nombreGato,
+                        t.getDescripcion()
                     };
                     modeloTabla.addRow(fila);
                 }
             }
         } catch (OperacionException e) {
-            // Si no hay gatos, muestra el mensaje de la excepción
             JOptionPane.showMessageDialog(this, e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            // Error crítico
-            JOptionPane.showMessageDialog(this, "Error inesperado al cargar gatos: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error inesperado al cargar tareas: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -144,7 +139,6 @@ public class VistaTareasVoluntario extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTareas = new javax.swing.JTable();
-        btnVerPerfilGatoSeleccionado = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         btnRegistrarGato = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -168,13 +162,6 @@ public class VistaTareasVoluntario extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(jTableTareas);
-
-        btnVerPerfilGatoSeleccionado.setText("Ver Tarea Seleccionada");
-        btnVerPerfilGatoSeleccionado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerPerfilGatoSeleccionadoActionPerformed(evt);
-            }
-        });
 
         btnVolver.setText("Volver atrás");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -202,8 +189,6 @@ public class VistaTareasVoluntario extends javax.swing.JFrame {
                         .addComponent(btnVolver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnRegistrarGato)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnVerPerfilGatoSeleccionado)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -214,7 +199,6 @@ public class VistaTareasVoluntario extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVerPerfilGatoSeleccionado)
                     .addComponent(btnVolver)
                     .addComponent(btnRegistrarGato))
                 .addGap(220, 220, 220))
@@ -322,54 +306,45 @@ public class VistaTareasVoluntario extends javax.swing.JFrame {
      * Cierra esta ventana y muestra la anterior.
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // 1. Crear la nueva ventana de Iniciar Sesión
-        IniciarSesion login = new IniciarSesion(control); //
-        
-        // 2. Mostrar la ventana de Login
-        login.setVisible(true);
-        login.setLocationRelativeTo(null); // Centrarla
-        
-        // 3. Cerrar esta ventana (VistaVeterinario)
-        this.dispose();
-    }//GEN-LAST:event_btnVolverActionPerformed
-/**
-     * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
-     */
-    private void btnVerPerfilGatoSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPerfilGatoSeleccionadoActionPerformed
-        long idGato = getIdGatoSeleccionado();
-        if (idGato == -1) return; // Error ya mostrado
-
-        try {
-            // 1. Buscar el objeto Gato completo
-            Gato gato = control.buscarGatoCompleto((int) idGato); //
-            
-            // 2. Un veterinario no es una familia y no puede postularse.
-            // Pasamos 'null' como familia a la VistaPerfilGatoFamilia.
-            // (La VistaPerfilGatoFamilia debe estar preparada para manejar un 'null'
-            // y desactivar el botón "Postularse" si la familia es null).
-            FamiliaAdoptante familia = null; 
-            
-            // 3. Abrir la vista de perfil
-            VistaPerfilGatoFamilia perfilGato = new VistaPerfilGatoFamilia(gato, familia, control); //
-            perfilGato.setVisible(true);
-            perfilGato.setLocationRelativeTo(this);
-            // No cerramos esta ventana, solo mostramos un detalle
-
-        } catch (OperacionException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Cargar Gato", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+      // 🟢 CORRECCIÓN: Hace visible la ventana del menú principal (VistaVoluntario)
+        if (this.vistaAnterior != null) {
+            this.vistaAnterior.setVisible(true); 
         }
-    }//GEN-LAST:event_btnVerPerfilGatoSeleccionadoActionPerformed
+        
+        // Cierra la ventana actual
+        this.dispose();
+     
+      
+        
+    }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnRegistrarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarGatoActionPerformed
+       try {
+      
+        Voluntario voluntario = (Voluntario)this.voluntarioLogueado; 
         
+        // 🟢 LLAMADA CORREGIDA: Pasa el control, el Voluntario, y 'this' (la vista de lista de tareas)
+        RegistrarTarea regTarea = new RegistrarTarea(
+            this.control, 
+            voluntario, 
+            this // VistaTareasVoluntario se pasa como padre
+        );
+
+        regTarea.setVisible(true);
+        regTarea.setLocationRelativeTo(null);
+        this.setVisible(false); // Oculta la vista de lista
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+            "Error al abrir el registro de tarea: " + e.getMessage(),
+            "Error de Navegación",
+            JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    } 
     }//GEN-LAST:event_btnRegistrarGatoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrarGato;
-    private javax.swing.JButton btnVerPerfilGatoSeleccionado;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

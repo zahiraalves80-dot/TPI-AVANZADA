@@ -93,9 +93,12 @@ public class ControladoraPersistencia {
         try {
             // JPQL: "Selecciona el objeto Gato g DONDE el atributo 'disponible' sea true"
             TypedQuery<Gato> query = em.createQuery(
-                "SELECT g FROM Gato g WHERE g.disponible = true", 
+                "SELECT g FROM Gato g WHERE g.disponible = :disponibleStatus", 
                 Gato.class
             );
+            
+            query.setParameter("disponibleStatus", Gato.RespuestaBinaria.SI);
+            
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -382,10 +385,13 @@ public void crearReporte(Reporte reporte) throws Exception {
     }
     
     
-
-
-
-
-
+public List<Voluntario> traerTodosLosVoluntarios() {
+    // Delega al método que trae todas las entidades Voluntario
+    return voluntarioJpa.findVoluntarioEntities(); //
+}
+public List<Tarea> traerTodasLasTareas() {
+    // Asume que tareaJpa es una instancia de TareaJpaController
+    return tareaJpa.findTareaEntities(); 
+}
 }
     

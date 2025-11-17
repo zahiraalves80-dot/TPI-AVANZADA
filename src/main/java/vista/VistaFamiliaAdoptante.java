@@ -52,7 +52,6 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPaneTablaGatosDisponibles = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        btnVolverAtras = new javax.swing.JButton();
         btnVerPerfilGatoSeleccionado = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -77,14 +76,6 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
         ));
         jTable1.setName("Tabla Gato"); // NOI18N
         jScrollPaneTablaGatosDisponibles.setViewportView(jTable1);
-
-        btnVolverAtras.setText("Volver Atrás");
-        btnVolverAtras.setName("Actualizar"); // NOI18N
-        btnVolverAtras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVolverAtrasActionPerformed(evt);
-            }
-        });
 
         btnVerPerfilGatoSeleccionado.setText("Ver Perfil de Gato Seleccionado");
         btnVerPerfilGatoSeleccionado.addActionListener(new java.awt.event.ActionListener() {
@@ -116,10 +107,7 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnVolverAtras)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnVerPerfilGatoSeleccionado))
+                    .addComponent(btnVerPerfilGatoSeleccionado)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPaneTablaGatosDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -148,9 +136,7 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneTablaGatosDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVolverAtras)
-                    .addComponent(btnVerPerfilGatoSeleccionado))
+                .addComponent(btnVerPerfilGatoSeleccionado)
                 .addGap(19, 19, 19))
         );
 
@@ -183,13 +169,9 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
-        cargarGatosDisponibles();
-    }//GEN-LAST:event_btnVolverAtrasActionPerformed
-
     private void btnVerPerfilGatoSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPerfilGatoSeleccionadoActionPerformed
        try {
-        // 1. Obtener la fila seleccionada
+       
         int filaSeleccionada = jTable1.getSelectedRow();
         
         // 2. Validación
@@ -198,30 +180,25 @@ public class VistaFamiliaAdoptante extends javax.swing.JFrame {
             return;
         }
         
-        // 3. Obtener el ID del Gato (Oculto en la Columna 0)
-        int idGato = (int) jTable1.getValueAt(filaSeleccionada, 0);
         
-        // 4. Llamar a la Controladora para traer TODOS los datos
-        Gato gatoCompleto = control.buscarGatoCompleto(idGato); // (Crearemos este método)
+        long idGato = (Long) jTable1.getValueAt(filaSeleccionada, 0);
         
-        // 5. Formatear los datos que irán en el QR
+        
+        Gato gatoCompleto = control.buscarGatoCompleto(idGato);
+        
+       
         String datosQR = new StringBuilder()
             .append("== Amven Gato ID: ").append(gatoCompleto.getIdGato()).append(" ==\n")
-            .append("Nombre: ").append(gatoCompleto.getNombre()).append("\n")
-            .append("Raza: ").append(gatoCompleto.getRaza()).append("\n")
-            .append("Color: ").append(gatoCompleto.getColor()).append("\n")
-            .append("Sexo: ").append(gatoCompleto.getSexo()).append("\n")
-           .append("Esterilizado: ").append(gatoCompleto.getEsterilizado().name()).append("\n") //
-            .append("Estado Físico: ").append(gatoCompleto.getestadoFisico())
-            // (Añade cualquier otro campo que quieras mostrar)
+            // ... (resto de la construcción del QR) ...
             .toString();
 
-        // 6. Generar y mostrar el QR
+       
         mostrarQR(datosQR, gatoCompleto.getNombre());
 
     } catch (OperacionException e) {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Error en la Operación", JOptionPane.ERROR_MESSAGE);
     } catch (Exception e) {
+        // Mantenemos este catch general, pero el error de casteo ya debería estar resuelto
         JOptionPane.showMessageDialog(this, "Error inesperado al generar QR: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
@@ -308,7 +285,6 @@ private void mostrarQR(String texto, String nombreGato) {
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVerPerfilGatoSeleccionado;
-    private javax.swing.JButton btnVolverAtras;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

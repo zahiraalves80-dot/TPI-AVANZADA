@@ -65,11 +65,8 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
     private void cargarGatos() {
         modeloTabla.setRowCount(0); // Limpiar la tabla antes de cargar
         try {
-            // NOTA: Usamos traerGatosDisponibles() ya que es el único método
-            // en tu Controladora que devuelve una List<Gato>.
-            // Si necesitas ver TODOS (incluyendo adoptados), deberás añadir
-            // un método "traerTodosLosGatos()" a tu Controladora.
-            List<Gato> gatos = control.traerGatosDisponibles(); //
+            
+            List<Gato> gatos = control.traerTodosLosGatos(); //
 
             if (gatos != null && !gatos.isEmpty()) {
                 for (Gato g : gatos) {
@@ -322,15 +319,15 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
      * Cierra esta ventana y muestra la anterior.
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // 1. Crear la nueva ventana de Iniciar Sesión
-        IniciarSesion login = new IniciarSesion(control); //
+      if (this.vistaVoluntarioAnterior != null) {
+        this.vistaVoluntarioAnterior.setVisible(true); // Hace visible la ventana del menú Voluntario
+    }
+    
+    this.dispose(); // Cierra la ventana actual (VistaGatosVoluntario)
+
         
-        // 2. Mostrar la ventana de Login
-        login.setVisible(true);
-        login.setLocationRelativeTo(null); // Centrarla
+      
         
-        // 3. Cerrar esta ventana (VistaVeterinario)
-        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 /**
      * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
@@ -347,7 +344,7 @@ public class VistaGatosVoluntario extends javax.swing.JFrame {
             FamiliaAdoptante familia = null; 
             
             // 3. Abrir la vista de perfil
-            VistaPerfilGatoFamilia perfilGato = new VistaPerfilGatoFamilia(gato, familia, control); //
+            VistaPerfilGatoVoluntario perfilGato = new VistaPerfilGatoVoluntario(gato, familia, control); //
             perfilGato.setVisible(true);
             perfilGato.setLocationRelativeTo(this);
             // No cerramos esta ventana, solo mostramos un detalle

@@ -11,12 +11,17 @@ public class VistaVoluntario extends javax.swing.JFrame {
     
     private final Controladora control;
     private final Voluntario voluntarioLogueado;
+   
 
     public VistaVoluntario(Controladora control, Usuario usuario) {
         this.control = control;
         this.voluntarioLogueado = (Voluntario) usuario; // Guardar el voluntario
         initComponents();
         jLabel1.setText("Voluntario, " + usuario.getNombre());
+    }
+
+    VistaVoluntario(Controladora control) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
    /* codigo de BOTON REGISTRAR GATO ANTERIORMENTEtry {
             // 1. Crear la nueva instancia, enviando 'this' como la vista anterior
@@ -148,12 +153,28 @@ public class VistaVoluntario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGestionarTareasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarTareasActionPerformed
-        RegistrarTarea regTarea = new RegistrarTarea(this.control, this.voluntarioLogueado);
+        try {
         
-        // 2. Mostrar la ventana
-        regTarea.setVisible(true);
-        regTarea.setLocationRelativeTo(this);
-        this.setVisible(false); // Ocultar el menú
+        VistaTareasVoluntario vistaTareas = new VistaTareasVoluntario(
+            this.control, 
+            this.voluntarioLogueado, 
+            this // Referencia a VistaVoluntario para poder volver
+        ); 
+
+        // 2. Mostrar la nueva ventana
+        vistaTareas.setVisible(true);
+        vistaTareas.setLocationRelativeTo(null); 
+
+        // 3. Ocultar la ventana actual
+        this.setVisible(false);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+            "Error al abrir la gestión de tareas: " + e.getMessage(),
+            "Error de Navegación",
+            JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnGestionarTareasActionPerformed
 
     private void btnGestionarGatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarGatoActionPerformed

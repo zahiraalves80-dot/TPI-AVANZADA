@@ -9,6 +9,13 @@ import modelo.Gato;
 import modelo.OperacionException;
 
 public class AsignarGato extends javax.swing.JFrame {
+    public AsignarGato(Controladora control) {
+    this.control = control;
+    initComponents();
+    
+   
+    cargarDatos(); 
+}
     
     class ComboBoxItem {
         private long id;
@@ -24,10 +31,7 @@ public class AsignarGato extends javax.swing.JFrame {
     
     private final Controladora control;
 
-    public AsignarGato(Controladora control) {
-        this.control = control;
-        initComponents();
-    }
+    
     private void cargarDatos() {
         try {
             // Cargar Gatos Disponibles (jComboBox1)
