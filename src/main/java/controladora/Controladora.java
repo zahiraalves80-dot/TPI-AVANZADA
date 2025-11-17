@@ -616,4 +616,13 @@ public void cambiarEstadoPostulacion(long idPostulacion, Postulacion.Estado nuev
         throw new OperacionException("Error al cambiar el estado de la postulación.", ex);
     }
 }
+
+public void modificarGato(Gato gato) throws OperacionException {
+        try {
+            // Llama al método de la persistencia que ya existía
+            controlpersis.modificarGato(gato);
+        } catch (Exception e) {
+            throw new OperacionException("Error al modificar el gato: " + e.getMessage(), e);
+        }
+    }
 }

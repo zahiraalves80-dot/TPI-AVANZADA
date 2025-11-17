@@ -17,14 +17,88 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import controladora.Controladora;
-import modelo.FamiliaAdoptante;
+import javax.swing.JFrame; // <--- AÑADIDO
+import modelo.Gato; // <--- AÑADIDO
+import modelo.HistoriaClinica; // <--- AÑADIDO
 import modelo.OperacionException;
 import modelo.Usuario;
+import modelo.Veterinario; // <--- AÑADIDO
 import modelo.Visita;
 import modelo.Voluntario;
+// Faltaba también la vista a la que quieres navegar:
+import vista.VistaHistoriaClinica; // <--- AÑADIDO
 
 public class VistaGestionarHistoriasClinicas extends javax.swing.JFrame {
+    // ======== INICIO DE CAMPOS NUEVOS ========
+    private final Controladora control;
+    private final Gato gato;
+    private final Veterinario veterinario;
+    private final JFrame vistaAnterior;
+    private DefaultTableModel modeloTabla;
+    // ======== FIN DE CAMPOS NUEVOS ========
+
+    /**
+     * Constructor modificado para recibir los datos del gato y veterinario.
+     */
+    public VistaGestionarHistoriasClinicas(Controladora control, Gato gato, Veterinario veterinario, JFrame vistaAnterior) {
+        this.control = control;
+        this.gato = gato;
+        this.veterinario = veterinario;
+        this.vistaAnterior = vistaAnterior;
+        
+        initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jLabel1.setText("Gestor HC (Gato: " + gato.getNombre() + ")");
+        
+        configurarTabla();
+        cargarHistoria();
+    }
     
+    /**
+     * Constructor por defecto para que NetBeans funcione.
+     */
+    public VistaGestionarHistoriasClinicas() {
+        this.control = null;
+        this.gato = null;
+        this.veterinario = null;
+        this.vistaAnterior = null;
+        initComponents();
+    }
+    
+    private void configurarTabla() {
+        String titulos[] = {"ID", "Fecha Creación", "Descripción"};
+        modeloTabla = new DefaultTableModel(null, titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        };
+        jTableHistoriasClinicas.setModel(modeloTabla);
+        
+        // Ocultar Columna ID (0)
+        jTableHistoriasClinicas.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableHistoriasClinicas.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableHistoriasClinicas.getColumnModel().getColumn(0).setPreferredWidth(0);
+    }
+
+    /**
+     * Carga la única historia clínica del gato en la tabla.
+     */
+    private void cargarHistoria() {
+        modeloTabla.setRowCount(0); // Limpiar tabla
+        
+        HistoriaClinica hc = gato.getHistoriaClinica();
+        
+        if (hc != null) {
+            Object[] fila = {
+                hc.getidHistoria(),
+                hc.getFechaCreacion(),
+                hc.getDescripcion()
+            };
+            modeloTabla.addRow(fila);
+        } else {
+            // Esto no debería pasar si la lógica de creación de Gato es correcta
+             JOptionPane.showMessageDialog(this, "El gato no tiene HC. Puede registrar una.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -148,17 +222,52 @@ public class VistaGestionarHistoriasClinicas extends javax.swing.JFrame {
      * Cierra esta ventana y muestra la anterior.
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-       
+       this.vistaAnterior.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 /**
      * REGISTRAR: Muestra un JOptionPane con un formulario para crear una visita.
      */
     private void btnRegistrarHistoriaClinicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarHistoriaClinicaActionPerformed
-        
+        try {
+            HistoriaClinica hc = gato.getHistoriaClinica();
+            
+            // Si el gato (por alguna razón) no tiene HC, se crea una nueva.
+            if (hc == null) {
+                String desc = "HC Creada por " + veterinario.getNombre() + " el " + LocalDate.now();
+                hc = new HistoriaClinica(desc);
+                gato.setHistoriaClinica(hc);
+                
+                // Guarda el cambio en el Gato (lo que guardará la HC por cascada)
+                control.modificarGato(gato); 
+                cargarHistoria(); // Recarga la tabla para mostrar la nueva HC
+                JOptionPane.showMessageDialog(this, "Nueva Historia Clínica registrada.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            // Abre la vista de detalle
+            VistaHistoriaClinica vistaHC = new VistaHistoriaClinica(control, gato, veterinario, this);
+            vistaHC.setVisible(true);
+            vistaHC.setLocationRelativeTo(this);
+            this.setVisible(false); // Oculta el gestor
+
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(this, "Error al registrar/abrir HC: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnRegistrarHistoriaClinicaActionPerformed
 
     private void btnVerHistoriaClinicaSeleccionadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerHistoriaClinicaSeleccionadaActionPerformed
-        // TODO add your handling code here:
+        int fila = jTableHistoriasClinicas.getSelectedRow();
+        
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una historia de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Abre la vista de detalle (VistaHistoriaClinica)
+        VistaHistoriaClinica vistaHC = new VistaHistoriaClinica(control, gato, veterinario, this);
+        vistaHC.setVisible(true);
+        vistaHC.setLocationRelativeTo(this);
+        this.setVisible(false); // Oculta el gestor
     }//GEN-LAST:event_btnVerHistoriaClinicaSeleccionadaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
