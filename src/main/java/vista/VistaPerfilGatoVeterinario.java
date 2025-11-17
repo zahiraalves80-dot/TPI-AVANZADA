@@ -9,7 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import javax.swing.JFrame; // 🟢 Agregado
+import javax.swing.JFrame; 
 
 // --- Imports del Modelo (Lógica) ---
 import controladora.Controladora;
@@ -17,8 +17,8 @@ import modelo.FamiliaAdoptante;
 import modelo.Gato;
 import modelo.OperacionException;
 import modelo.Zona;
-import modelo.Veterinario; // 🟢 Agregado
-import modelo.HistoriaClinica; // 🟢 Agregado
+import modelo.Veterinario; 
+import modelo.HistoriaClinica; 
 
 // --- Imports para QR (Librería Zxing) ---
 import com.google.zxing.BarcodeFormat;
@@ -41,14 +41,14 @@ import java.util.Set;
 
 public class VistaPerfilGatoVeterinario extends javax.swing.JFrame {
     
-   private Gato gato; // 🟢 Hecho modificable para refrescar
-    private final Veterinario veterinario; // 🟢 Guardamos al veterinario
+   private Gato gato; 
+    private final Veterinario veterinario; 
     private final Controladora control;
     private final javax.swing.JLabel lblFoto;
-    private final JFrame vistaAnterior; // 🟢 Guardamos la vista anterior
+    private final JFrame vistaAnterior; 
 
     /**
-     * 🟢 CONSTRUCTOR MODIFICADO
+     * CONSTRUCTOR MODIFICADO
      * Recibe los objetos necesarios y la vista anterior para poder volver.
      */
     public VistaPerfilGatoVeterinario(Controladora control, Gato gato, Veterinario veterinario, JFrame vistaAnterior) {
@@ -71,7 +71,6 @@ public class VistaPerfilGatoVeterinario extends javax.swing.JFrame {
      * Rellena todos los JLabels con la información del Gato.
      */
     private void poblarDatos() {
-        // ... (Tu método poblarDatos() está perfecto, no necesita cambios)
         lblNombreDato.setText(gato.getNombre());
         lblRazaDato.setText(gato.getRaza());
         lblGeneroDato.setText(gato.getSexo());
@@ -86,7 +85,15 @@ public class VistaPerfilGatoVeterinario extends javax.swing.JFrame {
         
         String ruta = gato.getRutaFoto(); 
         if (ruta != null && !ruta.isEmpty()) {
-            // ... (lógica de carga de imagen)
+            try {
+                javax.swing.ImageIcon icon = new javax.swing.ImageIcon(ruta);
+                java.awt.Image image = icon.getImage();
+                java.awt.Image newImage = image.getScaledInstance(jPanel2.getWidth(), jPanel2.getHeight(), java.awt.Image.SCALE_SMOOTH);
+                lblFoto.setIcon(new javax.swing.ImageIcon(newImage));
+            } catch (Exception e) {
+                lblFoto.setText("Error al cargar imagen.");
+                e.printStackTrace();
+            }
         } else {
             lblFoto.setText("Sin foto registrada");
             lblFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -394,21 +401,15 @@ public class VistaPerfilGatoVeterinario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCambiarEstadoSaludActionPerformed
 
     private void btnVerHistorialClinicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerHistorialClinicoActionPerformed
-        try {
-            HistoriaClinica hc = gato.getHistoriaClinica();
-            if (hc == null) {
-                throw new OperacionException("Este gato no tiene una historia clínica asociada.");
-            }
+       try {
+            // Abre el GESTOR de HC, pasando los datos necesarios
+            VistaGestionarHistoriasClinicas vistaGestorHC = new VistaGestionarHistoriasClinicas(control, gato, veterinario, this);
+            vistaGestorHC.setVisible(true);
+            vistaGestorHC.setLocationRelativeTo(this); // Se centra sobre esta ventana
+            this.setVisible(false); // Oculta la vista actual
             
-            // 🟢 CORRECCIÓN: Pasamos el 'gato' completo (que contiene la HC)
-            // en lugar de solo 'hc'.
-            VistaHistoriaClinica vistaHC = new VistaHistoriaClinica(control, gato, this.veterinario, this);
-            
-            vistaHC.setVisible(true);
-            vistaHC.setLocationRelativeTo(this); // Se centra sobre esta ventana
-
-        } catch (OperacionException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al abrir el gestor de HC: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnVerHistorialClinicoActionPerformed
 
